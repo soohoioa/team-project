@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='마이펫 등록')">
+
+<head>
+	<title>Register</title>
+	<style>
+		@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}
+	</style>
+</head>
+
+<body>
+	
+	<th:block layout:fragment="content">
+		<div class="customer_login" id="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6" style="margin-left: 300px;">
+						<div class="account_form register" >
+							<h2 th:text="MyPet">Register</h2>
+							<form name="f" action="#">
+								<p>
+									<label th:text="이름">Email address <span>*</span></label>
+									<input type="text" id="mypetName">
+								</p>
+								<p>
+									<label>생일 </label>
+									<input type="date" name="mypetBirthday" id="mypetBirthday" placeholder="날짜를 선택해주세요"
+										required="required"
+										th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+								</p>
+								<p>
+									<label>종류 <span>*</span></label>
+									<select id="kind">
+										<option value="">종류 선택</option>
+										<option value="남" th:text="강아지" th:value="강아지">남</option>
+										<option value="여" th:text="고양이" th:value="고양이">여</option>
+									</select>
+									<span id="kindError" style="color:red;"></span>
+								</p>
+								<p>
+									<label class="checkbox-inline" th:if="${leader==true}">
+										<label th:text="대표동물">myPetLeader <span>*</span></label>
+										<label><input type="checkbox" id="checkbox" checked="true" value="1"></label>
+
+									</label>
+								<div class="login_submit">
+									</p>
+								
+								
+								
+								<!--<div class="login_submit">-->
+									<button id="registerMyPetButton" type="button" onclick="inserted(event)">확인</button>
+									<!--<button id="registerButton" type="button">등록</button>-->
+								</div>
+							</form>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	<script>
+		 
+	 	function ajaxRequest(method, url, sendJsonObject) {
+			let returnResultJsonObject={};
+			$.ajax({
+				async:false,
+				method: method,
+				url: url,
+				contentType: 'application/json;UTF-8',
+				data: JSON.stringify(sendJsonObject),
+				type: 'json',
+				success: function(resultJsonObject) {
+					returnResultJsonObject = resultJsonObject;
+				}
+			});
+			return returnResultJsonObject;
+		}
+		
+		
+		function inserted(e){
+			
+			    // 날짜 문자열을 Date 객체로 변환
+    const mypetBirthdayStr = document.f.mypetBirthday.value;
+    const mypetBirthdayDate = new Date(mypetBirthdayStr);
+
+    // Date 객체를 LocalDateTime으로 변환
+    const mypetBirthdayLocalDateTime = new Date(
+        mypetBirthdayDate.getTime() - mypetBirthdayDate.getTimezoneOffset() * 60000
+    );
+    
+			let sendJsonObject={
+				mypetName:document.f.mypetName.value,
+			 mypetBirthday: mypetBirthdayLocalDateTime.toISOString(),
+				//mypetBirthday:document.f.mypetBirthday.value,
+				mypetKind:document.f.kind.value
+			};               
+			
+			ajaxRequest('POST','mypet/inserted',sendJsonObject);
+			//alert(mypetBirthday);
+			window.location.href = "mypet"; // 페이지 이동
+		}	
+		
+		/*
+		document.getElementById("registerMyPetButton").addEventListener("click", function (e) {
+			// 버튼 클릭 시 실행할 코드
+			alert('클릭');
+			
+		});
+		*/
+		
+		window.onload = function () {
+
+				var mypetBirthday = document.getElementById('mypetBirthday');
+				var today = new Date();
+				// 한국 시간대 (UTC+9)로 변경
+				today.setHours(today.getHours() + 9);
+				var beforeToday = new Date(today);
+				beforeToday.setDate(beforeToday.getDate()); // 어제 날짜 계산
+				var beforeTodayString = beforeToday.toISOString().slice(0, 10);
+
+				mypetBirthday.value = beforeTodayString;
+
+				var maxDate = new Date(today);
+				maxDate.setHours(0, 0, 0, 0); // 날짜 부분만 사용
+				var maxDateString = maxDate.toISOString().slice(0, 10);
+				mypetBirthday.setAttribute('max', maxDateString);
+
+				mypetBirthday.removeAttribute('min');
+			};
+
+	</script>
+	</th:block>
+	
+</body>
+
+</html>

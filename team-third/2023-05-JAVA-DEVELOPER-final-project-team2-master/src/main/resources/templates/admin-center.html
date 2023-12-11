@@ -1,0 +1,178 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='관리자 센터관리')">
+
+<head>
+	<title>Safira - my account</title>
+	<style>
+		.modal-dialog {
+			margin: auto;
+			margin-top: 20vh;
+			/* 회원탈퇴창 가운데 정도로 떨어트림 */
+
+		}
+
+		#centerTable {
+			width: 1350px;
+		}
+
+		@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		.container {
+			font-family: 'GmarketSansMedium';
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<!--header area start-->
+	<th:block layout:fragment="content">
+
+		<!-- my account start  -->
+		<section class="main_content_area">
+
+			<div class="container" style="margin-right: 600px;">
+				<div class="account_dashboard">
+
+					<div class="row">
+						<div class="col-sm-12 col-md-3 col-lg-3">
+							<!-- Nav tabs -->
+							<div class="dashboard_tab_button">
+								<ul role="tablist" class="nav flex-column dashboard-list">
+									<li><a href="adminUserList" class="nav-link">회원</a></li>
+									<li><a href="adminProductList" class="nav-link">상품</a></li>
+									<li><a href="adminOrdersList" class="nav-link">주문</a></li>
+									<li><a href="adminAdoptList" class="nav-link">입양</a></li>
+									<li><a href="adminVolunteerList" class="nav-link">봉사</a></li>
+									<li><a href="adminVisitList" class="nav-link">견학</a></li>
+									<li><a href="centerListAll" class="nav-link">보호소</a></li>
+									<!--<li><a th:if="${session.userName != '관리자'}" style="display: none;"class="nav-link"></a></li>-->
+									<!-- <li> <a th:if="${session.userName != '관리자'}" href="orders" class="nav-link">주문목록</a></li> -->
+									<li><a href="logout" class="nav-link">로그아웃</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-9 col-lg-9">
+							<!-- Tab panes -->
+							<div class="tab-content dashboard_content">
+
+
+
+
+
+								<!--  <div class="tab-pane fade" id="visit">-->
+								<h3>보호소</h3>
+
+
+								<a href="centerInsertForm" style="color:green">보호소 추가</a>
+
+								<div class="table-responsive" id="centerTable">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>번호</th>
+												<th>이름</th>
+												<th>연락처</th>
+												<th>지역</th>
+												<th>영업시간</th>
+												<th>사진</th>
+												<th>완료변경/삭제</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="center: ${centerList}">
+												<td th:text="${center.centerNo}"></td>
+												<td th:text="${center.centerName}"></td>
+												<td th:text="${center.centerPhoneNumber}">
+												</td>
+												<td th:text="${center.centerLocal}"></td>
+												<td th:text="${center.centerOpenCloseTime}"></td>
+												<td th:text="${center.centerImage}"></td>
+												<td>
+													<button type="submit" class="deleteBtn"
+														th:id="'deleteBtn-' + ${center.centerNo}">삭제</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<script>
+			function deleteCenterAndPets(centerNo) {
+				let sendJsonObject = {"centerNo": centerNo};
+				let $row = $(this).closest('tr');
+
+				$.ajax({
+					type: 'DELETE',
+					url: 'center/' + centerNo,
+					data: JSON.stringify(sendJsonObject),
+					contentType: 'application/json;UTF-8',
+					success: function (response) {
+						if (response && response.centerNo == null) {
+							
+						} else {
+							// 센터 삭제가 완료되었으면 관련 펫도 삭제
+							deletePetsByCenterNo(centerNo);
+
+							alert('보호소 및 해당센터 동물이 삭제가 완료되었습니다.');
+							$row.remove();
+							window.location.reload(); 
+							
+						}
+					},
+					error: function () {
+						alert('삭제 요청 중 오류가 발생했습니다.');
+					}
+				});
+			}
+
+			function deletePetsByCenterNo(centerNo) {
+				$.ajax({
+					type: 'DELETE',
+					url: 'pet/center/' + centerNo,
+					contentType: 'application/json;UTF-8',
+					success: function (response) {
+				
+					},
+					error: function () {
+						alert('펫 삭제 요청 중 오류가 발생했습니다.');
+					}
+				});
+			}
+
+			$('.deleteBtn').on('click', function (e) {
+				e.preventDefault();
+				let id = $(this).attr('id');
+				let centerNo = id.split('-')[1];
+
+				if (isNaN(centerNo)) {
+				
+				
+					return;
+				}
+
+				// 센터 및 관련 펫 삭제 함수 호출
+				deleteCenterAndPets(centerNo);
+			});
+		</script>
+
+
+	</th:block>
+
+
+
+</body>
+
+</html>

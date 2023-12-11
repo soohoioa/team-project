@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout(title='')">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}	
+		
+	</style>
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<div class="customer_login" id="content">
+			<div class="container">
+				     <div class="row">
+						 	<div class="col-lg-6 col-md-6" style="margin-left: 300px;">
+				<div class="account_form register"
+						style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+				<h2>보호소 추가</h2>
+			
+					
+						<title>Add Center</title>
+						<form name="f" id="center_insert_form" action="#" th:action="@{'/centerInsert'}" method="post"
+							enctype="multipart/form-data">
+							<P>
+								<label for="centerName">이름:</label>
+								<input type="text" id="centerName" name="centerName" required>
+							</P>
+
+							<P>
+								<label for="centerPhoneNumber">전화번호:</label>
+								<input type="text" id="centerPhoneNumber" name="centerPhoneNumber" required>
+							</P>
+
+							<P>
+								<label for="centerLocal">지역:</label>
+								<input type="text" id="centerLocal" name="centerLocal" required>
+							</P>
+
+							<P>
+								<label for="centerOpenCloseTime">영업시간:</label>
+								<input type="text" id="centerOpenCloseTime" name="centerOpenCloseTime" required>
+							</P>
+
+							<P>
+								<label>사진</label>
+								<input type="file" id="imageFile" name="imageFile" style="border: none;">
+							</P>
+
+							<div class="login_submit" style="margin-top: 10px;">
+
+
+								<button type="submit">보호소 추가</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+
+</html>
+<script>
+	$('#center_insert_form').on('submit', function (e) {
+		//폼이 유효하지 않으면 전송을 중지
+		if (!$(this).valid()) {
+			e.preventDefault();
+		}
+		window.location.href = "centerListAll";
+	});
+</script>
+</th:block>
+<!-- customer login end -->
+
+<!--footer area start-->
+
+<!--footer area end-->
+</body>
+
+</html>

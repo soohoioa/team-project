@@ -1,0 +1,439 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout(title='petList')">
+
+<head>
+<script>
+	$(document).ready(
+			function() {
+				
+				$('#petsubmit').click(function(){
+					var pet =$('#short').val();
+					var local=$('#local').val();
+					var url='';
+					 
+       
+
+        // 선택된 값에 따라 URL 변경
+         if (pet !== '1' && local !== '1') {
+            url = 'petTotal?petType=' + pet + '&petLocal=' + local;
+        } else if (pet !== '1' && local == '1') {
+            url = 'pets?petType=' + pet;
+        } else if (local !== '1' && pet == '1') {
+            
+            url='petLocal?petLocal=' + local;
+        } else {
+            url = 'petListPage';
+        }
+
+        window.location.href = url;
+					
+				});
+				$('#petForm').submit(function(event) {
+    event.preventDefault();
+    // 추가 코드
+});
+				
+				});
+
+	function confirmDelete(petNo) {
+		var confirmDelete = confirm("삭제하시겠습니까?");
+		if (confirmDelete) {
+			window.location.href = '/teamproject_animalcare/deletepet?petNo='
+					+ petNo;
+		}
+	}
+	
+	function confirmUpdate(petNo) {
+		if (confirmDelete) {
+			window.location.href = 'petUpdateForm?petNo='
+					+ petNo;
+		}
+	}
+
+	function petType() {
+		var selectedValue = document.getElementById("short").value;
+		if (selectedValue) {
+			var newUrl = 'pets?petType='
+					+ selectedValue;
+			window.location.href = newUrl;
+			sessionStorage.setItem('selectedPetType', selectedValue);
+			if (selectedValue == 1) {
+				window.location.href = 'petListPage';
+			}
+		}
+	}
+
+	function petLocal() {
+		var selectElement = document.getElementById('local');
+		var selectedValue = selectElement.value;
+		if (selectedValue) {
+			var newUrl = 'petLocal?petLocal='
+					+ selectedValue;
+			window.location.href = newUrl;
+			sessionStorage.setItem('selectedPetLocal', selectedValue);
+		}
+		if (selectedValue == 1) {
+			window.location.href = 'petListPage';
+		}
+	}
+	
+	
+	
+	
+	
+
+	document.addEventListener('DOMContentLoaded', function() {
+		var selectedValue1 = sessionStorage.getItem('selectedPetLocal');
+		var selectedValue2 = sessionStorage.getItem('selectedPetType');
+		if (selectedValue1 || selectedValue2) {
+			var selectElement1 = document.getElementById('local');
+			var selectElement2 = document.getElementById('short');
+			selectElement1.value = selectedValue1;
+			selectElement2.value = selectedValue2;
+		}
+	});
+	
+	
+	
+	
+	
+</script>
+
+<title>Safira - shop fullwidth list</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Orbit&display=swap" rel="stylesheet">
+<style>
+	#petsubmit{
+		margin-left: 10px;
+		font-size: 12px;
+		height: 25px;
+		padding: 5px 10px;
+	}
+	
+	#short{
+		margin-right: 10px;
+	}
+	#local{
+		width: 85px;
+	}
+	
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}	
+
+#listTitle{
+	font-family: 'GmarketSansMedium';
+	font-weight: bold;
+	font-size: 16px;
+}
+#listContent{
+	font-family: 'GmarketSansMedium';
+}
+.niceselect_option{
+	font-family: 'GmarketSansMedium';
+}
+</style>
+
+</head>
+
+<body>
+
+	<!--header area start-->
+
+	<!--offcanvas menu area start-->
+
+	<!--header area end-->
+
+	<th:block layout:fragment="content">
+		<div id="content">
+			<!--breadcrumbs area start-->
+
+			<!--breadcrumbs area end-->
+
+			<!--shop  area start-->
+
+			<div class="shop_area shop_fullwidth mt-70 mb-70">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<!--shop wrapper start-->
+							<!--shop toolbar start-->
+							<div class="shop_toolbar_wrapper">
+								<div class="shop_toolbar_btn">
+
+									<!-- <button data-role="grid_3" type="button" class=" btn-grid-3"
+										data-toggle="tooltip" title="3"></button>
+
+									<button data-role="grid_4" type="button" class=" btn-grid-4"
+										data-toggle="tooltip" title="4"></button>
+
+									<button data-role="grid_list" type="button"
+										class="active btn-list" data-toggle="tooltip" title="List"></button> -->
+								</div>
+								<div class=" niceselect_option">
+									<form class="select_option" action="#" name="pet"
+										id="petForm">
+										<select name="petType" id="short" >
+
+											<!---->
+											<option selected value="1">동물전체</option>
+											<option value="강아지">강아지</option>
+											<option value="고양이">고양이</option>
+											<!--  <option value="4">Sort by price: low to high</option>
+                                    <option value="5">Sort by price: high to low</option>
+                                    <option value="6">Product Name: Z</option> -->
+										</select>
+										<select name="petLocal" id="local" >
+
+											<option selected value="1">지역전체</option>
+											<option value="서울특별시">서울특별시</option>
+											<option value="경기도">경기도</option>
+											<option value="강원도">강원도</option>
+											<option value="충청남도">충청남도</option>
+											<option value="충청북도">충청북도</option>
+											<option value="경상남도">경상남도</option>
+											<option value="경상북도">경상북도</option>
+											<option value="제주도">제주도</option>
+											<!--  <option value="4">Sort by price: low to high</option>
+                                    <option value="5">Sort by price: high to low</option>
+                                    <option value="6">Product Name: Z</option> -->
+										</select>
+								<input class="btn btn-primary" type="submit" value="조회" id="petsubmit">
+									</form>
+
+									<!-- 지역선택은 하나더추가 -->
+								</div>
+								
+								<!--<div class=" niceselect_option">
+									<form class="select_option" action="#" name="">
+										<select name="orderby" id="local" >
+
+											<option selected value="1">지역전체</option>
+											<option value="서울특별시">서울특별시</option>
+											<option value="경기도">경기도</option>
+											<option value="강원도">강원도</option>
+											<option value="충청남도">충청남도</option>
+											<option value="충청북도">충청북도</option>
+											<option value="경상남도">경상남도</option>
+											<option value="경상북도">경상북도</option>
+											<option value="제주도">제주도</option>
+											  <option value="4">Sort by price: low to high</option>
+                                    <option value="5">Sort by price: high to low</option>
+                                    <option value="6">Product Name: Z</option> 
+										</select>
+									</form>
+
+
+								</div>-->
+								<!-- <div class="page_amount">
+                            <p>Showing 1–9 of 21 results</p>
+                        </div> -->
+							</div>
+							<!--shop toolbar end-->
+
+							<!--펫 시작  -->
+							<div class="row shop_wrapper grid_list" th:each="pet:${petListLocal}">
+								<div class="col-12 ">
+									<div class="single_product">
+										<div class="product_thumb">
+											<!--  -->
+											<a class="primary_img"><img src="image/pet/강아지2.jpeg"
+												alt="" th:src="@{/image/pet/} + ${pet.getPetImage}" style="width: 349px; height: 349px;"></a>
+											<!--    <a class="secondary_img" ><img src="image/pet/강아지2.jpeg" alt=""></a>-->
+
+
+											<!-- <div class="label_product">
+                                            <span class="label_sale">Sale</span>
+                                            <span class="label_new">New</span>
+                                        </div> -->
+
+
+											<div class="action_links">
+												<ul>
+													<li class="add_to_cart"><a href="cart.html"
+														title="Add to cart"><span class="lnr lnr-cart"></span></a></li>
+													<li class="quick_button"><a href="#"
+														data-toggle="modal" data-target="#modal_box"
+														title="quick view"> <span class="lnr lnr-magnifier"></span></a></li>
+													<li class="wishlist"><a href="wishlist.html"
+														title="Add to Wishlist"><span class="lnr lnr-heart"></span></a></li>
+													<li class="compare"><a href="#" title="Add to Compare"><span
+															class="lnr lnr-sync"></span></a></li>
+												</ul>
+											</div>
+										</div>
+
+										<div class="product_content grid_content">
+											<h4 class="product_name">
+												<a href="product-details.html">Aliquam Consequat</a>
+											</h4>
+											<p>
+												<a href="#">Fruits</a>
+											</p>
+											<div class="price_box">
+												<span class="current_price">$26.00</span> <span
+													class="old_price">$362.00</span>
+
+											</div>
+										</div>
+
+										<div class="product_content list_content" style="margin-left: 50px; margin-top: 35px;">
+											<!-- <h4 class="pet_type"><a href="product-details.html" th:text="${pet.petType}" >Aliquam Consequat</a></h4>
+                                    <p><a href="#" >Fruits</a></p> -->
+
+
+											<div class="price_box">
+
+												<!--  <span class="current_price">$26.00</span>
+                                        <span class="old_price">$362.00</span><br> -->
+												<span class="type" id="listTitle">종 류 : </span> <span class="pettype"
+													th:text="${pet.petType}" id="listContent">$26.00</span><br> <span
+													class="Local" id="listTitle">지 역 : </span> <span class="petLocal"
+													th:text="${pet.petLocal}" id="listContent">$26.00</span><br> <span
+													class="Gender" id="listTitle">성 별 :</span> <span class="petGender"
+													th:text="${pet.petGender}" id="listContent">$26.00</span><br> <span
+													class="registerDate" id="listTitle">등록날짜 :</span> <span
+													class="petRegisterDate"
+													th:text="${#dates.format(pet.petRegisterDate, 'yyyy-MM-dd')}" id="listContent">$26.00</span><br>
+												<span class="findPlace" id="listTitle">발견장소 :</span> <span
+													class="petFindPlace" th:text="${pet.petFindPlace}" id="listContentent">$26.00</span><br>
+												<span class="character" id="listTitle">설 명 :</span> <span
+													class="petCharacter" th:text="${pet.petCharacter}" id="listContent">$26.00</span><br>
+												<span class="center" id="listTitle">센터이름 :</span> <span class="pet_center"
+													th:text="${pet.center.getCenterName}" id="listContent">$26.00</span><br>
+
+
+												<br>
+
+											</div>
+											<!-- <div class="product_desc">
+                                        <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
+                                    </div> -->
+
+                                    
+
+
+
+											<div class="action_links list_action_right">
+												<ul>
+													<li class="add_to_cart"><a
+														th:href="@{/adopt(petNo=${pet.petNo})}" title="입양하기" id="listTitle">입양하기</a></li>
+													<!-- admin 계정 57번 admin계정에서만 삭제버튼 활성화 -->
+														<li class="add_to_cart"><a href="#"
+														th:onclick="'return confirmUpdate(\'' + ${pet.petNo} + '\');'"
+														title="수정하기" th:if="${session.userName == '관리자'}">수정</a></li>
+													<li class="add_to_cart"><a href="#"
+														th:onclick="'return confirmDelete(\'' + ${pet.petNo} + '\');'"
+														title="삭제하기" th:if="${session.userName == '관리자'}">삭제</a></li>
+
+												</ul>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+								<!-- 펫끝 -->
+
+
+
+
+
+
+
+							</div>
+
+
+							<div class="shop_toolbar t_bottom">
+								<div class="pagination" th:if="${!petListLocal.isEmpty()}">
+									<ul
+										th:with="
+            pageNumber = ${petListLocal.pageable.pageNumber},
+            pageSize = ${petListLocal.pageable.pageSize},
+            totalPages = ${petListLocal.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize+1 },
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+	<!-- 이전페이지 이동 -->
+										<li th:classappend="${petListLocal.first} ? 'disabled'"><a
+											href="#"
+											th:href="${petListLocal.first} ? '#' : @{petLocal(page=${pageNumber-1})}"><
+										</a></li>
+									 		<!-- 특정페이지 이동 -->
+										<li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+											th:classappend="${page == pageNumber+1} ? 'current'"><a
+											th:text="${page}" th:href="@{petLocal(page=${page-1})}"></a>
+
+										</li>
+										<!-- <li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li class="next"><a href="#">next</a></li> -->
+						
+						<!-- 다음페이지 이동 -->
+										<li th:classappend="${petListLocal.last} ? 'disabled'"><a
+											href="#"
+											th:href="${petListLocal.last} ? '#' : @{petLocal(page=${pageNumber +1})}">></a></li>
+									</ul>
+								</div>
+							</div>
+
+
+
+
+							<!-- 
+                  <div th:if="${!petList.isEmpty()}">
+    <ul class="pagination"
+        th:with="
+            pageNumber = ${petList.pageable.pageNumber},
+            pageSize = ${petList.pageable.pageSize},
+            totalPages = ${petList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize },
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+        <li th:classappend="${petList.first} ? 'disabled'" class="current">
+            <a class="page-link" th:href="${petList.first} ? '#' : @{petListPage(page=${pageNumber - 1})}">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </li>
+        특정 페이지로 이동
+
+        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber} ? 'active'" class="page-item">
+            <a th:text="${page}" class="page-link" th:href="@{petListPage(page=${page})}"></a>
+        </li>
+
+        <li th:classappend="${petList.last} ? 'disabled'" class="next">
+            <a class="page-link" th:href="${petList.last} ? '#' : @{petListPage(page=${pageNumber +1})}" aria-label="Next">
+                <span aria-hidden="true">></span>
+            </a>
+        </li>
+    </ul>
+</div> -->
+							<!--shop toolbar end-->
+							<!--shop wrapper end-->
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--shop  area end-->
+
+			<!--footer area start-->
+
+			<!--footer area end-->
+
+			<!-- modal area start-->
+
+			<!-- modal area end-->
+		</div>
+	</th:block>
+
+</body>
+</html>

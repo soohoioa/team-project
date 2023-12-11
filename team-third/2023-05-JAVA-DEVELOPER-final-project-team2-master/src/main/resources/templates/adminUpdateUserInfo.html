@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='registerMyPet')">
+
+<head>
+	<title>Register</title>
+
+	<style>
+		.checkbox-inline {
+			display: flex;
+			align-items: center;
+
+		}
+
+		/* 체크박스 크기 조절 */
+		#checkbox {
+			transform: scale(0.75);
+			/* 필요에 따라 크기 조절 */
+			margin-right: 5px;
+			/* 선택 사항: 간격 조절을 위한 마진 조절 */
+		}
+		 
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}
+
+	</style>
+
+
+</head>
+
+<body>
+
+	<th:block layout:fragment="content">
+		<div class="customer_login" id="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6" style="margin-left: 300px;">
+						<div class="account_form register">
+							<h3>내정보 </h3>
+							<div class="login">
+								<div class="login_form_container">
+									<div class="account_login_form">
+										<form name="f" action="userUpdate">
+											<p><a href="#"></a></p>
+											<div class="input-select"></div>
+
+											<label>이름</label>
+											<input type="text" name="userName" th:value="${userinfo.userName}">
+											<label>비밀번호</label>
+											<input type="password" value="" name="userPassword"
+												th:value="${userinfo.userPassword}">
+											<label>핸드폰번호</label>
+											<input type="text" value="" name="userPhoneNumber"
+												th:value="${userinfo.userPhoneNumber}">
+											<label>회원포인트</label>
+											<input type="text" value="" name="userPoint"
+												th:value="${userinfo.userPoint}">
+											<!--<label>주소</label>
+												<input type="text" value="" name="userAddress"
+													th:value="${userinfo.userAddress}">-->
+											<div class="col-lg-6 mb-20">
+												<label>우편주소<span></span></label>
+												<button type="button" class="btn btn-secondary btn-sm"
+													onclick="execution_daum_address()">주소찾기</button>
+												<input placeholder="우편번호" type="text" id="postcode" name="postcode" style="margin-top: 5px;">
+
+											</div>
+											<div class="col-12 mb-20">
+												<input placeholder="기본주소" input readonly="readonly" id="ordersAddress1"
+													name="ordersAddress1"> <input placeholder="기본주소" input
+													readonly="readonly" id="ordersAddress2" name="ordersAddress2">
+												<input placeholder="상세주소" type="text" id="ordersAddress3"
+													name="ordersAddress3">
+											</div>
+
+											<br>
+
+											<div class="save_button primary_btn default_button">
+												<button type="button" onclick="a()">Save</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script>
+
+			function ajaxRequest(method, url, sendJsonObject) {
+				let returnResultJsonObject = {};
+				$.ajax({
+					async: false,
+					method: method,
+					url: url,
+					contentType: 'application/json;UTF-8',
+					data: JSON.stringify(sendJsonObject),
+					type: 'json',
+					success: function (resultJsonObject) {
+						returnResultJsonObject = resultJsonObject;
+					}
+				});
+				return returnResultJsonObject;
+			}
+			$('#checkbox').click(function (e) {
+				let check = $('#checkbox').val();
+				if (check == 1) {
+					$('#checkbox').val(2);
+				} else {
+					$('#checkbox').val(1);
+				}
+			});
+
+
+			function updated(e) {
+
+				// 날짜 문자열을 Date 객체로 변환
+				const mypetBirthdayStr = document.f.mypetBirthday.value;
+				const mypetBirthdayDate = new Date(mypetBirthdayStr);
+
+				// Date 객체를 LocalDateTime으로 변환
+				const mypetBirthdayLocalDateTime = new Date(
+					mypetBirthdayDate.getTime() - mypetBirthdayDate.getTimezoneOffset() * 60000
+				);
+
+				let check = $('#checkbox').val();
+
+				let mypetStatus;
+				if (check == 1) {
+					mypetStatus = 1;
+				} else {
+					mypetStatus = 2;
+				}
+
+				let sendJsonObject = {
+					mypetNo: document.f.id,
+					mypetName: document.f.mypetName.value,
+					mypetBirthday: mypetBirthdayLocalDateTime.toISOString(),
+					//mypetBirthday:document.f.mypetBirthday.value,
+					mypetKind: document.f.kind.value,
+					mypetStatus: mypetStatus
+				};
+
+				ajaxRequest('POST', 'mypet/updated', sendJsonObject);
+				window.location.href = "mypet"; // 페이지 이동
+			}
+
+			/*
+			document.getElementById("registerMyPetButton").addEventListener("click", function (e) {
+				// 버튼 클릭 시 실행할 코드
+				alert('클릭');
+				
+			});
+			*/
+
+			window.onload = function () {
+
+				var mypetBirthday = document.getElementById('mypetBirthday');
+				var today = new Date();
+				// 한국 시간대 (UTC+9)로 변경
+				today.setHours(today.getHours() + 9);
+				var beforeToday = new Date(today);
+				beforeToday.setDate(beforeToday.getDate()); // 어제 날짜 계산
+				var beforeTodayString = beforeToday.toISOString().slice(0, 10);
+
+				mypetBirthday.value = beforeTodayString;
+
+				var maxDate = new Date(today);
+				maxDate.setHours(0, 0, 0, 0); // 날짜 부분만 사용
+				var maxDateString = maxDate.toISOString().slice(0, 10);
+				mypetBirthday.setAttribute('max', maxDateString);
+
+				mypetBirthday.removeAttribute('min');
+			};
+
+
+
+
+function execution_daum_address() {
+	new daum.Postcode(
+			{
+				oncomplete : function(data) {
+					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+					// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					var addr = ''; // 주소 변수
+					var extraAddr = ''; // 참고항목 변수
+
+					//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+					if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+						addr = data.roadAddress;
+					} else { // 사용자가 지번 주소를 선택했을 경우(J)
+						addr = data.jibunAddress;
+					}
+
+					// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+					if (data.userSelectedType === 'R') {
+						// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+						// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+						if (data.bname !== ''
+								&& /[동|로|가]$/g.test(data.bname)) {
+							extraAddr += data.bname;
+						}
+						// 건물명이 있고, 공동주택일 경우 추가한다.
+						if (data.buildingName !== ''
+								&& data.apartment === 'Y') {
+							extraAddr += (extraAddr !== '' ? ', '
+									+ data.buildingName : data.buildingName);
+						}
+						// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+						if (extraAddr !== '') {
+							extraAddr = ' (' + extraAddr + ')';
+						}
+						// 조합된 참고항목을 해당 필드에 넣는다.
+						document.getElementById("ordersAddress2").value = extraAddr;
+
+					} else {
+						document.getElementById("ordersAddress2").value = '';
+					}
+
+					// 우편번호와 주소 정보를 해당 필드에 넣는다.
+					document.getElementById('postcode').value = data.zonecode;
+					document.getElementById("ordersAddress1").value = addr;
+					// 커서를 상세주소 필드로 이동한다.
+					document.getElementById("ordersAddress3").focus();
+				}
+			}).open();
+}
+		</script>
+	</th:block>
+
+</body>
+
+</html>

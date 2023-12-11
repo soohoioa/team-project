@@ -1,0 +1,413 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='마이페이지')">
+
+<head>
+
+   <title>Safira - my account</title>
+   <style>
+      .modal-dialog {
+         margin: auto;
+         margin-top: 20vh;
+         /* 회원탈퇴창 가운데 정도로 떨어트림 */
+      }
+   </style>
+
+</head>
+
+<body>
+
+   <!--header area start-->
+   <th:block layout:fragment="content">
+      <!--offcanvas menu area start-->
+      <!-- <div class="off_canvars_overlay">
+                
+    </div>
+    <div class="offcanvas_menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="canvas_open">
+                        <a href="javascript:void(0)"><i class="icon-menu"></i></a>
+                    </div>
+                    <div class="offcanvas_menu_wrapper">
+                        <div class="canvas_close">
+                            <a href="javascript:void(0)"><i class="icon-x"></i></a>  
+                        </div>
+                        <div class="language_currency">
+                            <ul>
+                                <li class="language"><a href="#"> Language <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_language">
+                                        <li><a href="#">French</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">Russian</a></li>
+                                    </ul>
+                                </li>
+                                <li class="currency"><a href="#"> Currency <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_currency">
+                                        <li><a href="#">€ Euro</a></li>
+                                        <li><a href="#">£ Pound Sterling</a></li>
+                                        <li><a href="#">$ US Dollar</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="header_social text-right">
+                            <ul>
+                                <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                <li><a href="#"><i class="ion-social-googleplus-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                            </ul>
+                        </div>
+                     
+                        <div class="call-support">
+                            <p><a href="tel:(08)23456789">(08) 23 456 789</a> Customer Support</p>
+                        </div>
+                        <div id="menu" class="text-left ">
+                            <ul class="offcanvas_main_menu">
+                                <li class="menu-item-has-children active">
+                                    <a href="#">Home</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">Home 1</a></li>
+                                        <li><a href="index-2.html">Home 2</a></li>
+                                        <li><a href="index-3.html">Home 3</a></li>
+                                        <li><a href="index-4.html">Home 4</a></li>
+                                        <li><a href="index-5.html">Home 5</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">Shop</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Shop Layouts</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="shop.html">shop</a></li>
+                                                <li><a href="shop-fullwidth.html">Full Width</a></li>
+                                                <li><a href="shop-fullwidth-list.html">Full Width list</a></li>
+                                                <li><a href="shop-right-sidebar.html">Right Sidebar </a></li>
+                                                <li><a href="shop-right-sidebar-list.html"> Right Sidebar list</a></li>
+                                                <li><a href="shop-list.html">List View</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">other Pages</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="cart.html">cart</a></li>
+                                                <li><a href="wishlist.html">Wishlist</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="my-account.html">my account</a></li>
+                                                <li><a href="404.html">Error 404</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Product Types</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="product-details.html">product details</a></li>
+                                                <li><a href="product-sidebar.html">product sidebar</a></li>
+                                                <li><a href="product-grouped.html">product grouped</a></li>
+                                                <li><a href="variable-product.html">product variable</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">blog</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="blog.html">blog</a></li>
+                                        <li><a href="blog-details.html">blog details</a></li>
+                                        <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
+                                        <li><a href="blog-sidebar.html">blog sidebar</a></li>
+                                    </ul>
+
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">pages </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="services.html">services</a></li>
+                                        <li><a href="faq.html">Frequently Questions</a></li>
+                                        <li><a href="contact.html">contact</a></li>
+                                        <li><a href="login.html">login</a></li>
+                                        <li><a href="404.html">Error 404</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="my-account.html">my account</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="about.html">about Us</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="contact.html"> Contact Us</a> 
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="offcanvas_footer">
+                            <span><a href="#"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+      <!--offcanvas menu area end-->
+
+
+      <!--header area end-->
+
+      <!--breadcrumbs area start-->
+      <!-- <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                       <h3>My Account</h3>
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>My account</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div> -->
+      <!--breadcrumbs area end-->
+
+      <section class="main_content_area">
+         <div class="container">
+            <div class="account_dashboard">
+               <div class="row">
+                  <div class="col-sm-12 col-md-3 col-lg-3">
+                     <!-- Nav tabs -->
+                     <div class="dashboard_tab_button">
+                        <ul role="tablist" class="nav flex-column dashboard-list">
+                           <li><a href="userinfo" class="nav-link">내정보</a></li>
+                           <li><a href="mypet" class="nav-link">마이펫</a></li>
+                           <li><a href="couponList" class="nav-link">쿠폰</a></li>
+                           <li><a href="adoptByUserNo" class="nav-link">입양</a></li>
+                           <li><a href="volunteerByUserNo" class="nav-link">봉사</a></li>
+                           <li><a href="visitByUserNo" class="nav-link">견학</a></li>
+                           <li> <a th:if="${session.userName == '관리자'}" href="ordersList" class="nav-link">관리자
+                                 전용주문목록</a></li>
+                           <li> <a th:if="${session.userName != '관리자'}" href="orders" class="nav-link">주문목록</a></li>
+                           <li><a href="logout" class="nav-link">로그아웃</a></li>
+                           <li><a href="#" data-toggle="modal" data-target="#deleteModal"
+                                 class="nav-link">회원탈퇴</a></li>
+
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-9">
+                     <!-- Tab panes -->
+                     <div class="tab-content dashboard_content">
+
+                        <div id="orders">
+                           <h3>주문목록</h3>
+                           <div class="table-responsive">
+                              <table class="table">
+                                 <thead>
+                                    <tr>
+                                       <th>주문번호</th>
+                                       <th>구입날짜</th>
+                                       <th>상품명</th>
+                                       <th>총가격</th>
+                                       <th>리뷰</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr th:each="orders:${ordersList}" th:if="orders!=null">
+                                       <td th:text="${orders.orderNo}">1</td>
+                                       <td th:text="${#dates.format(orders.orderDate, 'yyyy-MM-dd')}">
+                                          2018-05-10</td>
+                                       <td th:text="${orders.orderDesc}"><span
+                                             class="success">고양이캔조림</span></td>
+                                       <td
+                                          th:text="${#numbers.formatInteger(orders.orderPrice, 3, 'COMMA') + '원'}">
+                                          $25.00 for 1 item </td>
+                                          
+                                       <td><a  data-toggle="modal" data-target="#orderDetailsModal"  th:href="@{#__${orders.orderNo}__}" class="view">주문상세</a></td>
+                                    </tr>
+                                    <!-- <tr>
+                                                <td>2</td>
+                                                <td>May 10, 2018</td>
+                                                <td>강아지닭가슴살사료</td>
+                                                <td>$17.00 for 1 item </td>
+                                                <td><a href="cart.html" class="view">주문상세</a></td>
+                                            </tr> -->
+                                 </tbody>
+                              </table>
+                           </div>
+
+                        </div>
+
+
+                        <!--   </div>-->
+                        
+                        <div class="modal fade" id="orderDetailsModal" tabindex="-1"
+                           aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+                           <div class="modal-dialog">
+                              <div class="modal-content" style="width: 800px; height: 500px;" th:id="modalContent">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="orderDetailsModalLabel">주문 상세</h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                       aria-label="Close" style="border: none; padding: 7px;">X
+                                       <!--<span aria-hidden="true">&times;</span>-->
+                                    </button>
+                                 </div>
+                                 <div class="modal-body" id="modalContent">
+                                    <!-- 주문 상세 내용이 여기에 로드됩니다 -->
+
+                                    <div class="table-responsive">
+                                       <table class="table">
+                                          <thead>
+                                             <tr>
+                                                <th>번호</th>
+                                                <th>상품가격</th>
+                                                <th>상품명</th>
+                                                <!--<th>총가격</th>-->
+                                                <th>주문상태</th>
+                                                <th>리뷰</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>1</td>
+                                                <td>May 10, 2018</td>
+                                                <td ><span class="success">고양이캔조림</span></td>
+                                                <!-- <td>$25.00 for 1 item </td>-->
+                                                <td> <select class="form-select form-select-sm"
+                                                      aria-label="Large select example">
+                                                      <option selected>주문 상태</option>
+                                                      <option value="1">주문확인</option>
+                                                      <option value="2">배송준비</option>
+                                                      <option value="3">배송중</option>
+                                                      <option value="4">배송완료</option>
+                                                   </select>
+                                                </td>
+                                                <td><a href="cart.html" class="view">리뷰쓰기</a></td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+
+                                 </div>
+                                 
+                                 
+                                 <div class="modal-footer">
+                                    <!--   <button type="button" class="btn btn-primary">리뷰 저장</button>-->
+                                    <button type="button" class="btn btn-secondary"
+                                       data-dismiss="modal">닫기</button>
+                                        <button type="button" class="btn btn-primary">저장</button>
+
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+      </section>
+      <!-- my account end   -->
+
+      <!--footer area start-->
+
+
+      <!--footer area end-->
+
+
+
+
+
+
+      <!--주문한 상품 리뷰쓰기 -->
+      
+      
+      <!--  <script defer src="assets/js/custom/orderApp.js" type="module"></script>
+      -->
+      <script>
+      function my_account_order(responseJsonObject = {}) {
+         alert('asd');
+         let htmltemplate =
+         `<div class="modal-body" id="modalContent">
+                                    <!-- 주문 상세 내용이 여기에 로드됩니다 -->
+
+                                    <div class="table-responsive">
+                                       <table class="table">
+                                          <thead>
+                                             <tr>
+                                                <th>번호</th>
+                                                <th>상품가격</th>
+                                                <th>상품명</th>
+                                                <!--<th>총가격</th>-->
+                                                <th>주문상태</th>
+                                                <th>리뷰</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                          {{#each this}}
+                                             <tr>
+                                                <td>{{oiNo}}</td>
+                                                <td>{{product.productPrice}}</td>
+                                                <td ><span class="success">{{product.productName}}</span></td>
+                                                <!-- <td>$25.00 for 1 item </td>-->
+                                                <td> <select class="form-select form-select-sm"
+                                                      aria-label="Large select example">
+                                                      <option selected>주문 상태</option>
+                                                      <option value="1">주문확인</option>
+                                                      <option value="2">배송준비</option>
+                                                      <option value="3">배송중</option>
+                                                      <option value="4">배송완료</option>
+                                                   </select>
+                                                </td>
+                                                <td><a href="cart.html" class="view">리뷰쓰기</a></td>
+                                             </tr>
+                                             {{/each}}
+                                          </tbody>
+                                       </table>
+                                    </div>
+
+                                 </div>`;
+         
+         let bindTemplate = Handlebars.compile(htmltemplate);
+         let resultTemplate = bindTemplate(responseJsonObject);
+         
+         return resultTemplate;
+      }
+      
+         $('#orderDetailsModal').on('show.bs.modal',function(e){
+            let index=e.relatedTarget.href.lastIndexOf('#')
+            let orderNo=e.relatedTarget.href.substring(index+1);
+            console.log(orderNo);
+            $.ajax({
+               async:false,
+               method: 'GET',
+               url: 'order/orderItemList/'+orderNo,
+               contentType: 'application/json;UTF-8',
+               data: {},
+               type: 'json',
+               success: function(resultJsonObject) {
+                  console.log(resultJsonObject);
+                  let html = my_account_order(resultJsonObject);
+                  $('#modalContent').html(html); 
+               }
+            }); 
+            
+         });
+         
+         
+         
+
+      </script>
+   </th:block>
+
+
+
+</body>
+
+</html>

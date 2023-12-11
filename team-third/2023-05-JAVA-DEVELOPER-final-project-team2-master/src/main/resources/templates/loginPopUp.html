@@ -1,0 +1,250 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<title>Safira - login</title>
+	<!-- all css here -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="assets/css/slick.css">
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<link rel="stylesheet" href="assets/css/font.awesome.css">
+	<link rel="stylesheet" href="assets/css/ionicons.min.css">
+	<link rel="stylesheet" href="assets/css/linearicons.css">
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+	<link rel="stylesheet" href="assets/css/slinky.menu.css">
+	<link rel="stylesheet" href="assets/css/plugins.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+
+	<style>
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+
+		.b-example-divider {
+			width: 100%;
+			height: 3rem;
+			background-color: rgba(0, 0, 0, .1);
+			border: solid rgba(0, 0, 0, .15);
+			border-width: 1px 0;
+			box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+		}
+
+		.b-example-vr {
+			flex-shrink: 0;
+			width: 1.5rem;
+			height: 100vh;
+		}
+
+		.bi {
+			vertical-align: -.125em;
+			fill: currentColor;
+		}
+
+		.nav-scroller {
+			position: relative;
+			z-index: 2;
+			height: 2.75rem;
+			overflow-y: hidden;
+		}
+
+		.nav-scroller .nav {
+			display: flex;
+			flex-wrap: nowrap;
+			padding-bottom: 1rem;
+			margin-top: -1px;
+			overflow-x: auto;
+			text-align: center;
+			white-space: nowrap;
+			-webkit-overflow-scrolling: touch;
+		}
+
+		.btn-bd-primary {
+	        --bd-violet-bg: #712cf9;
+	        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+	
+	        --bs-btn-font-weight: 600;
+	        --bs-btn-color: var(--bs-white);
+	        --bs-btn-bg: var(--bd-violet-bg);
+	        --bs-btn-border-color: var(--bd-violet-bg);
+	        --bs-btn-hover-color: var(--bs-white);
+	        --bs-btn-hover-bg: #6528e0;
+	        --bs-btn-hover-border-color: #6528e0;
+	        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+	        --bs-btn-active-color: var(--bs-btn-hover-color);
+	        --bs-btn-active-bg: #5a23c8;
+	        --bs-btn-active-border-color: #5a23c8;
+     	}
+
+
+		.bd-mode-toggle {
+			z-index: 1500;
+		}
+
+		.bd-mode-toggle .dropdown-menu .active .bi {
+			display: block !important;
+		}
+	</style>
+
+	<script src="assets/js/vendor/modernizr-3.7.1.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+	<script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
+
+
+	<script defer type="text/javascript" src="assets/js/vendor/jquery.validate.js"></script>
+	<script defer src="assets/js/custom/userApp.js" type="module"></script>
+	<script defer src="assets/js/custom/productApp.js" type="module"></script>
+	<script defer src="assets/js/custom/reviewBoardApp.js" type="module"></script>
+	<script defer src="assets/js/custom/orderApp.js" type="module"></script>
+</head>
+
+<body>
+	<!--header area start-->
+
+	<!--offcanvas menu area start-->
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+	<div id="content">
+		<!--breadcrumbs area end-->
+
+		<!-- customer login start -->
+
+		<div class="customer_login" id="content">
+			<div class="container">
+				<div class="row">
+					<!--login area start-->
+					<div class="col-lg-6 col-md-6">
+						<form name="f" id="loginForm">
+							<h1 class="h3 mb-3 fw-normal">로그인</h1>
+							<div class="form-floating">
+								<label for="floatingInput">이메일</label>
+								<input type="email" name="floatingInput" class="form-control" id="floatingInput"
+									placeholder="name@example.com">
+							</div>
+							<br>
+							<div class="form-floating">
+								<label for="floatingPassword">비밀번호</label>
+								<input type="password" name="floatingPassword" class="form-control"
+									id="floatingPassword" placeholder="Password">
+							</div>
+							<br>
+
+							<button class="btn btn-success w-100 py-1" id="login-btn" type="submit">로그인</button>
+							<br>
+							<br>
+							<button type="button" style="border: none; margin-left: 470px; background-color: transparent;" onclick="register(event)">회원가입</button>
+							<!--<button type="button" data-navigate="#/login">로그인</button>-->
+					</div>
+					</form>
+				</div>
+			</div>
+			<!--login area start-->
+
+			<!--register area start-->
+
+			<!--register area end-->
+		</div>
+	</div>
+	</div>
+	</div>
+
+	<!-- customer login end -->
+
+	<!--footer area start-->
+
+	<!--footer area end-->
+
+	<!--offcanvas menu area start-->
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+
+
+	<!-- customer login end -->
+	<script>
+		$('#loginForm').on('submit', function (e) {
+			$('#loginForm').validate(
+				{
+					rules: {
+						floatingInput: {
+							required: true,
+							email: true
+						},
+						floatingPassword: {
+							required: true
+						}
+					},
+					messages: {
+						floatingInput: {
+							required: '아이디를 입력하세요.'
+						},
+						floatingPassword: {
+							required: '패스워드를 입력하세요.'
+						},
+
+					},
+					errorClass: 'error',
+					validClass: 'valid'
+				}
+			);
+			let floatingInput = $('#floatingInput').val();
+			let floatingPassword = $('#floatingPassword').val();
+			let loginData = {
+				userId: floatingInput,
+				userPassword: floatingPassword
+			}
+			$.ajax({
+				async:false,
+				url: "user/login",
+				method: "post",
+				data: JSON.stringify(loginData),
+				dataType: 'json',
+				contentType: 'application/json;chrset=UTF-8',
+				success: function (response) {
+					if (response.status == 1000) {
+						self.close();
+						// 새로고침
+						opener.location.reload();
+					}
+					if ((response.status == 1001) || (response.status == 1002)) {
+						alert('아이디 혹은 비밀번호를 잘못 입력 하셨습니다. ');
+					}
+				}
+			});
+		});
+		
+		  $(document).ready(function () {
+		        // 윈도우 창 크기 조절
+		        resizeWindow(600, 550);
+		    });
+
+		    function resizeWindow(width, height) {
+		        window.resizeTo(width, height);
+		    }
+		    
+		    function register(e){
+		    	opener.location.hash="/user_write_form";
+		    	self.close();
+		    }
+		    
+		    
+	</script>
+</body>
+
+
+</html>

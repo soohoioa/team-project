@@ -1,0 +1,562 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='관리자 상품관리')">
+
+<head>
+	<title>Safira - my account</title>
+	<style>
+		.modal-dialog {
+			margin: auto;
+			margin-top: 20vh;
+			/* 회원탈퇴창 가운데 정도로 떨어트림 */
+			
+	}
+			#productTable{
+		width: 1350px;
+		}
+		
+        .flex-container {
+            display: flex;
+            justify-content: space-between; /* 요소 사이의 간격을 최대화하여 양 끝에 정렬 */
+            align-items: center; /* 수직 방향에서 중앙 정렬 */
+        }
+
+        /* 추가적인 스타일링을 위해 사용 */
+        /*
+        h3, a {
+            margin: 0;
+            padding: 10px;
+        }
+        
+        */
+        
+        .table{
+			width: 100%; /* 테이블 너비를 100%로 설정 */
+        	margin: auto; /* 테이블을 페이지 가운데로 정렬 */
+        	table-layout: fixed; /* 테이블 레이아웃을 고정하여 열 너비 설정 가능하게 함 */
+		}
+		
+		.table th,
+    .table td {
+        text-align: center;
+    }
+
+    /* 테이블 헤더 셀의 폰트 크기 및 패딩 조정 */
+    .table th {
+        font-size: 14px;
+    
+    }
+
+    /* 테이블 셀의 폰트 크기 및 패딩 조정 */
+    .table td {
+        font-size: 12px;
+        
+    }
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}	
+	</style>
+
+</head>
+
+<body>
+
+	<!--header area start-->
+	<th:block layout:fragment="content">
+		<!--offcanvas menu area start-->
+		<!-- <div class="off_canvars_overlay">
+                
+    </div>
+    <div class="offcanvas_menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="canvas_open">
+                        <a href="javascript:void(0)"><i class="icon-menu"></i></a>
+                    </div>
+                    <div class="offcanvas_menu_wrapper">
+                        <div class="canvas_close">
+                            <a href="javascript:void(0)"><i class="icon-x"></i></a>  
+                        </div>
+                        <div class="language_currency">
+                            <ul>
+                                <li class="language"><a href="#"> Language <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_language">
+                                        <li><a href="#">French</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">Russian</a></li>
+                                    </ul>
+                                </li>
+                                <li class="currency"><a href="#"> Currency <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_currency">
+                                        <li><a href="#">€ Euro</a></li>
+                                        <li><a href="#">£ Pound Sterling</a></li>
+                                        <li><a href="#">$ US Dollar</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="header_social text-right">
+                            <ul>
+                                <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                <li><a href="#"><i class="ion-social-googleplus-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                            </ul>
+                        </div>
+                     
+                        <div class="call-support">
+                            <p><a href="tel:(08)23456789">(08) 23 456 789</a> Customer Support</p>
+                        </div>
+                        <div id="menu" class="text-left ">
+                            <ul class="offcanvas_main_menu">
+                                <li class="menu-item-has-children active">
+                                    <a href="#">Home</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">Home 1</a></li>
+                                        <li><a href="index-2.html">Home 2</a></li>
+                                        <li><a href="index-3.html">Home 3</a></li>
+                                        <li><a href="index-4.html">Home 4</a></li>
+                                        <li><a href="index-5.html">Home 5</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">Shop</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Shop Layouts</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="shop.html">shop</a></li>
+                                                <li><a href="shop-fullwidth.html">Full Width</a></li>
+                                                <li><a href="shop-fullwidth-list.html">Full Width list</a></li>
+                                                <li><a href="shop-right-sidebar.html">Right Sidebar </a></li>
+                                                <li><a href="shop-right-sidebar-list.html"> Right Sidebar list</a></li>
+                                                <li><a href="shop-list.html">List View</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">other Pages</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="cart.html">cart</a></li>
+                                                <li><a href="wishlist.html">Wishlist</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="my-account.html">my account</a></li>
+                                                <li><a href="404.html">Error 404</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Product Types</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="product-details.html">product details</a></li>
+                                                <li><a href="product-sidebar.html">product sidebar</a></li>
+                                                <li><a href="product-grouped.html">product grouped</a></li>
+                                                <li><a href="variable-product.html">product variable</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">blog</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="blog.html">blog</a></li>
+                                        <li><a href="blog-details.html">blog details</a></li>
+                                        <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
+                                        <li><a href="blog-sidebar.html">blog sidebar</a></li>
+                                    </ul>
+
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">pages </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="services.html">services</a></li>
+                                        <li><a href="faq.html">Frequently Questions</a></li>
+                                        <li><a href="contact.html">contact</a></li>
+                                        <li><a href="login.html">login</a></li>
+                                        <li><a href="404.html">Error 404</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="my-account.html">my account</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="about.html">about Us</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="contact.html"> Contact Us</a> 
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="offcanvas_footer">
+                            <span><a href="#"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+		<!--offcanvas menu area end-->
+
+
+		<!--header area end-->
+
+		<!--breadcrumbs area start-->
+		<!-- <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                       <h3>My Account</h3>
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>My account</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div> -->
+		<!--breadcrumbs area end-->
+
+		<!-- my account start  -->
+		<section class="main_content_area">
+			<div class="container" style="margin-right: 600px;">
+				<div class="account_dashboard">
+					<div class="row">
+						<div class="col-sm-12 col-md-3 col-lg-3">
+							<!-- Nav tabs -->
+							
+							
+							<div class="dashboard_tab_button">
+	                            <ul role="tablist" class="nav flex-column dashboard-list">
+									<li><a href="adminUserList" class="nav-link">회원</a></li>
+	                                <li><a href="adminProductList"  class="nav-link">상품</a></li>
+	                                <li><a href="adminOrdersList" class="nav-link">주문</a></li>
+	                                <li><a href="adminAdoptList"  class="nav-link">입양</a></li>
+									<li><a href="adminVolunteerList"class="nav-link">봉사</a></li>
+	                                <li><a href="adminVisitList"class="nav-link">견학</a></li>
+									<li><a href="centerListAll"class="nav-link">보호소</a></li>
+									<!--<li><a th:if="${session.userName != '관리자'}" style="display: none;"class="nav-link"></a></li>-->
+									<!-- <li> <a th:if="${session.userName != '관리자'}" href="orders" class="nav-link">주문목록</a></li> -->	                               
+									<!-- <li> <a th:if="${session.userName != '관리자'}" href="orders" class="nav-link">주문목록</a></li> -->
+	                                <li><a href="logout" class="nav-link">로그아웃</a></li>
+	                                <!-- <li><a href="#" data-toggle="modal" data-target="#deleteModal" class="nav-link">회원탈퇴</a></li> -->
+	                            </ul>
+                       		 </div>
+
+
+						</div>
+						<div class="col-sm-12 col-md-9 col-lg-9">
+							<!-- Tab panes -->
+							<div class="tab-content dashboard_content">
+
+
+
+
+
+								<!--  <div class="tab-pane fade" id="visit">-->
+								<div class="flex-container" style="width: 1350px; margin-bottom: 30px;">
+								<h3>상품관리</h3>
+								<div class="search_container mobail_s_none">
+                                	<form>
+										<div class="search_box">
+                                            <input id="searchInput3" placeholder="검색어를 입력하세요" type="text" onkeydown="handleEnterKey2(event)">
+                                             <button type="button" onclick="searchProduct2(event)"><span class="lnr lnr-magnifier"></span></button>
+                                		</div>
+                                	</form>
+                                </div>
+								<a class="button" href="#" th:href="@{productInsertForm}">등록</a>
+								</div>
+								<div class="table-responsive" id="productTable">
+									<table class="table" >
+										<thead>
+											<tr>
+												<th>번호</th>
+												<th>상품명</th>
+												<th>가격</th>
+												<th>별점</th>
+												<th>카테고리</th>
+												<th>펫 카테고리</th>
+												<th>이미지명</th>
+												<th>삭제</th>
+											</tr>
+										</thead>
+										<tbody class="productTable">
+											<tr th:each="product:${productList}">
+												<td class="productNo" th:text="${product.productNo}"></td>
+												<td class="productName" th:text="${product.productName}"></td>
+												<td class="productPrice" th:text="${#numbers.formatInteger(product.productPrice, 3, 'COMMA') + '원'}"></td>
+												<td class="productStarAvg" th:text="${product.productStarAvg}"></td>
+												<td class="productCategory" th:text="${product.productCategory}"><span class="success"></span></td>
+												<td class="productPetCategory" th:text="${product.productPetCategory}"></td>
+												<td class="productImage" th:text="${product.productImage}" style="word-wrap: break-word;max-width: 200px; overflow: hidden; text-overflow: ellipsis;"></td>
+												<td>
+													<a href="#" th:href="@{productUpdateForm(productNo=${product.productNo})}">수정</a>
+													<a href="#" class="delete-link" th:id="${product.productNo}">삭제</a>
+													<!--<a data-toggle="modal" data-target="#productUpdateModal"  th:href="@{#__${product.productNo}__}" class="view">수정</a>-->
+													<!--<a data-toggle="modal" data-target="#orderDetailsModal"  th:href="@{#__${orders.orderNo}__}" class="view">주문상세</a>-->
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<!--<div class="shop_toolbar t_bottom">
+						                    <div class="pagination" th:if="${productList.totalPages > 1}">
+						                        <ul th:with="pageNumber=${productList.number}, totalPages=${productList.totalPages}">
+						                            <li th:classappend="${productList.first} ? 'disabled'"><a href="#" th:href="${productList.first} ? '#' : @{adminProductList(page=${pageNumber - 1})}">&lt;</a></li>
+						
+						                            <li th:each="page: ${#numbers.sequence(0, totalPages - 1)}"
+						                                th:classappend="${page == pageNumber} ? 'current'"><a th:text="${page + 1}" th:href="@{adminProductList(page=${page})}"></a></li>
+						
+						                            <li th:classappend="${productList.last} ? 'disabled'"><a href="#" th:href="${productList.last} ? '#' : @{adminProductList(page=${pageNumber + 1})}">&gt;</a></li>
+						                        </ul>
+						                    </div>
+						                </div>-->
+								</div>
+							</div>
+							
+							
+							
+							
+							<!--상품 수정 모달창 시작-->
+							<!-- <div class="modal fade" id="productUpdateModal" tabindex="-1"
+									aria-labelledby="productUpdateModalLabel" aria-hidden="true">
+									<div class="modal-dialog" >
+										<div class="modal-content" style="width: 900px; height: auto;  border-radius: 10px;">
+											<div class="modal-header">
+												<h5 class="modal-title" id="productUpdateModalLabel">수정</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close" style="border: none;">X
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body" id="modalContent">
+												주문 상세 내용이 여기에 로드됩니다
+												
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>이름</th>
+																<th>이미지</th>
+																<th>가격</th>
+																<th>총가격</th>
+																<th>주문상태</th>
+																<th>리뷰</th>
+															</tr>
+														</thead>
+														
+														<tbody class="modaldata">
+															<tr>
+																<td>1</td>
+																<td><input class="success"></input></td>
+																<td><input class="success"></input></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">수정</button>
+											</div>
+										</div>
+									</div>
+								</div> -->
+								<!--상품 수정 모달창 끝-->
+								
+								
+								
+								
+								
+								
+								
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<!-- my account end   -->
+
+		<!--footer area start-->
+
+
+		<!--footer area end-->
+
+
+		<!-- 회원탈퇴  -->
+		<!-- <script>
+    $('#confirmDelete').on('click', function() {
+        const selectedReason = $('input[name="reason"]:checked').val();
+        if (selectedReason) {
+            console.log("회원탈퇴 이유:", selectedReason);
+            // 여기에 탈퇴 로직 
+            // 탈퇴가 완료되면 index.html로 리다이렉트
+        window.location.href = 'index.html';
+        } else {
+            alert("탈퇴하시려면 이유를 선택해주세요.");
+        }
+    });
+</script>
+
+
+주문한 상품 리뷰쓰기 
+<script>
+
+    // 마이페이지 상품주문 완료된 항목에서 주문상세를 누르면 창이 뜨고 이 창에서만 리뷰를 쓸수 있음
+    // 주문 상세 링크를 클릭할 때 이벤트 핸들러
+    document.querySelector('.table').addEventListener('click', function(e) {
+    if (e.target.classList.contains('view')) {
+        e.preventDefault();
+        
+        // 주문상세 정보를 로드 하기
+        
+
+        // 모달창 표시
+        $('#orderDetailsModal').modal('show');
+    }
+    });
+
+</script> -->
+		<script>
+			function ajaxRequest(method, url, sendJsonObject) {
+				let returnResultJsonObject={};
+				$.ajax({
+					async:false,
+					method: method,
+					url: url,
+					contentType: 'application/json;UTF-8',
+					data: JSON.stringify(sendJsonObject),
+					type: 'json',
+					success: function(resultJsonObject) {
+						returnResultJsonObject = resultJsonObject;
+					}
+				});
+				return returnResultJsonObject;
+			}
+			
+			$('.deleteBtn').on('click', function (e) {
+				e.preventDefault();
+				let id = $(this).attr('id');
+				let no = id.split('-')[1];
+
+				if (isNaN(no)) {
+					alert('visitNo 가져오기실패')
+					return;
+				}
+
+				let sendJsonObject = {visitNo: no};
+				let $row = $(this).closest('tr');
+
+				$.ajax({
+					type: 'DELETE',
+					url: 'visit/' + no,
+					data: JSON.stringify(sendJsonObject),
+					contentType: 'application/json;UTF-8',
+					success: function (response) {
+						if (response && response.visitNo == null) {
+							alert('신청내역이 없음');
+						} else {
+							alert('예약취소가 완료되었습니다.');
+							$row.remove();
+							window.location.href = "index"
+						}
+					},
+					error: function () {
+						alert('취소 요청중 오류가 발생했습니다.');
+					}
+				});
+			});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/************************** 삭제 버튼 활성화 **************************/
+			
+
+			 $(".delete-link").on('click', function(e) {
+					    //e.preventDefault(); // 기본 이벤트 방지
+					    let productNo = $(e.target).attr('id');
+					    // AJAX 요청 보내기
+						ajaxRequest("DELETE","product/"+productNo);
+					    
+					    $(".productNo, .productName, .productPrice, .productStarAvg, .productCategory, .productPetCategory, .productImage").each(function() {
+				            if ($(this).attr("id") === productNo) {
+				                $(this).closest("tr").remove();
+				            }
+				        });
+					    location.href="adminProductList";
+				});
+				
+			/************************** 상품 검색 **************************/
+			function product_html(responseJsonObject = {}) {
+				let htmlTemplate =
+				`{{#each this}}
+										
+											<tr>
+												<td class="productNo">{{productNo}}</td>
+												<td class="productName">{{productName}}</td>
+												<td class="productPrice">{{productPrice}}</td>
+												<td class="productStarAvg">{{productStarAvg}}</td>
+												<td class="productCategory"><span class="success">{{productCategory}}</span></td>
+												<td class="productPetCategory">{{productPetCategory}}</td>
+												<td class="productImage" style="word-wrap: break-word;max-width: 200px; overflow: hidden; text-overflow: ellipsis;">{{productImage}}</td>
+												<td>
+													<a href="{{productUpdateForm productNo=product.productNo}})}">수정</a>
+													<a href="#" class="delete-link" id="{{product.productNo}}">삭제</a>
+												</td>
+											</tr>
+										
+									
+							{{/each}}`;
+				
+				let bindTemplate = Handlebars.compile(htmlTemplate);
+				let resultTemplate = bindTemplate(responseJsonObject);
+				
+				return resultTemplate;
+			}
+			
+			// Enter 키를 눌렀을 때 검색 결과를 표시하고 툴바를 숨기는 함수
+			function handleEnterKey2(event) {
+			    if (event.key === 'Enter') {
+			        // 검색 로직을 수행한 후 결과가 있을 때
+			        // 검색 결과를 표시
+			        searchProduct2();
+        			event.preventDefault();
+			    }
+			}
+			
+			function searchProduct2() {
+    			var searchTerm = $('#searchInput3').val();
+				let send = {
+					productName : searchTerm
+				}
+			
+				let responseJsonObject = ajaxRequest("POST", "admin/products/search", send);
+				let html = product_html(responseJsonObject);
+				$('.productTable').html(html);
+			}	
+
+		</script>
+	</th:block>
+
+
+
+</body>
+
+</html>

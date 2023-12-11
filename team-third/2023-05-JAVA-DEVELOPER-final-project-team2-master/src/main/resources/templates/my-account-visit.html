@@ -1,0 +1,281 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="layout/layout(title='마이페이지')">
+<head>
+    <title>Safira - my account</title>
+    <style>
+        .modal-dialog {
+        margin: auto;
+        margin-top: 20vh; /* 회원탈퇴창 가운데 정도로 떨어트림 */
+    }
+    
+    #visitTable{
+    	width: 1000px;
+    }
+    .visit-completed {
+        color: rgb(192, 192, 192); 
+        font-weight: bold;
+    }
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}
+    </style>
+
+</head>
+
+<body>
+<script type="text/javascript">
+	function userDelete(){
+		window.location.href = 'userDelete';
+	}
+    $('#confirmDelete').on('click', function() {
+        const selectedReason = $('input[name="reason"]:checked').val();
+        if (selectedReason) {
+            console.log("회원탈퇴 이유:", selectedReason);
+            // 여기에 탈퇴 로직
+            userDelete(); 
+            // 탈퇴가 완료되면 index.html로 리다이렉트
+        	//window.location.href = 'index';
+        } else {
+            alert("탈퇴하시려면 이유를 선택해주세요.");
+        }
+    });
+</script>
+   <!--header area start-->
+    <th:block layout:fragment="content">
+    <!--offcanvas menu area start-->
+    <!-- <div class="off_canvars_overlay"> </div> -->
+    <!--offcanvas menu area end-->
+    
+    <!--header area end-->
+    
+    <!--breadcrumbs area start-->
+    <!-- <div class="breadcrumbs_area"> -->
+    <!--breadcrumbs area end-->
+    
+    <!-- my account start  -->
+    <section class="main_content_area">
+        <div class="container" style="margin-right: 600px;">   
+            <div class="account_dashboard">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <!-- Nav tabs -->
+                        <div class="dashboard_tab_button">
+                            <ul role="tablist" class="nav flex-column dashboard-list">
+                            <li><a href="userinfo" class="nav-link">내정보</a></li>
+                                <li><a href="mypet"  class="nav-link">마이펫</a></li>
+                                <li><a href="couponList"  class="nav-link">쿠폰</a></li>
+                                <li><a th:if="${session.userName != '관리자'}" href="adoptByUserNo" class="nav-link">입양</a></li> 
+								<li><a th:if="${session.userName != '관리자'}" href="volunteerByUserNo" class="nav-link">봉사</a></li>  
+								<li><a th:if="${session.userName != '관리자'}" href="visitByUserNo" class="nav-link">견학</a></li>
+								<li><a th:if="${session.userName != '관리자'}" href="orders" class="nav-link">주문목록</a></li>
+                                <li><a href="logout" class="nav-link">로그아웃</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#deleteModal" class="nav-link">회원탈퇴</a></li>
+
+                            </ul>
+                        </div>    
+                    </div>
+                    <div class="col-sm-12 col-md-9 col-lg-9">
+                        <!-- Tab panes -->
+                        <div class="tab-content dashboard_content" style="margin-left: 10px;">
+                        
+		                 <!--<div class="tab-pane fade" id="volunteer">-->
+                                <h3>견학</h3>
+                                <div class="table-responsive" id="visitTable">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>번호</th>
+                                                <th>방문날짜</th>
+                                                <th>방문시간</th>
+                                                <th>센터이름</th>
+                                                <th>접수상태</th>    
+                                                <!-- <th>Update</th> -->
+                                                <th>수정/삭제</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+											
+											
+											<tr th:each="visit, rowStat : ${visitList}">
+												<td th:text="${visitList.size() - rowStat.index}"></td>								
+												<td th:text="${#strings.substring(visit.visitDate.toString(), 0, 10)}"></td>
+											
+												
+										 		
+												<td> <!-- 13PM, 14PM ... 18PM -->
+												   
+												    <span th:text="${visit.visitTime + '시'}"></span>
+												</td>
+												
+										
+											<td th:text="${visit.Center.centerName}"></td>
+
+
+												<td th:text="${visit.visitStatus}" 
+													th:class="${visit.visitStatus == '견학완료'} ? 'visit-completed' : '' "><!--<span class="success">견학신청</span>--></td>
+												
+												<td>												
+							
+												
+												<a th:if="${visit.visitStatus != '견학완료'}" 
+													th:href="@{'/visitUpdate?visitNo=' + ${visit.visitNo} + '&amp;centerNo=' + ${visit.Center.centerNo}}">수정</a>	
+												<button type="submit" class="deleteBtn" th:id="'deleteBtn-' + ${visit.visitNo} " >취소</button>	
+												
+											
+												</td>
+												
+											</tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--</div>-->
+                            
+                            <!--<div class="tab-pane fade" id="account-details">-->
+                          
+                           <!--   </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>          	
+    </section>	
+    	<div class="modal fade" id="deleteModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <!-- 모달 헤더 -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">회원탈퇴 이유 선택</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+							              <!-- 회원탈퇴 모달 본문 -->
+                                        <div class="modal-body">
+                                            <form id="deleteReasonForm">
+                                                <!-- 탈퇴 이유 선택 -->
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="reason" id="reason1" value="Not satisfied">
+                                                    <label class="form-check-label" for="reason1">서비스에 만족하지 않음</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="reason" id="reason2" value="Found alternative">
+                                                    <label class="form-check-label" for="reason2">다른 서비스를 사용</label>
+                                                </div>
+                                                <!-- ... 다른 이유들도 추가 가능 ... -->
+                                            </form>
+                                        </div>
+						
+                            
+                          
+                            
+                                        <!-- 모달 푸터 -->
+                                        <div class="modal-footer">
+                                            <button  type="button" class="btn btn-danger" id="confirmDelete" name="confirmDelete">탈퇴하기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>	
+							
+    <!-- my account end   --> 
+
+      <!--footer area start-->
+  
+ 
+    <!--footer area end-->
+
+
+
+ 
+
+
+<!--주문한 상품 리뷰쓰기 
+<script>
+
+    // 마이페이지 상품주문 완료된 항목에서 주문상세를 누르면 창이 뜨고 이 창에서만 리뷰를 쓸수 있음
+    // 주문 상세 링크를 클릭할 때 이벤트 핸들러
+    document.querySelector('.table').addEventListener('click', function(e) {
+    if (e.target.classList.contains('view')) {
+        e.preventDefault();
+        
+        // 주문상세 정보를 로드 하기
+        
+
+        // 모달창 표시
+        $('#orderDetailsModal').modal('show');
+    }
+    });
+
+</script> -->
+
+
+<!-- my-account 에서 취소버튼  -->
+<script> 
+	$('.deleteBtn').on('click', function (e) {
+		e.preventDefault();
+		let id = $(this).attr('id');
+		let no = id.split('-')[1];
+
+		if (isNaN(no)) {
+		
+			return;
+		}
+
+		let sendJsonObject = {visitNo: no};
+		let $row = $(this).closest('tr');
+
+		$.ajax({
+			type: 'DELETE',
+			url: 'visit/' + no,
+			data: JSON.stringify(sendJsonObject),
+			contentType: 'application/json;UTF-8',
+			success: function (response) {
+				if (response && response.visitNo == null) {
+				
+				} else {
+					alert('예약취소가 완료되었습니다.');
+					$row.remove();
+					window.location.href = "visitByUserNo"
+				}
+			},
+			error: function () {
+				alert('취소 요청중 오류가 발생했습니다.');
+			}
+		});
+	});
+</script>
+<script>
+  // HTML이 모두 로드된 후에 함수를 실행하도록 window.onload 이벤트를 사용합니다.
+window.onload = function() {
+    // 버튼 요소를 가져옵니다.
+	function confirmDeleteFunction() {
+      // 이 함수에 버튼이 클릭될 때 실행할 코드를 작성합니다.
+      // 예를 들어, 사용자에게 확인 메시지를 표시하거나 다른 동작을 수행할 수 있습니다.
+      console.log("탈퇴하기 버튼이 클릭되었습니다.");
+
+      window.location.href="userDelete";
+    }
+	
+	$('#confirmDelete').on('click',function(e){
+		confirmDeleteFunction();
+	});
+    // 클릭 이벤트에 대한 함수를 정의합니다.
+   
+    
+  };
+</script>
+
+</th:block>		
+
+
+
+</body>
+
+</html>

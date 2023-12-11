@@ -1,0 +1,1115 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout(title='관리자 주문관리')">
+
+<head>
+<title>Safira - my account</title>
+<style>
+.modal-dialog {
+	margin: auto;
+	margin-top: 20vh;
+	/* 회원탈퇴창 가운데 정도로 떨어트림 */
+}
+
+#ordersTable {
+	margin-top: 20px;
+	width: 1350px;
+}
+@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}
+</style>
+
+
+
+	<title>Safira - my account</title>
+	<style>
+		.modal-dialog {
+			margin: auto;
+			margin-top: 20vh;
+			/* 회원탈퇴창 가운데 정도로 떨어트림 */
+		}
+		
+		
+		
+		#ordersTable{
+			margin-top: 20px;
+			width: 1350px;
+		}
+		@font-face {
+		font-family: 'GmarketSansMedium';
+		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+	}
+	.container{
+		font-family: 'GmarketSansMedium';
+	}
+	</style>
+	
+	
+
+
+<!-- 별점 css 위치 -->
+
+<style>
+@import
+	url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+.rate {
+	display: inline-block;
+	border: 0;
+	margin: 0 auto;
+	text-align: left;
+	direction: rtl;
+}
+
+.rate>input {
+	display: none;
+}
+
+.rate>label {
+	font-size: 3em;
+	color: #ddd;
+	position: relative;
+	display: inline-block;
+}
+
+.rate>label:before {
+	display: inline-block;
+	font-size: 1rem;
+	padding: .3rem .2rem;
+	margin: 0;
+	cursor: pointer;
+	font-family: FontAwesome;
+	content: "\f005 ";
+	text-align: left;
+}
+
+.rate .half:before {
+	content: "\f089 ";
+	position: absolute;
+	padding-right: 0;
+	left: 0;
+	/* 왼쪽에서 시작하도록 위치 조정 */
+}
+
+.rate input:checked ~label, .rate label:hover, .rate label:hover ~label
+	{
+	width: auto;
+	color: #ffff00 !important;
+}
+
+.rate input:checked+.rate label:hover, .rate input input:checked ~label:hover,
+	.rate input:checked ~.rate label:hover ~label, .rate label:hover ~input:checked
+	 ~label {
+	width: auto;
+	color: #ffff00 !important;
+}
+</style>
+
+
+
+
+
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+
+<body>
+
+	<!--header area start-->
+	<th:block layout:fragment="content">
+		<!--offcanvas menu area start-->
+		<!-- <div class="off_canvars_overlay">
+                
+    </div>
+    <div class="offcanvas_menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="canvas_open">
+                        <a href="javascript:void(0)"><i class="icon-menu"></i></a>
+                    </div>
+                    <div class="offcanvas_menu_wrapper">
+                        <div class="canvas_close">
+                            <a href="javascript:void(0)"><i class="icon-x"></i></a>  
+                        </div>
+                        <div class="language_currency">
+                            <ul>
+                                <li class="language"><a href="#"> Language <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_language">
+                                        <li><a href="#">French</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">Russian</a></li>
+                                    </ul>
+                                </li>
+                                <li class="currency"><a href="#"> Currency <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_currency">
+                                        <li><a href="#">€ Euro</a></li>
+                                        <li><a href="#">£ Pound Sterling</a></li>
+                                        <li><a href="#">$ US Dollar</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="header_social text-right">
+                            <ul>
+                                <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                <li><a href="#"><i class="ion-social-googleplus-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                            </ul>
+                        </div>
+                     
+                        <div class="call-support">
+                            <p><a href="tel:(08)23456789">(08) 23 456 789</a> Customer Support</p>
+                        </div>
+                        <div id="menu" class="text-left ">
+                            <ul class="offcanvas_main_menu">
+                                <li class="menu-item-has-children active">
+                                    <a href="#">Home</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">Home 1</a></li>
+                                        <li><a href="index-2.html">Home 2</a></li>
+                                        <li><a href="index-3.html">Home 3</a></li>
+                                        <li><a href="index-4.html">Home 4</a></li>
+                                        <li><a href="index-5.html">Home 5</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">Shop</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Shop Layouts</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="shop.html">shop</a></li>
+                                                <li><a href="shop-fullwidth.html">Full Width</a></li>
+                                                <li><a href="shop-fullwidth-list.html">Full Width list</a></li>
+                                                <li><a href="shop-right-sidebar.html">Right Sidebar </a></li>
+                                                <li><a href="shop-right-sidebar-list.html"> Right Sidebar list</a></li>
+                                                <li><a href="shop-list.html">List View</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">other Pages</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="cart.html">cart</a></li>
+                                                <li><a href="wishlist.html">Wishlist</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="my-account.html">my account</a></li>
+                                                <li><a href="404.html">Error 404</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Product Types</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="product-details.html">product details</a></li>
+                                                <li><a href="product-sidebar.html">product sidebar</a></li>
+                                                <li><a href="product-grouped.html">product grouped</a></li>
+                                                <li><a href="variable-product.html">product variable</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">blog</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="blog.html">blog</a></li>
+                                        <li><a href="blog-details.html">blog details</a></li>
+                                        <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
+                                        <li><a href="blog-sidebar.html">blog sidebar</a></li>
+                                    </ul>
+
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">pages </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="services.html">services</a></li>
+                                        <li><a href="faq.html">Frequently Questions</a></li>
+                                        <li><a href="contact.html">contact</a></li>
+                                        <li><a href="login.html">login</a></li>
+                                        <li><a href="404.html">Error 404</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="my-account.html">my account</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="about.html">about Us</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="contact.html"> Contact Us</a> 
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="offcanvas_footer">
+                            <span><a href="#"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+		<!--offcanvas menu area end-->
+
+
+		<!--header area end-->
+
+		<!--breadcrumbs area start-->
+		<!-- <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                       <h3>My Account</h3>
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>My account</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div> -->
+		<!--breadcrumbs area end-->
+
+		<section class="main_content_area">
+			<div class="container" style="margin-right: 600px;">
+				<div class="account_dashboard">
+					<div class="row">
+						<div class="col-sm-12 col-md-3 col-lg-3">
+							<!-- Nav tabs -->
+							<div class="dashboard_tab_button">
+								<ul role="tablist" class="nav flex-column dashboard-list">
+									<li><a href="adminUserList" class="nav-link">회원</a></li>
+									<li><a href="adminProductList" class="nav-link">상품</a></li>
+									<li><a href="adminOrdersList" class="nav-link">주문</a></li>
+									<li><a href="adminAdoptList" class="nav-link">입양</a></li>
+									<li><a href="adminVolunteerList" class="nav-link">봉사</a></li>
+									<li><a href="adminVisitList" class="nav-link">견학</a></li>
+									<li><a href="centerListAll" class="nav-link">보호소</a></li>
+									<!--<li><a th:if="${session.userName != '관리자'}" style="display: none;"class="nav-link"></a></li>-->
+									<!-- <li> <a th:if="${session.userName != '관리자'}" href="orders" class="nav-link">주문목록</a></li> -->
+									<li><a href="logout" class="nav-link">로그아웃</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-9 col-lg-9">
+							<!-- Tab panes -->
+							<div class="tab-content dashboard_content">
+
+								<div id="orders">
+									<h3>주문목록</h3>
+									<input readonly="readonly" id="datepicker1"
+										style="margin-right: 5px;"> <input readonly="readonly"
+										id="datepicker2" style="margin-right: 5px;">
+									<button type="button" class="btn btn-secondary" id="datecheck">조회</button>
+
+									<div class="table-responsive" id="ordersTable">
+										<table class="table">
+											<thead>
+												<tr>
+													<th class="order_no">주문번호</th>
+													<th class="order_userNo"
+														th:if="${session.userName == '관리자'}">사용자</th>
+													<th class="order_date">주문날짜</th>
+													<th class="order_desc">상품명</th>
+													<th class="order_address">배송지</th>
+													<th class="order_price">총가격</th>
+													<th class="order_volunteer">상세보기</th>
+													<th th:if="${session.userName == '관리자'}"
+														class="order_remove">삭제</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="orders:${ordersList}" th:if="orders!=null">
+													<td class="order_no" th:text="${orders.orderNo}">orderNo</td>
+													<td class="order_userNo"
+														th:if="${session.userName == '관리자'}"
+														th:text="${orders.userinfo.userId}">사용자 ID</td>
+													<td class="order_date"
+														th:text="${#dates.format(orders.orderDate, 'yyyy-MM-dd')}">주문날짜</td>
+													<td class="order_desc" th:text="${orders.orderDesc}"><span
+														class="success">상품명</span></td>
+															<td class="order_address" th:text="${orders.orderAddress}"><span
+														class="success">서울</span></td>
+													<td class="order_price"
+														th:text="${#numbers.formatInteger(orders.orderPrice, 3, 'COMMA') + '원'}">총가격</td>
+													<td><a data-toggle="modal"
+														data-target="#orderDetailsModal"
+														th:href="@{#__${orders.orderNo}__}" class="view">주문상세</a></td>
+													<td class="order_remove" th:id="${orders.orderNo}"><a
+														class="deleteOrder"><i class="fa fa-trash-o"
+															th:id="${orders.orderNo}"></i></a></td>
+												</tr>
+												<!-- <tr>
+                                                <td>2</td>
+                                                <td>May 10, 2018</td>
+                                                <td>강아지닭가슴살사료</td>
+                                                <td>$17.00 for 1 item </td>
+                                                <td><a href="cart.html" class="view">주문상세</a></td>
+                                            </tr> -->
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+								
+					
+
+
+								<!--   </div>-->
+								<!--주문 상세 모달창 -->
+								<div class="modal fade" id="orderDetailsModal" tabindex="-1"
+									aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content"
+											style="width: 900px; height: auto; border-radius: 10px;">
+											<div class="modal-header">
+												<h5 class="modal-title" id="orderDetailsModalLabel">주문
+													상세</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close" style="border: none;">
+													X
+													<!--<span aria-hidden="true">&times;</span>-->
+												</button>
+											</div>
+											<div class="modal-body" id="modalContent">
+												<!-- 주문 상세 내용이 여기에 로드됩니다 -->
+
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>번호</th>
+																<th>구입날짜</th>
+																<th>상품명</th>
+																<!--<th>총가격</th>-->
+																<th>주문상태</th>
+																<th>리뷰</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>1</td>
+																<td>May 10, 2018</td>
+																<td><span class="success">고양이캔조림</span></td>
+																<!-- <td>$25.00 for 1 item </td>-->
+																<td><select class="form-select form-select-sm"
+																	aria-label="Large select example">
+																		<option selected>주문 상태</option>
+																		<option value="1">주문확인</option>
+																		<option value="2">배송준비</option>
+																		<option value="3">배송중</option>
+																		<option value="4">배송완료</option>
+																</select></td>
+																<td><button class="write-review">리뷰쓰기</button></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+
+											</div>
+											
+											
+											<div class="modal-footer">
+												<!--   <button type="button" class="btn btn-primary">리뷰 저장</button>-->
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">닫기</button>
+												<button type="button" class="btn btn-primary"
+													data-dismiss="modal" id="updateosNo">저장</button>
+
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
+											   <div class="shop_toolbar t_bottom" style="width: 1350px;" th:if="${pageStatus!=0}"}>
+								<div class="pagination" th:if="${!ordersList.isEmpty()}">
+									<ul
+										th:with="
+            pageNumber = ${ordersList.pageable.pageNumber},
+            pageSize = ${ordersList.pageable.pageSize},
+            totalPages = ${ordersList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize+1 },
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+	<!-- 이전페이지 이동 -->
+										<li th:classappend="${ordersList.first} ? 'disabled'"><a
+											href="#"
+											th:href="${ordersList.first} ? '#' : @{adminOrdersList(page=${pageNumber-1})}"><
+										</a></li>
+									 		<!-- 특정페이지 이동 -->
+										<li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+											th:classappend="${page == pageNumber+1} ? 'current'"><a
+											th:text="${page}" th:href="@{adminOrdersList(page=${page-1})}"></a>
+
+										</li>
+										<!-- <li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li class="next"><a href="#">next</a></li> -->
+						
+						<!-- 다음페이지 이동 -->
+										<li th:classappend="${ordersList.last} ? 'disabled'"><a
+											href="#"
+											th:href="${ordersList.last} ? '#' : @{orders(page=${pageNumber +1})}">></a></li>
+									</ul>
+								</div>
+							</div>
+								<!-- <div class="shop_toolbar t_bottom">
+									<div class="pagination" th:if="${!ordersList.isEmpty()}">
+										<ul
+											th:with="
+            pageNumber = ${ordersList.pageable.pageNumber},
+            pageSize = ${ordersList.pageable.pageSize},
+            totalPages = ${ordersList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize+1 },
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+											이전페이지 이동
+											<li th:classappend="${ordersList.first} ? 'disabled'"><a
+												href="#"
+												th:href="${ordersList.first} ? '#' : @{adminOrdersList(page=${pageNumber-1})}"><
+											</a></li>
+											특정페이지 이동
+											<li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+												th:classappend="${page == pageNumber+1} ? 'current'"><a
+												th:text="${page}"
+												th:href="@{adminOrdersList(page=${page-1})}"></a></li>
+											<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li class="next"><a href="#">next</a></li>
+
+											다음페이지 이동
+											<li th:classappend="${ordersList.last} ? 'disabled'"><a
+												href="#"
+												th:href="${ordersList.last} ? '#' : @{adminOrdersList(page=${pageNumber +1})}">></a></li>
+										</ul>
+									</div>
+								</div> -->
+								
+								
+								<script>
+	 
+	  $(function() {
+          //input을 datepicker로 선언
+          $("#datepicker1,#datepicker2").datepicker({
+              dateFormat: 'yy-mm-dd' //달력 날짜 형태
+              ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+              ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+              ,changeYear: true //option값 년 선택 가능
+              ,changeMonth: true //option값  월 선택 가능                
+              ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+              ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+              ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+              ,buttonText: "선택" //버튼 호버 텍스트              
+              ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+              ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+              ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+              ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+              ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+              ,minDate: "-1Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+              ,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+          	,onSelect: function(dateText, inst) {
+                // 선택한 날짜를 로컬 스토리지에 저장
+                if (inst.id === "datepicker1") {
+                    localStorage.setItem('startDate', dateText);
+                } else if (inst.id === "datepicker2") {
+                    localStorage.setItem('endDate', dateText);
+                }
+            }
+        });                 
+          
+          //초기값을 오늘 날짜로 설정해줘야 합니다.
+          $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후) 
+          
+          
+          
+          
+      });
+			
+	
+	
+		 
+		     $("#datecheck").click(
+		    		 function () {
+		     
+		    	 var startDate = $("#datepicker1").val();
+		    	    var endDate = $("#datepicker2").val();
+		    	    if(!startDate || !endDate){
+		    	    	
+		    	    	 window.location.href = "adminOrdersList";
+		    	    	 
+		    	    }
+		    	    else{
+		    	    	
+		    	    window.location.href = "dateByAdmin?startDate=" + startDate + "&endDate=" + endDate;
+		    	    }
+		         
+		     });    
+	
+	
+	
+	
+	
+	
+	
+      function my_account_order(responseJsonObject = {}) {
+
+         let htmltemplate =
+         `<div class="modal-body" id="modalContent">
+                                    <!-- 주문 상세 내용이 여기에 로드됩니다 -->
+
+                                    <div class="table-responsive">
+                                       <table class="table">
+                                          <thead>
+                                             <tr>
+                                                <th>번호</th>
+                                                <th>상품가격</th>
+                                                <th>상품명</th>
+                                                <!--<th>총가격</th>-->
+                                                <th>주문상태</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                          {{#each orderItemDtos}}
+                                             <tr data-oiNo="{{oiNo}}">
+                                                <td id="oiNo">{{oiNo}}</td>
+                                                <td>{{product.productPrice}}</td>
+                                                <td ><span class="success">{{product.productName}}</span></td>
+                                                <!-- <td>$25.00 for 1 item </td>-->
+                                                 <td> <select class="form-select form-select-sm"
+                                                      aria-label="Large select example" onchange="selectchange(event)" id="{{oiNo}}">
+                                               
+                                                      <option selected>주문 상태</option>
+                                                      {{#select orderstatus.osNo }} 
+	                                                      <option value="1">주문확인</option>
+	                                                      <option value="2">배송준비</option>
+	                                                      <option value="3">배송중</option>
+	                                                      <option value="4">배송완료</option>
+                                                      {{/select}}
+                                                   </select>
+                                                </td>
+                                             </tr>
+                                             {{/each}}
+                                          </tbody>
+                                       </table>
+                                    </div>
+
+                                 </div>`;
+         
+         let bindTemplate = Handlebars.compile(htmltemplate);
+         let resultTemplate = bindTemplate(responseJsonObject);
+         
+         return resultTemplate;
+      }
+      
+            /* let response = ajaxRequest('GET','order/orderItemList/'+orderNo)
+            let html = my_account_order(response);
+            $('#modalContent').html(html);
+            alert(response.orderStatusNo);
+            if(response.orderStatusNo==3){
+          	  alert('실행');
+          	  $('.form-select form-select-sm').val('3'); // '배송준비' 옵션을 선택
+          	   $('.form-select form-select-sm option:not(:selected)').prop('disabled', true);
+            } */
+         $('#orderDetailsModal').on('show.bs.modal',function(e){
+            let index=e.relatedTarget.href.lastIndexOf('#')
+            let orderNo=e.relatedTarget.href.substring(index+1);
+            console.log(orderNo);
+            $.ajax({
+               async:false,
+               method: 'GET',
+               url: 'order/orderItemList/'+orderNo,
+               contentType: 'application/json;UTF-8',
+               data: {},
+               type: 'json',
+               success: function(resultJsonObject) {
+                  console.log(resultJsonObject);
+                  let html = my_account_order(resultJsonObject);
+                  $('#modalContent').html(html);
+                  // 셀렉티드 시키면 되겠다~
+               }
+            }); 
+            
+         });
+         
+         function selectchange(e){
+        	 let oiNo = e.target.id;
+        	 console.log(e.target.value);
+        	 
+        	 let send= {
+        		oiNo : oiNo,
+        		osNo : e.target.value
+        	 }
+        	 
+        	 ajaxRequest('PUT','order/updateosNo',send);
+        	 
+         }
+         
+         /*
+         $('#updateosNo').click(function(e){
+		
+			alert('저장');
+			
+			//window.location.href = "updateosNo?oiNo="
+											//+ orderAddress1 + orderAddress2
+											//+ orderAddress3 + "&osNo="
+											//+ orderPrice;
+		});
+         */
+         
+
+      </script>
+
+
+								<!--리뷰 쓰기 모달창-->
+
+								<div class="modal fade" id="reviewModal" tabindex="-1"
+									aria-labelledby="reviewModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content"
+											style="border: 2px solid green; height: 380px; top: 20px; margin: 20px; border-radius: 10px; width: 600px;">
+											<div class="modal-header">
+												<h5 class="modal-title" id="orderDetailsModalLabel">리뷰
+													작성</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close" style="border: none; padding: 7px;">
+													X
+													<!--<span aria-hidden="true">&times;</span>-->
+												</button>
+											</div>
+											<div class="modal-body" id="reviewContent">
+												<!-- 주문 상세 내용이 여기에 로드됩니다 -->
+												<div>
+													<!--<h3>리뷰작성</h3>-->
+													<div class="comments_form">
+														<input type="hidden" id="userNo"
+															th:value="${session.userNo}" /> <input type="hidden"
+															id="productNo" th:value="${productNo}" />
+
+														<form th:action="@{/reviewBoard/createReviewBoard}"
+															class="mb-3" name="myform" id="myform" method="post">
+
+
+															<!--<input type="hidden" id="productNo" th:value="${user.userNo}"/>-->
+
+
+															<p>별점과 후기를 남겨주세요.</p>
+
+
+															<div class="row">
+
+																<div>별점</div>
+
+																<!-- 별점 위치 -->
+
+																<div class="rate" draggable="false">
+																	<input type="radio" name="boardStar" id="star5"
+																		class="rate" value="5"> <label for="star5"></label>
+																	<input type="radio" name="boardStar" id="star4"
+																		class="rate" value="4"> <label for="star4"></label>
+																	<input type="radio" name="boardStar" id="star3"
+																		class="rate" value="3"> <label for="star3"></label>
+																	<input type="radio" name="boardStar" id="star2"
+																		class="rate" value="2"> <label for="star2"></label>
+																	<input type="radio" name="boardStar" id="star1"
+																		class="rate" value="1"> <label for="star1"></label>
+																</div>
+
+																<div class="col-12">
+																	<label for="review_comment">Comment </label>
+																	<div>
+																		<textarea name="comment" id="review_comment"
+																			style="height: 90px;"></textarea>
+																	</div>
+
+																</div>
+															</div>
+															<!--<button class="button" type="submit">Post Comment</button>-->
+															<div class="modal-footer" style="height: 40px;">
+																<!--   <button type="button" class="btn btn-primary">리뷰 저장</button>-->
+																<button type="submit" class="submit"
+																	data-dismiss="modal" style="background: white;">작성
+																	완료</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+
+
+
+
+
+
+
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</section>
+		<!-- my account end   -->
+
+		<!--footer area start-->
+
+
+		<!--footer area end-->
+
+
+
+
+
+
+		<!--주문한 상품 리뷰쓰기 -->
+		<script>
+			
+
+			function ajaxRequest(method, url, sendJsonObject) {
+				let returnResultJsonObject={};
+				$.ajax({
+					async:false,
+					method: method,
+					url: url,
+					contentType: 'application/json;UTF-8',
+					data: JSON.stringify(sendJsonObject),
+					type: 'json',
+					success: function(resultJsonObject) {
+						returnResultJsonObject = resultJsonObject;
+					}
+				});
+				return returnResultJsonObject;
+			}
+			
+			function orderitemView(responseJsonObject = {}) {
+
+		         let htmltemplate =
+		         `<div class="modal-body" id="reviewContent">
+				<!-- 주문 상세 내용이 여기에 로드됩니다 -->
+				<div>
+					<!--<h3>리뷰작성</h3>-->
+					<div class="comments_form">
+						<input type="hidden" id="userNo"  />
+						<input type="hidden" id="productNo" />
+						<form class="mb-3" name="myform" id="myform"
+							method="post">
+							<p>별점과 후기를 남겨주세요.</p>
+							<div class="row">
+								<div>별점</div>
+								<!-- 별점 위치 -->
+								<div class="rate" draggable="false" id="{{boardStar}}">
+									<input type="radio" name="boardStar" id="star5" class="rate" value="5">
+									<label for="star5"></label>
+									<input type="radio" name="boardStar" id="star4" class="rate" value="4">
+									<label for="star4"></label>
+									<input type="radio" name="boardStar" id="star3" class="rate" value="3">
+									<label for="star3"></label>
+									<input type="radio" name="boardStar" id="star2" class="rate" value="2">
+									<label for="star2"></label>
+									<input type="radio" name="boardStar" id="star1" class="rate" value="1">
+									<label for="star1"></label>
+								</div>
+								<div class="col-12">
+									<label for="review_comment">Comment </label>
+									<div> <textarea name="comment" id="review_comment" style="height: 90px;">{{boardContent}}</textarea>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer" style="height: 40px;">
+								<button type="button" id="{{oiNo}}" data-dismiss="modal" style="background: white;" onclick="reviewComplete(event)">작성 완료</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>`;
+			
+		         let bindTemplate = Handlebars.compile(htmltemplate);
+		         let resultTemplate = bindTemplate(responseJsonObject);
+		         
+		         return resultTemplate;
+		      }
+			
+			
+			// 마이페이지 상품주문 완료된 항목에서 주문상세를 누르면 창이 뜨고 이 창에서만 리뷰를 쓸수 있음
+			// 주문 상세 링크를 클릭할 때 이벤트 핸들러
+			
+			//날짜 
+			/* $(function(){
+         $('#datepicker').datepicker();
+      }) */
+		
+    
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+		function reviewWrite(e,oiNo){			
+
+			e.preventDefault();
+			let productNo = e.target.id;
+			let userNo = $('#userNo').val();
+			//alert('리뷰쓰기');
+			
+			//let oiNo = $('#oiNo').text();
+			
+			//alert(oiNo);
+			console.log('oiNo:', oiNo); // 콘솔에 oiNo를 출력하여 디버깅 정보 확인
+			let send = {
+				oiNo : oiNo
+			}
+			response = ajaxRequest('POST','reviewBoard/reviewBoardView',send);
+			let html = orderitemView(response);
+			$('#reviewContent').html(html);
+			
+			if(response.boardStar==1){
+				document.getElementById("star1").checked = true
+			}
+			if(response.boardStar==2){
+				document.getElementById("star2").checked = true
+			}
+			if(response.boardStar==3){
+				document.getElementById("star3").checked = true
+			}
+			if(response.boardStar==4){
+				document.getElementById("star4").checked = true
+			}
+			if(response.boardStar==5){
+				document.getElementById("star5").checked = true
+			}
+			
+			$('#reviewModal').modal('show');
+		}
+		
+		function reviewComplete(e){
+			//alert('리뷰완료!');
+			
+			let oiNo = e.target.id;
+				
+			const now = new Date();
+			const year = now.getFullYear();
+			const month = (now.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
+			const day = now.getDate().toString().padStart(2, '0'); // 일을 2자리로 포맷팅
+			const formattedDate = `${year}-${month}-${day}`;
+
+			let boardStar = $('.rate:checked').val();
+
+			let review_comment = $('#review_comment').val();
+			let userNo = $('#userNo').val();
+			let productNo = $('.write-review').attr('id');
+		
+			
+			//alert('템번호'+oiNo);
+			
+			let sendJsonObject = {
+				userNo: userNo,
+				productNo: productNo,
+				oiNo : oiNo,
+				boardStar: boardStar,
+				boardContent: review_comment,
+				boardDate: formattedDate
+			};
+			
+			let responseObject = ajaxRequest('POST', 'reviewBoard/createReviewBoard', sendJsonObject);
+			let button = $(`#modalContent tr[data-oiNo="${oiNo}"] .write-review`);
+			
+			if (responseObject.userNo == null) {
+				alert('로그인이 필요합니다.');
+				window.location.href = 'index';	// 로그인 창으로 이동
+			} else {
+				alert("리뷰작성이 완료되었습니다.");
+				//$('.write-review').html('수정/완료');
+				button.text("수정/완료");
+			}
+			
+			
+		}
+		
+		/*
+		$('.write-review').on('click', function(e){
+			alert('클릭햇다');
+			e.preventDefault();
+			$('#reviewModal').modal('show');
+		})
+		*/
+
+		// 별점 라디오 버튼을 클릭할 때 이벤트 핸들러를 등록합니다.
+				$('.rate').on('change', function () {
+					// 선택된 별점 값을 가져옵니다.
+					let selectedRating = $('.rate:checked').val();
+					console.log('선택한 별점:', selectedRating);
+
+					// 여기서 선택한 별점 값을 변수에 할당하거나, AJAX 요청의 formData 객체에 추가할 수 있습니다.
+				});
+			
+			function ajaxRequest(method, url, sendJsonObject) {
+				let returnResultJsonObject={};
+				$.ajax({
+					async:false,
+					method: method,
+					url: url,
+					contentType: 'application/json;UTF-8',
+					data: JSON.stringify(sendJsonObject),
+					type: 'json',
+					success: function(resultJsonObject) {
+						returnResultJsonObject = resultJsonObject;
+					}
+				});
+				return returnResultJsonObject;
+			}
+			
+			
+			
+			
+			
+		
+			$(document).ready(function () {
+				
+				
+				
+				 // 리뷰 작성 완료 버튼 클릭 이벤트
+					$('.submit').on('click', function (event) {
+					event.preventDefault();
+					
+					// const orderNo = $('#orderDetailsModal .view').data('orderNo');
+					
+
+					const now = new Date();
+					const year = now.getFullYear();
+					const month = (now.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
+					const day = now.getDate().toString().padStart(2, '0'); // 일을 2자리로 포맷팅
+					const formattedDate = `${year}-${month}-${day}`;
+
+					let boardStar = $('.rate:checked').val();
+
+					let review_comment = $('#review_comment').val();
+
+					let userNo = $('#userNo').val();
+					//let productNo = $('.write-review').attr('id');
+
+
+					let sendJsonObject = {
+						userNo: userNo,
+						productNo: productNo,
+						boardStar: boardStar,
+						boardContent: review_comment,
+						boardDate: formattedDate
+					};
+					console.log(sendJsonObject)
+					let responseObject = ajaxRequest('POST', 'reviewBoard/createReviewBoard', sendJsonObject);
+					console.log(responseObject)
+
+			       
+
+
+					if (responseObject.userNo == null) {
+						alert('로그인이 필요합니다.');
+						window.location.href = 'index';	// 로그인 창으로 이동
+					} else {
+						alert("리뷰작성이 완료되었습니다.");
+					
+					}
+	    });
+
+			// 삭제
+			$(".order_remove").on('click', function(e) {
+		   
+		   if(confirm("정말 삭제하시겠습니까?")) { 
+		    let orderNo = $(e.target).attr('id');
+		    // AJAX 요청 보내기
+			ajaxRequest("DELETE","order/" + orderNo);
+		    
+		    $(".order_remove, .order_no, .order_date, .order_desc, .order_price, .order_volunteer").each(function() {
+	            if ($(this).attr("id") === orderNo) {
+	                $(this).closest("tr").remove();
+	            }
+	        });
+			   
+		   } else {
+			   
+			   }
+		   // e.preventDefault(); // 기본 이벤트 방지
+		    
+		  });
+			
+			
+			// 날짜 지정스토리지 설정
+			
+			
+
+			});	
+
+
+	
+	
+
+
+
+
+		// 삭제
+		$(".order_remove").on('click', function (e) {
+			// e.preventDefault(); // 기본 이벤트 방지
+			let orderNo = $(e.target).attr('id');
+			// AJAX 요청 보내기
+			ajaxRequest("DELETE", "order/" + orderNo);
+
+			$(".order_remove, .order_no, .order_date, .order_desc, .order_price, .order_volunteer").each(function () {
+				if ($(this).attr("id") === orderNo) {
+					$(this).closest("tr").remove();
+				}
+			});
+
+		});
+		  
+		  
+	
+			
+
+		</script>
+
+
+
+
+
+
+
+	</th:block>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout(title='')">
+
+<head>
+	<title>입양동물 등록</title>
+	
+<style>
+	.form-select {
+		margin-bottom: 10px;
+	}
+
+	@font-face {
+		font-family: 'GmarketSansMedium';
+		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+	}
+	.container{
+		font-family: 'GmarketSansMedium';
+	}
+</style>
+	
+	
+</head>
+
+<body>
+	<!--header area start-->
+
+	<!--offcanvas menu area start-->
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+
+
+	<!--breadcrumbs area end-->
+
+	<!-- customer login start -->
+	<th:block layout:fragment="content">
+		<div class="customer_login" id="content">
+			<div class="container">
+				<div class="row">
+					<!--login area start-->
+
+					<!--login area start-->
+
+					<!--register area start-->
+					<div class="col-lg-6 col-md-6" style="margin-left: 300px;">
+						<div class="account_form register"
+							style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+							<h2>입양펫 등록</h2>
+
+							<form name="f" id="pet_form" action="insert_action" method="post" enctype="multipart/form-data"
+								>
+								<label>종류</label>
+								<select class="form-select" aria-label="Default select example" name="petType" id="petType">
+									<label for="petType"><span>종류</span></label>
+									<option selected>종류를 고르세요</option>
+									<option value="강아지">강아지</option>
+									<option value="고양이">고양이</option>
+								</select>
+								<label>성별</label>
+								<select class="form-select" aria-label="Default select example" name="petGender" id="petGender">
+									<label for="petType"><span>종류</span></label>
+									<option selected>성별을 고르세요</option>
+									<option value="수컷">수컷</option>
+									<option value="암컷">암컷</option>
+								</select>
+								<p>
+									<label>지역</label>
+									<select class="form-select" aria-label="Default select example" name="petLocal" id="petLocal">
+										<option selected>지역을 고르세요</option>
+										<option value="서울특별시">서울특별시</option>
+										<option value="경기도">경기도</option>
+										<option value="강원도">강원도</option>
+										<option value="충청북도">충청북도</option>
+										<option value="충청남도">충청남도</option>
+										<option value="경상북도">경상북도</option>
+										<option value="경상남도">경상남도</option>
+										<option value="제주도">제주도</option>
+									</select>
+								</p>
+								<!-- Button trigger modal -->
+								<p>
+									<label>유기견보호소</label>
+									<button type="button" class="btn btn-primary" data-toggle="modal"
+										data-target="#exampleModal" style="margin-bottom: 10px;">
+										보호소 선택
+									</button>
+									<input readonly="readonly" id="center" >
+									
+									
+								<p>
+								
+								<input type="hidden" name="centerNo" id="centerNo" value="">
+									<!-- Modal -->
+								
+
+								<p>
+									<label for="petFindPlace"><span>발견장소</span></label>
+									<input type="text" name="petFindPlace" id="petFindPlace">
+								</p>
+								<p>
+									<label for="petCharacter"><span>특이사항/성격</span></label>
+									<input type="text" name="petCharacter" id="petCharacter">
+								</p>
+
+
+
+								<label>상품 이미지</label>
+								<input type="file" name="imageFile" style="border: none;">
+								<div class="login_submit" style="margin-top: 10px;">
+
+
+									<button type="submit" th:text="등록" id="insert">등록</button>
+
+								</div>
+							</form>
+							
+							<div class="modal fade" id="exampleModal" tabindex="-1"
+									aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content"
+											style="width: 900px; height: auto;  border-radius: 10px;">
+											<div class="modal-header">
+												<h5 class="modal-title" id="orderDetailsModalLabel">주문 상세</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close" style="border: none;">X
+													<!--<span aria-hidden="true">&times;</span>-->
+												</button>
+											</div>
+											<div class="modal-body" id="modalContent">
+												<!-- 주문 상세 내용이 여기에 로드됩니다 -->
+
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>번호</th>
+																<th>보호소 이름</th>
+																<th>전화번호</th>
+																<!--<th>총가격</th>-->
+																<th>주소</th>
+																<th>선 택</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="petcenter:${petCenter}" >
+																<td th:text="${petcenter.centerNo}" id="centerNo">May 10, 2018</td>
+																<td th:text="${petcenter.centerName}" id="centerName">경기도파주시</td>
+																<td th:text="${petcenter.centerPhoneNumber}">경기도파주시</td>
+																<td th:text="${petcenter.centerLocal}">경기도파주시</td>
+
+																<td><button type="button" class="btn btn-primary" th:id="${petcenter.centerNo}" th:attr="data-center-name=${petcenter.centerName}" onclick="check(event)" data-dismiss="modal">선택</button></td>
+
+															</tr>
+														</tbody>
+													</table>
+												</div>
+
+											</div>
+											<div class="modal-footer">
+												<!--   <button type="button" class="btn btn-primary">리뷰 저장</button>-->
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">닫기</button>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							<!-- <form id="insertform" action="insert_action" method="post">
+							
+							
+							
+							</form> -->
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+
+
+		$('#pet_form').on('submit', function (e) {
+			
+			
+			 /* alert( $('#petLocal').val());
+			 alert( $('#petType').val());
+			 alert( $('#petGender').val());
+			 alert( $('#petFindPlace').val());
+			 alert( $('#petCharacter').val());
+			 alert( $('#centerNo').val()); */
+			
+			 window.location.href = "petList";
+			
+		});
+
+			function check(event) {
+	             var centerNo = event.target.id;
+	             var centerName = event.target.getAttribute('data-center-name');
+	             console.log("선택된 CenterNo: " + centerNo);
+	             console.log("선택된 centerName: " + centerName);
+	         $('#center').val(centerName);
+	         
+	         $('#centerNo').val(centerNo);
+	         
+			};
+			
+	         
+
+            // 이전에 선택된 행 취소 (선택 사항)
+            //$(".selected-row").removeClass("selected-row");
+            
+            // 선택된 행 강조 표시
+           // $(this).closest("tr").addClass("selected-row");
+
+            // 선택된 센터 정보를 폼에 추가
+           // $("#selectedCenterNo").val(selectedCenterNo);
+            //$("#selectedCenterName").val(selectedCenterName);
+            //$("#selectedCenterPhone").val(selectedCenterPhone);
+            //$("#selectedCenterLocal").val(selectedCenterLocal);
+
+            // 폼을 서버로 전송
+          //  $("#selectedCenterForm").submit();
+		</script>
+
+	</th:block>
+	<!-- customer login end -->
+
+	<!--footer area start-->
+
+	<!--footer area end-->
+</body>
+
+</html>

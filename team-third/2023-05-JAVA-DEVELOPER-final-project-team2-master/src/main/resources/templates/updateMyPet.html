@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='마이펫 수정페이지')">
+
+<head>
+	<title>Register</title>
+
+	<style>
+		.checkbox-inline {
+			display: flex;
+			align-items: center;
+
+		}
+
+		/* 체크박스 크기 조절 */
+		#checkbox {
+			transform: scale(0.75);
+			/* 필요에 따라 크기 조절 */
+			margin-right: 5px;
+			/* 선택 사항: 간격 조절을 위한 마진 조절 */
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<th:block layout:fragment="content">
+		<div class="customer_login" id="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6" style="margin-left: 300px;">
+						<div class="account_form register">
+							<h2 th:text="MyPet">Register</h2>
+							<form name="updateForm" id="updateForm" action="#">
+								<input type="hidden" th:id="mypetNo" name="mypetNo" th:value="${updatepet.mypetNo}">
+
+								<p>
+									<label th:text="이름">Email address <span>*</span></label>
+									<input type="text" id="mypetName" name="mypetName" th:value="${updatepet.mypetName}">
+								</p>
+									<!--<p>
+									<label th:text="생일">Passwords <span>*</span></label>
+									<input type="text" id="mypetBirthday" name="mypetBirthday">
+								</p>-->
+								
+								<p>
+									<label>생일 </label>
+									<input type="date" name="mypetBirthday" id="mypetBirthday" placeholder="날짜를 선택해주세요"
+										required="required"
+										th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+								</p>
+								<p>
+									<label>종류 <span>*</span></label>
+									<select id="kind" name="kind">
+										<option value="">종류 선택</option>
+										<option value="남" th:text="강아지" th:value="강아지">남</option>
+										<option value="여" th:text="고양이" th:value="고양이">여</option>
+									</select>
+									<span id="kindError" style="color:red;"></span>
+								</p>
+								<p>
+									<label class="checkbox-inline" th:if="${leader==true}">
+										<label th:text="대표동물">myPetLeader <span>*</span></label>
+										<label><input type="checkbox" id="checkbox" checked="true" value="1"></label>
+
+									</label>
+								<div class="login_submit">
+									</p>
+
+
+									<button id="registerMyPetButton" type="button" onclick="updated(event)">확인</button>
+									<!--<button id="registerButton" type="button">등록</button>-->
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script>
+
+
+
+			function ajaxRequest(method, url, sendJsonObject) {
+				let returnResultJsonObject = {};
+				$.ajax({
+					async: false,
+					method: method,
+					url: url,
+					contentType: 'application/json;UTF-8',
+					data: JSON.stringify(sendJsonObject),
+					type: 'json',
+					success: function (resultJsonObject) {
+						returnResultJsonObject = resultJsonObject;
+					}
+				});
+				return returnResultJsonObject;
+			}
+
+			$('#checkbox').click(function (e) {
+				let check = $('#checkbox').val();
+				if (check == 1) {
+					$('#checkbox').val(2);
+				} else {
+					$('#checkbox').val(1);
+				}
+			});
+
+			let validator = $('#updateForm').validate({
+				rules: {
+					mypetName: {
+						required: true
+					},
+					mypetBirthday: {
+						required: true
+					},
+					kind: {
+						required: true
+					}
+				},
+				messages: {
+					mypetName: {
+						required: "이름을 입력하세요"
+					},
+					mypetBirthday: {
+						required: "생일을 입력하세요"
+					},
+					kind: {
+						required: "종류를 선택하세요"
+					}
+				}
+			});
+			console.log(validator);
+
+			function updated(e) {
+				// 날짜 문자열을 Date 객체로 변환
+				const mypetBirthdayStr = document.updateForm.mypetBirthday.value;
+				const mypetBirthdayDate = new Date(mypetBirthdayStr);
+
+				// Date 객체를 LocalDateTime으로 변환
+				const mypetBirthdayLocalDateTime = new Date(
+					mypetBirthdayDate.getTime() - mypetBirthdayDate.getTimezoneOffset() * 60000
+				);
+
+				let check = $('#checkbox').val();
+
+				let mypetStatus;
+				if (check == 1) {
+					mypetStatus = 1;
+				} else {
+					mypetStatus = 2;
+				}
+				
+				if (validator.form()) {
+
+					let sendJsonObject = {
+						mypetNo: document.updateForm.mypetNo.value,
+						mypetName: document.updateForm.mypetName.value,
+						//mypetBirthday: mypetBirthdayLocalDateTime.toISOString(),
+						mypetBirthday: mypetBirthdayLocalDateTime,
+						mypetKind: document.updateForm.kind.value,
+						mypetStatus: mypetStatus
+					};
+
+					ajaxRequest('POST', 'mypet/updated', sendJsonObject);
+					window.location.href = "mypet"; // 페이지 이동
+				}
+
+
+
+			}
+
+			/*
+			document.getElementById("registerMyPetButton").addEventListener("click", function (e) {
+				// 버튼 클릭 시 실행할 코드
+				alert('클릭');
+				
+			});
+			*/
+
+			window.onload = function () {
+
+				var mypetBirthday = document.getElementById('mypetBirthday');
+				var today = new Date();
+				// 한국 시간대 (UTC+9)로 변경
+				today.setHours(today.getHours() + 9);
+				var beforeToday = new Date(today);
+				beforeToday.setDate(beforeToday.getDate()); // 어제 날짜 계산
+				var beforeTodayString = beforeToday.toISOString().slice(0, 10);
+
+				mypetBirthday.value = beforeTodayString;
+
+				var maxDate = new Date(today);
+				maxDate.setHours(0, 0, 0, 0); // 날짜 부분만 사용
+				var maxDateString = maxDate.toISOString().slice(0, 10);
+				mypetBirthday.setAttribute('max', maxDateString);
+
+				mypetBirthday.removeAttribute('min');
+
+			};
+
+
+
+		</script>
+
+		
+	</th:block>
+
+</body>
+
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="layout/layout(title='reportBoard_write_form')">
+
+<head>
+    <title>Register</title>
+    <style>
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}	
+		
+	</style>
+</head>
+
+<body>
+     <!--header area start-->
+    
+    <!--offcanvas menu area start-->
+    
+    <!--header area end-->
+
+    <!--breadcrumbs area start-->
+    
+    
+    <!--breadcrumbs area end-->
+    
+    <!-- customer login start -->
+    <th:block layout:fragment="content">
+    <div class="customer_login" id="content">
+        <div class="container">
+            <div class="row">
+               <!--login area start-->
+               
+                <!--login area start-->
+
+                <!--register area start-->
+                <div class="col-lg-6 col-md-6" style="margin-left: 300px;">
+                    <div class="account_form register" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" >
+                        <h2>실종&#47;제보</h2>
+                        
+                        <form name="f" id="reportBoard_write_form" action="#" method="post" enctype="multipart/form-data"
+                        	th:action="@{/reportWrite}">
+							<label>구분 <span>*</span></label>
+							<p>
+								<select id="boardType" name="boardType" onchange="typeChange(event)">
+									<option value="1" >실종</option>
+									<option value="2" >제보</option>
+								</select>
+							</p>
+							
+                            <p>   
+                                <label>글 제목<span>*</span></label>
+                                <input type="text" id="boardTitle" name="boardTitle">
+                                <span id="boardTitleError" style="color:red;"></span>
+                             </p>
+                            <!-- <p>
+                                <label>찾은날짜<span>*</span></label>
+                                <input type="text" id="boardFindDate" name="boardFindDate">
+                                <span id="boardFindDateError" style="color:red;"></span>
+                            </p>-->
+             				 <p>
+							<div>
+								<label id="boardFindDateLabel" name="boardFindDateLabel">실종 날짜</label>
+								<input type="date" name="boardFindDate" id="boardFindDate" placeholder="날짜를 선택해주세요"
+									required="required" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+							</div>
+             				 </p>
+                            <p>   
+                                <label id="boardFindNameLabel" name="boardFindNameLabel">주인 이름<span>*</span></label>
+                                <input type="text" id="boardFindName" name="boardFindName">
+                                <span id="nameError" style="color:red;"></span>
+                             </p>
+                             <p>   
+                                <label id="boardFindPlaceLabel" name="boardFindPlaceLabel">실종 장소<span>*</span></label>
+                                <input type="text" id="boardFindPlace" name="boardFindPlace">
+                                <span id="placeError" style="color:red;"></span>
+                             </p>
+                             <p>   
+                                <label>휴대폰번호<span>*</span></label>
+                                <input type="text" id="boardFindPhone" name="boardFindPhone">
+                                <span id="phoneError" style="color:red;"></span>
+                             </p>
+                            <p>   
+                                <label>내용<span>*</span></label>
+                                <textarea id="boardContent" name="boardContent" style="width: 520px; height: 200px; resize: none;"></textarea>
+                            </p>
+                            <label>Select image</label>
+                		    <input type="file" id="imageFile" name="imageFile" style="border: none;" >
+                           <div class="login_submit" style="margin-top: 10px;">
+                                <button type="submit" th:text="글쓰기">확인</button>
+                           </div>
+						</form>
+                        </div>
+                    
+                    </div>    
+            </div>
+        </div>   
+            </div> 
+            
+<script>
+	
+	$('#reportBoard_write_form').validate({
+			rules: {
+			boardTitle: {
+				required: true
+			},
+			boardFindDate: {
+				required: true
+			},
+			boardFindName: {
+				required: true
+			},
+			boardFindPlace: {
+				required: true
+			},
+			boardFindPhone: {
+				required: true,
+				phone:true
+			},
+			boardContent: {
+				required: true
+			},
+			imageFile:{
+				required:true
+			}
+		},
+		messages: {
+			boardTitle: {
+				required: '제목을 입력하세요.'
+			},
+			boardFindDate: {
+				required: '날짜를 입력하세요.'
+			},
+			boardFindName: {
+				required: '이름을 입력하세요.'
+			},
+			boardFindPlace: {
+				required: '발견장소를 입력하세요.'
+			},
+			boardFindPhone: {
+				required: '번호를 입력하세요.',
+				phone:'번호 양식에 맞춰 써주세요.(예시:010-1234-1234)'
+			},
+			boardContent: {
+				required: '내용을 입력하세요.'
+			},
+			imageFile:{
+				required: '이미지를 넣어주세요'
+			}
+			
+		},
+		errorClass: 'error',
+		validClass: 'valid'
+	}
+		
+		);
+	
+		$('#reportBoard_write_form').on('submit',function(e) {
+        // 폼이 유효하지 않으면 전송을 중지
+        if (!$(this).valid()) {
+            e.preventDefault();
+        }
+        //alert('안먹나?');
+        
+    });
+
+		window.onload = function() {
+		    var boardFindDate = document.getElementById('boardFindDate');
+		    var today = new Date();
+		    // 한국 시간대 (UTC+9)로 변경
+		    today.setHours(today.getHours() + 9);
+		    var todayString = today.toISOString().slice(0, 10);
+
+		    boardFindDate.value = todayString;
+
+		    // max 속성 설정
+		    var maxDate = new Date(today);
+		    maxDate.setDate(maxDate.getDate() ); // 내일로 설정
+		    var maxDateString = maxDate.toISOString().slice(0, 10);
+		    boardFindDate.setAttribute('max', maxDateString);
+
+		    // min 속성 제거
+		    boardFindDate.removeAttribute('min');
+		};
+	
+	function typeChange(e){
+		let selectValue = $('#boardType').val();
+		if(selectValue==1){
+			$('#boardFindDateLabel').text('실종 날짜');
+			$('#boardFindNameLabel').text('주인 이름');
+			$('#boardFindPlaceLabel').text('실종 장소');
+		}
+		if(selectValue==2){
+			$('#boardFindDateLabel').text('찾은 날짜');
+			$('#boardFindNameLabel').text('찾은사람이름');
+			$('#boardFindPlaceLabel').text('발견된 장소');
+		}
+	}
+	
+</script>
+            
+    </th:block>
+    <!-- customer login end -->
+
+    <!--footer area start-->
+    
+    <!--footer area end-->
+</body>
+
+</html>

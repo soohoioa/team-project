@@ -1,0 +1,1361 @@
+<!doctype html>
+<html class="no-js" lang="kr" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout(title='주문페이지')">
+<head>
+<title>Safira - checkout page</title>
+<style>
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+			max-width: 1270px;
+		}
+</style>
+
+
+</head>
+
+<body>
+	<!--header area start-->
+	<th:block layout:fragment="content">
+		<script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+
+	function ajaxRequest(method, url, sendJsonObject) {
+		let returnResultJsonObject={};
+		$.ajax({
+			async:false,
+			method: method,
+			url: url,
+			contentType: 'application/json;UTF-8',
+			data: JSON.stringify(sendJsonObject),
+			type: 'json',
+			success: function(resultJsonObject) {
+				returnResultJsonObject = resultJsonObject;
+			}
+		});
+		return returnResultJsonObject;
+	}
+	
+	
+	$(document).ready(
+			function() {
+				$('#useLoyaltyPoints').click(function() {
+					var userPointsValue = parseInt($('#userPoints').val());
+					var loyaltyPointsValue = parseInt($('#loyaltyPoints').val());
+					var cartPrice = parseInt($('.cart_price').text());
+					var couponPrice=parseInt($('#coupon').text());
+					var discountval = parseInt(loyaltyPointsValue);
+					
+					 userPointsValue = isNaN(userPointsValue) ? 0 : userPointsValue;
+					    loyaltyPointsValue = isNaN(loyaltyPointsValue) ? 0 : loyaltyPointsValue;
+					    cartPrice = isNaN(cartPrice) ? 0 : cartPrice;
+					    couponPrice = isNaN(couponPrice) ? 0 : couponPrice;
+
+
+					if (cartPrice < loyaltyPointsValue) {
+						loyaltyPointsValue = $('.cart_price').text();
+						alert('적립금이 상품금액을 초과합니다.');
+
+						if (userPointsValue < loyaltyPointsValue) {
+							alert('보유적립금을 초과합니다.')
+							return;
+						}
+					}
+					if (userPointsValue < loyaltyPointsValue) {
+						alert('보유적립금을 초과합니다.')
+						return;
+					}
+					else if (!userPointsValue){
+						alert('적립금이 없습니다.')
+						$('#loyaltyPoints').val(0);
+						return;
+					}
+						
+					
+					
+					$('#discount').text('-' + loyaltyPointsValue);
+					// $('#discount').text('-'+loyaltyPointsValue);
+					var cartpirce = parseInt($('.cart_price').text());
+					var total = (cartpirce - loyaltyPointsValue)+couponPrice;
+					if (total > 0) {
+						total = (cartpirce - loyaltyPointsValue)+couponPrice;
+					} else {
+						total = 0;
+					}
+
+					$('#total').text(total);
+					$('#loyaltyPoints').val(loyaltyPointsValue);
+					$('#totprice').val(total);
+
+				});
+
+				$('.order_button').click(
+						function() {
+							
+							
+							var orderAddress1 = $('#ordersAddress1').val();
+							var orderAddress2 = $('#ordersAddress2').val();
+							var orderAddress3 = $('#ordersAddress3').val();
+							var orderPrice = $('#total').text();
+							var userPoint = $('#loyaltyPoints').val();
+							var couponId = $('#hiddencoupon').val();
+							var cartNo = [];
+							
+							$('.cartNo').each(function(index, element) {
+								let no = element.id;
+								//alert(no);
+								cartNo[cartNo.length] = no;
+							});
+							console.log(cartNo);
+							/*  console.log(orderAddress);
+							console.log(orderPrice);
+							console.log(userPoint);
+							 
+							 $('#orderAddress').val(orderAddress);
+							 $('#orderPrice').val(orderPrice);
+							 $('#userPoint').val(userPoint);
+							
+							alert( "주소"+$('#orderAddress').val());
+							alert( "가격"+$('#orderPrice').val());
+							alert( "포인트"+$('#userPoint').val()); */
+							if(!orderAddress1 || !orderAddress3){
+								
+								alert('주소 입력은 필수 입니다.');
+								return;
+							}
+								
+								/*
+								window.location.href = "orderInsert?orderAddress="
+									+ orderAddress1 + orderAddress2
+									+ orderAddress3 + "&orderPrice="
+									+ orderPrice + "&userPoint=" + userPoint
+									+"&couponId="+couponId;
+								*/
+								
+								
+							var confirmOrder = confirm('주문하시겠습니까?');
+
+						    if (confirmOrder) {
+						        let send = {
+						            orderAddress: orderAddress1 + orderAddress2 + orderAddress3,
+						            orderPrice: orderPrice,
+						            userPoint: userPoint,
+						            couponId: couponId,
+						            cartNo: cartNo
+						        };
+
+						        // ajaxRequest 함수는 어디에 정의되어 있는지 확인이 필요합니다.
+						        let response = ajaxRequest('POST', 'order/insert', send);
+
+						        // 서버 응답에 따른 후속 처리를 할 수 있음
+
+						        // 페이지 이동
+						        window.location.href = "orders";
+						    } else {
+						        // 사용자가 취소를 선택한 경우
+						        // 추가적인 처리를 여기에 추가할 수 있습니다.
+						        console.log('주문이 취소되었습니다.');
+						    }
+						});
+
+
+
+
+
+
+
+				$('#findcoupon').click(function() {
+
+					$('#coupondetail').modal('show');
+
+				});
+
+				
+				
+				/*  $('#couponcheck').click(function() {
+				 	var totalDiscount=$('#coupondiscountprice').text();
+					
+					var cartPrice = parseInt($('.cart_price').text());
+					var couponPrice = parseInt($('#coupon').text());
+					//var discountPrice=parsInt($('#discount').text());
+					
+					
+					//var totPrice=cartPrice-couponPrice-discountPrice; 
+					
+					var totPrice=cartPrice-couponPrice;
+					$('#coupon').text(totalDiscount);
+					$('#total').text(totPrice); 
+					var couponDiscount=parseInt($('#coupondiscount').val());
+					var discountPrice =(100 - couponDiscount) * 0.01;
+					var cartPrice = parseInt($('.cart_price').text());
+					var totalDiscount = parseInt(cartPrice * couponDiscount);
+					
+					var totPrice=cartPrice-totalDiscount;
+					
+					$('#coupon').text(totalDiscount);
+					$('#total').text(totPrice);
+					
+					$('#coupondetail').modal('hide');
+
+				});  */
+
+					//
+					//alert($('option [value=30]'));
+					
+				});
+	
+	$(document).on('click', '#couponcheck', function(e) {
+		var cartPrice = parseInt($('.cart_price').text()); //카트리스트 가격합
+		var loyaltyPointsValue = parseInt($('#loyaltyPoints').val()); //적립금 사용시
+	    var couponId = $(e.target).closest('tr').find('#couponid').text(); // 쿠폰 번호
+	    var couponName = $(e.target).closest('tr').find('#couponname').text(); // 쿠폰 이름
+	    var couponDiscount = parseInt($(e.target).closest('tr').find('#coupondiscount').text()); // 할인율
+
+	    var discountPrice =couponDiscount * 0.01;
+	    var totalDiscount = parseInt(cartPrice * discountPrice);
+	    
+	    
+	    var totalPrice=cartPrice-totalDiscount;
+	    
+	    
+	    if(!loyaltyPointsValue){
+	    	
+	    totalPrice=cartPrice-totalDiscount;
+	    }else{
+	    	totalPrice=cartPrice-totalDiscount-loyaltyPointsValue;
+	    }
+	    $('#hiddencoupon').val(couponId);
+	    $('#coupon').text('-'+totalDiscount);
+	    $('#total').text(totalPrice);
+	    $('#inputcoupon').val(couponName);
+	    
+	
+	
+	    
+	    $('#coupondetail').modal('hide');
+	});
+
+
+	/* 다음 주소 연동 */
+	function execution_daum_address() {
+		new daum.Postcode(
+				{
+					oncomplete : function(data) {
+						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+						// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+						var addr = ''; // 주소 변수
+						var extraAddr = ''; // 참고항목 변수
+
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+							addr = data.roadAddress;
+						} else { // 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+
+						// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+						if (data.userSelectedType === 'R') {
+							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+							if (data.bname !== ''
+									&& /[동|로|가]$/g.test(data.bname)) {
+								extraAddr += data.bname;
+							}
+							// 건물명이 있고, 공동주택일 경우 추가한다.
+							if (data.buildingName !== ''
+									&& data.apartment === 'Y') {
+								extraAddr += (extraAddr !== '' ? ', '
+										+ data.buildingName : data.buildingName);
+							}
+							// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+							if (extraAddr !== '') {
+								extraAddr = ' (' + extraAddr + ')';
+							}
+							// 조합된 참고항목을 해당 필드에 넣는다.
+							document.getElementById("ordersAddress2").value = extraAddr;
+
+						} else {
+							document.getElementById("ordersAddress2").value = '';
+						}
+
+						// 우편번호와 주소 정보를 해당 필드에 넣는다.
+						document.getElementById('postcode').value = data.zonecode;
+						document.getElementById("ordersAddress1").value = addr;
+						// 커서를 상세주소 필드로 이동한다.
+						document.getElementById("ordersAddress3").focus();
+					}
+				}).open();
+	}
+</script>
+		<!--offcanvas menu area start-->
+		<form id="f">
+			
+			<input type="hidden" name="orderAddress" value="" id="orderAddress">
+			<input type="hidden" name="orderPrice" value="" id="orderPrice">
+			<input type="hidden" name="userPoint" value="" id="userPoint">
+			
+		</form>
+
+
+		<!--
+    <div class="off_canvars_overlay">
+                
+    </div>
+    <div class="offcanvas_menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="canvas_open">
+                        <a href="javascript:void(0)"><i class="icon-menu"></i></a>
+                    </div>
+                    <div class="offcanvas_menu_wrapper">
+                        <div class="canvas_close">
+                            <a href="javascript:void(0)"><i class="icon-x"></i></a>  
+                        </div>
+                        <div class="language_currency">
+                            <ul>
+                                <li class="language"><a href="#"> Language <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_language">
+                                        <li><a href="#">French</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">Russian</a></li>
+                                    </ul>
+                                </li>
+                                <li class="currency"><a href="#"> Currency <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_currency">
+                                        <li><a href="#">€ Euro</a></li>
+                                        <li><a href="#">£ Pound Sterling</a></li>
+                                        <li><a href="#">$ US Dollar</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="header_social text-right">
+                            <ul>
+                                <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                <li><a href="#"><i class="ion-social-googleplus-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="call-support">
+                            <p><a href="tel:(08)23456789">(08) 23 456 789</a> Customer Support</p>
+                        </div>
+                        <div id="menu" class="text-left ">
+                            <ul class="offcanvas_main_menu">
+                                <li class="menu-item-has-children active">
+                                    <a href="#">Home</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">Home 1</a></li>
+                                        <li><a href="index-2.html">Home 2</a></li>
+                                        <li><a href="index-3.html">Home 3</a></li>
+                                        <li><a href="index-4.html">Home 4</a></li>
+                                        <li><a href="index-5.html">Home 5</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">Shop</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Shop Layouts</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="shop.html">shop</a></li>
+                                                <li><a href="shop-fullwidth.html">Full Width</a></li>
+                                                <li><a href="shop-fullwidth-list.html">Full Width list</a></li>
+                                                <li><a href="shop-right-sidebar.html">Right Sidebar </a></li>
+                                                <li><a href="shop-right-sidebar-list.html"> Right Sidebar list</a></li>
+                                                <li><a href="shop-list.html">List View</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">other Pages</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="cart.html">cart</a></li>
+                                                <li><a href="wishlist.html">Wishlist</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="my-account.html">my account</a></li>
+                                                <li><a href="404.html">Error 404</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Product Types</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="product-details.html">product details</a></li>
+                                                <li><a href="product-sidebar.html">product sidebar</a></li>
+                                                <li><a href="product-grouped.html">product grouped</a></li>
+                                                <li><a href="variable-product.html">product variable</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">blog</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="blog.html">blog</a></li>
+                                        <li><a href="blog-details.html">blog details</a></li>
+                                        <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
+                                        <li><a href="blog-sidebar.html">blog sidebar</a></li>
+                                    </ul>
+
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">pages </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="services.html">services</a></li>
+                                        <li><a href="faq.html">Frequently Questions</a></li>
+                                        <li><a href="contact.html">contact</a></li>
+                                        <li><a href="login.html">login</a></li>
+                                        <li><a href="404.html">Error 404</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="my-account.html">my account</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="about.html">about Us</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="contact.html"> Contact Us</a> 
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="offcanvas_footer">
+                            <span><a href="#"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+		<!--offcanvas menu area end-->
+
+		<!-- <header>
+        <div class="main_header">
+            <div class="header_top">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="language_currency">
+                                <ul>
+                                    <li class="language"><a href="#"> Language <i class="icon-right ion-ios-arrow-down"></i></a>
+                                        <ul class="dropdown_language">
+                                            <li><a href="#">French</a></li>
+                                            <li><a href="#">Spanish</a></li>
+                                            <li><a href="#">Russian</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="currency"><a href="#"> Currency <i class="icon-right ion-ios-arrow-down"></i></a>
+                                        <ul class="dropdown_currency">
+                                            <li><a href="#">€ Euro</a></li>
+                                            <li><a href="#">£ Pound Sterling</a></li>
+                                            <li><a href="#">$ US Dollar</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="header_social text-right">
+                                <ul>
+                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-googleplus-outline"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header_middle">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2 col-md-3 col-sm-3 col-3">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-6 col-sm-7 col-8">
+                            <div class="header_right_info">
+                                <div class="search_container mobail_s_none">
+                                   <form action="#">
+                                       <div class="hover_category">
+                                            <select class="select_option" name="select" id="categori2">
+                                                <option selected value="1">Select a categories</option>
+                                                <option value="2">Accessories</option>
+                                                <option value="3">Accessories & More</option>
+                                                <option value="4">Butters & Eggs</option>
+                                                <option value="5">Camera & Video </option>
+                                                <option value="6">Mornitors</option>
+                                                <option value="7">Tablets</option>
+                                                <option value="8">Laptops</option>
+                                                <option value="9">Handbags</option>
+                                                <option value="10">Headphone & Speaker</option>
+                                                <option value="11">Herbs & botanicals</option>
+                                                <option value="12">Vegetables</option>
+                                                <option value="13">Shop</option>
+                                                <option value="14">Laptops & Desktops</option>
+                                                <option value="15">Watchs</option>
+                                                <option value="16">Electronic</option>
+                                            </select>                        
+                                       </div>
+                                        <div class="search_box">
+                                            <input placeholder="Search product..." type="text">
+                                             <button type="submit"><span class="lnr lnr-magnifier"></span></button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="header_account_area">
+                                    <div class="header_account_list register">
+                                        <ul>
+                                            <li><a href="login.html">Register</a></li>
+                                            <li><span>/</span></li>
+                                            <li><a href="login.html">Login</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="header_account_list header_wishlist">
+                                        <a href="wishlist.html"><span class="lnr lnr-heart"></span> <span class="item_count">3</span> </a>
+                                    </div>
+                                    <div class="header_account_list  mini_cart_wrapper">
+                                       <a href="javascript:void(0)"><span class="lnr lnr-cart"></span><span class="item_count">2</span></a>
+                                        <!--mini cart-->
+		<!--  <div class="mini_cart">
+                                            <div class="cart_gallery">
+                                                <div class="cart_close">
+                                                	<div class="cart_text">
+                                                		<h3>cart</h3>
+                                                	</div>
+                                                	<div class="mini_cart_close">
+                                                		<a href="javascript:void(0)"><i class="icon-x"></i></a>
+                                                	</div>
+                                                </div>
+                                                <div class="cart_item">
+                                                   <div class="cart_img">
+                                                       <a href="#"><img src="assets/img/s-product/product.jpg" alt=""></a>
+                                                   </div>
+                                                    <div class="cart_info">
+                                                        <a href="#">Primis In Faucibus</a>
+                                                        <p>1 x <span> $65.00 </span></p>    
+                                                    </div>
+                                                    <div class="cart_remove">
+                                                        <a href="#"><i class="icon-x"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="cart_item">
+                                                   <div class="cart_img">
+                                                       <a href="#"><img src="assets/img/s-product/product2.jpg" alt=""></a>
+                                                   </div>
+                                                    <div class="cart_info">
+                                                        <a href="#">Letraset Sheets</a>
+                                                        <p>1 x <span> $60.00 </span></p>    
+                                                    </div>
+                                                    <div class="cart_remove">
+                                                        <a href="#"><i class="icon-x"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mini_cart_table">
+                                                <div class="cart_table_border">
+                                                    <div class="cart_total">
+                                                        <span>Sub total:</span>
+                                                        <span class="price">$125.00</span>
+                                                    </div>
+                                                    <div class="cart_total mt-10">
+                                                        <span>total:</span>
+                                                        <span class="price">$125.00</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mini_cart_footer">
+                                               <div class="cart_button">
+                                                    <a href="cart.html"><i class="fa fa-shopping-cart"></i> View cart</a>
+                                                </div>
+                                                <div class="cart_button">
+                                                    <a href="checkout.html"><i class="fa fa-sign-in"></i> Checkout</a>
+                                                </div>
+
+                                            </div>
+                                        </div>-->
+		<!--mini cart end-->
+		<!--  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header_bottom sticky-header">
+                <div class="container">  
+                    <div class="row align-items-center">
+                       <div class="col-12 col-md-6 mobail_s_block">
+                            <div class="search_container">
+                               <form action="#">
+                                   <div class="hover_category">
+                                        <select class="select_option" name="select" id="categori2">
+                                            <option selected value="1">Select a categories</option>
+                                            <option value="2">Accessories</option>
+                                            <option value="3">Accessories & More</option>
+                                            <option value="4">Butters & Eggs</option>
+                                            <option value="5">Camera & Video </option>
+                                            <option value="6">Mornitors</option>
+                                            <option value="7">Tablets</option>
+                                            <option value="8">Laptops</option>
+                                            <option value="9">Handbags</option>
+                                            <option value="10">Headphone & Speaker</option>
+                                            <option value="11">Herbs & botanicals</option>
+                                            <option value="12">Vegetables</option>
+                                            <option value="13">Shop</option>
+                                            <option value="14">Laptops & Desktops</option>
+                                            <option value="15">Watchs</option>
+                                            <option value="16">Electronic</option>
+                                        </select>                        
+                                   </div>
+                                    <div class="search_box">
+                                        <input placeholder="Search product..." type="text">
+                                         <button type="submit"><span class="lnr lnr-magnifier"></span></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="categories_menu">
+                                <div class="categories_title">
+                                    <h2 class="categori_toggle">All Cattegories</h2>
+                                </div>
+                                <div class="categories_menu_toggle">
+                                    <ul>
+                                        <li class="menu_item_children"><a href="#">Vegetables<i class="fa fa-angle-right"></i></a>
+                                            <ul class="categories_mega_menu">
+                                                <li class="menu_item_children"><a href="#">Dresses</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Sweater</a></li>
+                                                        <li><a href="">Evening</a></li>
+                                                        <li><a href="">Day</a></li>
+                                                        <li><a href="">Sports</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu_item_children"><a href="#">Handbags</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Shoulder</a></li>
+                                                        <li><a href="">Satchels</a></li>
+                                                        <li><a href="">kids</a></li>
+                                                        <li><a href="">coats</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu_item_children"><a href="#">shoes</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Ankle Boots</a></li>
+                                                        <li><a href="">Clog sandals </a></li>
+                                                        <li><a href="">run</a></li>
+                                                        <li><a href="">Books</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu_item_children"><a href="#">Clothing</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Coats  Jackets </a></li>
+                                                        <li><a href="">Raincoats</a></li>
+                                                        <li><a href="">Jackets</a></li>
+                                                        <li><a href="">T-shirts</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu_item_children"><a href="#">Fruits  <i class="fa fa-angle-right"></i></a>
+                                            <ul class="categories_mega_menu column_3">
+                                                <li class="menu_item_children"><a href="#">Chair</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Dining room</a></li>
+                                                        <li><a href="">bedroom</a></li>
+                                                        <li><a href=""> Home & Office</a></li>
+                                                        <li><a href="">living room</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu_item_children"><a href="#">Lighting</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Ceiling Lighting</a></li>
+                                                        <li><a href="">Wall Lighting</a></li>
+                                                        <li><a href="">Outdoor Lighting</a></li>
+                                                        <li><a href="">Smart Lighting</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu_item_children"><a href="#">Sofa</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Fabric Sofas</a></li>
+                                                        <li><a href="">Leather Sofas</a></li>
+                                                        <li><a href="">Corner Sofas</a></li>
+                                                        <li><a href="">Sofa Beds</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu_item_children"><a href="#"> Salads<i class="fa fa-angle-right"></i></a>
+                                            <ul class="categories_mega_menu column_2">
+                                                <li class="menu_item_children"><a href="#">Brake Tools</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Driveshafts</a></li>
+                                                        <li><a href="">Spools</a></li>
+                                                        <li><a href="">Diesel </a></li>
+                                                        <li><a href="">Gasoline</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu_item_children"><a href="#">Emergency Brake</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Dolls for Girls</a></li>
+                                                        <li><a href="">Girls' Learning Toys</a></li>
+                                                        <li><a href="">Arts and Crafts for Girls</a></li>
+                                                        <li><a href="">Video Games for Girls</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu_item_children"><a href="#"> Fish & Seafood <i class="fa fa-angle-right"></i></a>
+                                            <ul class="categories_mega_menu column_2">
+                                                <li class="menu_item_children"><a href="#">Check Trousers</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Building</a></li>
+                                                        <li><a href="">Electronics</a></li>
+                                                        <li><a href="">action figures </a></li>
+                                                        <li><a href="">specialty & boutique toy</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu_item_children"><a href="#">Calculators</a>
+                                                    <ul class="categorie_sub_menu">
+                                                        <li><a href="">Dolls for Girls</a></li>
+                                                        <li><a href="">Girls' Learning Toys</a></li>
+                                                        <li><a href="">Arts and Crafts for Girls</a></li>
+                                                        <li><a href="">Video Games for Girls</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#"> Fresh Meat</a></li>
+                                        <li><a href="#"> Butter & Eggs</a></li>
+                                        <li><a href="#">Milk</a></li>
+                                        <li><a href="#">Oil & Vinegars</a></li>
+                                        <li><a href="#"> Bread</a></li>
+                                        <li><a href="#"> Jam & Honey</a></li>
+                                        <li><a href="#"> Frozen Food</a></li>
+                                        <li class="hidden"><a href="shop.html">New Sofas</a></li>
+                                        <li class="hidden"><a href="shop.html">Sleight Sofas</a></li>
+                                        <li><a href="#" id="more-btn"><i class="fa fa-plus" aria-hidden="true"></i> More Categories</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">-->
+		<!--main menu start-->
+		<!-- <div class="main_menu menu_position"> 
+                                <nav>  
+                                    <ul>
+                                        <li><a   href="index.html">home<i class="fa fa-angle-down"></i></a>
+                                            <ul class="sub_menu">
+                                                <li><a href="index.html">Home shop 1</a></li>
+                                                <li><a href="index-2.html">Home shop 2</a></li>
+                                                <li><a href="index-3.html">Home shop 3</a></li>
+                                                <li><a href="index-4.html">Home shop 4</a></li>
+                                                <li><a href="index-5.html">Home shop 5</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mega_items"><a class="active" href="shop.html">shop<i class="fa fa-angle-down"></i></a> 
+                                            <div class="mega_menu">
+                                                <ul class="mega_menu_inner">
+                                                    <li><a href="#">Shop Layouts</a>
+                                                        <ul>
+                                                            <li><a href="shop-fullwidth.html">Full Width</a></li>
+                                                            <li><a href="shop-fullwidth-list.html">Full Width list</a></li>
+                                                            <li><a href="shop-right-sidebar.html">Right Sidebar </a></li>
+                                                            <li><a href="shop-right-sidebar-list.html"> Right Sidebar list</a></li>
+                                                            <li><a href="shop-list.html">List View</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href="#">other Pages</a>
+                                                        <ul>
+                                                            <li><a href="cart.html">cart</a></li>
+                                                            <li><a href="wishlist.html">Wishlist</a></li>
+                                                            <li><a href="checkout.html">Checkout</a></li>
+                                                            <li><a href="my-account.html">my account</a></li>
+                                                            <li><a href="404.html">Error 404</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href="#">Product Types</a>
+                                                        <ul>
+                                                            <li><a href="product-details.html">product details</a></li>
+                                                            <li><a href="product-sidebar.html">product sidebar</a></li>
+                                                            <li><a href="product-grouped.html">product grouped</a></li>
+                                                            <li><a href="variable-product.html">product variable</a></li>
+
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li><a href="blog.html">blog<i class="fa fa-angle-down"></i></a>
+                                            <ul class="sub_menu pages">
+                                                <li><a href="blog-details.html">blog details</a></li>
+                                                <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
+                                                <li><a href="blog-sidebar.html">blog sidebar</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">pages <i class="fa fa-angle-down"></i></a>
+                                            <ul class="sub_menu pages">
+                                                <li><a href="about.html">About Us</a></li>
+                                                <li><a href="services.html">services</a></li>
+                                                <li><a href="faq.html">Frequently Questions</a></li>
+                                                <li><a href="contact.html">contact</a></li>
+                                                <li><a href="login.html">login</a></li>
+                                                <li><a href="404.html">Error 404</a></li>
+                                            </ul>
+                                        </li> 
+                                        <li><a href="contact.html"> Contact Us</a></li>
+                                    </ul>  
+                                </nav> 
+                            </div>
+                            <!--main menu end-->
+		<!--    </div>
+                        <div class="col-lg-3">
+                            <div class="call-support">
+                                <p><a href="tel:(08)23456789">(08) 23 456 789</a> Customer Support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </header>
+    <!--header area end-->
+		<!--
+    <!--breadcrumbs area start-->
+		<!-- <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                       <h3>Checkout</h3>
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>Checkout</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div>-->
+		<!--breadcrumbs area end-->
+
+		<!--Checkout page section-->
+		<div class="Checkout_section mt-70">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<!--  <div class="user-actions">
+                        <h3> 
+                            <i class="fa fa-file-o" aria-hidden="true"></i>
+                            Returning customer?
+                            <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_login" aria-expanded="true">Click here to login</a>     
+
+                        </h3>
+                         <div id="checkout_login" class="collapse" data-parent="#accordion">
+                            <div class="checkout_info">
+                                <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer please proceed to the Billing & Shipping section.</p>  
+                                <form action="#">  
+                                    <div class="form_group">
+                                        <label>Username or email <span>*</span></label>
+                                        <input type="text">     
+                                    </div>
+                                    <div class="form_group">
+                                        <label>Password  <span>*</span></label>
+                                        <input type="text">     
+                                    </div> 
+                                    <div class="form_group group_3 ">
+                                        <button type="submit">Login</button>
+                                        <label for="remember_box">
+                                            <input id="remember_box" type="checkbox">
+                                            <span> Remember me </span>
+                                        </label>     
+                                    </div>
+                                    <a href="#">Lost your password?</a>
+                                </form>          
+                            </div>
+                        </div>    
+                    </div>-->
+						<!-- <div class="user-actions">
+                        <h3> 
+                            <i class="fa fa-file-o" aria-hidden="true"></i>
+                            Returning customer?
+                            <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_coupon" aria-expanded="true">Click here to enter your code</a>     
+
+                        </h3>
+                         <div id="checkout_coupon" class="collapse" data-parent="#accordion">
+                            <div class="checkout_info coupon_info">
+                                <form action="#">
+                                    <input placeholder="Coupon code" type="text">
+                                    <button type="submit">Apply coupon</button>
+                                </form>
+                            </div>
+                        </div>    
+                    </div>    -->
+					</div>
+				</div>
+				<div class="checkout_form">
+					<div class="row">
+						<div class="col-lg-6 col-md-6" style="width: 580px;">
+							<form action="">
+								<!--폼시작-->
+
+
+								<h3>주문자 정보</h3>
+								<div class="row">
+
+									<div class="col-lg-6 mb-20">
+										<label>주문자명 <span>*</span></label> <input type="text"
+											th:value="${user.userName}">
+									</div>
+									<div>
+									</div>
+									<!-- <div class="col-lg-6 mb-20">
+                                    <label>Last Name  <span>*</span></label>
+                                    <input type="text"> 
+                                </div>
+                                <div class="col-12 mb-20">
+                                    <label>Company Name</label>
+                                    <input type="text">     
+                                </div>-->
+
+									<!--쿠폰목록 시작 select 말고 창으로 해서 쿠폰리스트 출력하도록 변경예정-->
+									<div class="col-lg-6 mb-20">
+									<label>쿠폰</label>
+										<input readonly="readonly" id="inputcoupon"> 
+										<input type="hidden" id="hiddencoupon"> 
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-primary" id="findcoupon"
+											data-bs-toggle="modal" data-bs-target="#exampleModal">
+											쿠폰조회/적용</button>
+										<!-- Modal -->
+
+										<div class="modal fade" id="coupondetail" tabindex="-1"
+											aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content"
+													style="width: 800px; height: 500px;">
+													<div class="modal-header">
+														<h5 class="modal-title" id="orderDetailsModalLabel">쿠폰조회
+														</h5>
+														<button type="button" class="close" data-dismiss="modal"
+															aria-label="Close" style="border: none; padding: 7px;">
+															X
+															<!--<span aria-hidden="true">&times;</span>-->
+														</button>
+													</div>
+													<div class="modal-body">
+														<!-- 주문 상세 내용이 여기에 로드됩니다 -->
+
+														<div class="table-responsive">
+															<table class="table">
+																<thead>
+																	<tr>
+																		<th>쿠폰번호</th>
+																		<th>쿠폰이름</th>
+																		<!--<th>총가격</th>-->
+																		<th>할인율(%)</th>
+																		<th>선 택</th>
+																	</tr>
+																</thead>
+																<tbody th:each="coupon:${coupons}">
+																	<tr>
+																		<td th:text="${coupon.couponId}" id="couponid">1</td>
+																		<td th:text="${coupon.couponName}" id="couponname">May
+																			10, 2018</td>
+																		<td th:text="${coupon.couponDiscount}" id="coupondiscount">  </td>
+																		<td th:value="${coupon.couponId}"><button type="button" class="btn btn-primary btn-sm" id="couponcheck">선택</button>
+																		</td>
+																		<!-- <td>$25.00 for 1 item </td>-->
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+	
+													</div>
+													<div class="modal-footer">
+														<!--   <button type="button" class="btn btn-primary">리뷰 저장</button>-->
+														<button type="button" class="btn btn-secondary"
+															data-dismiss="modal">닫기</button>
+
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+										<!-- <label for="country">쿠폰목록 <span></span></label> -->
+										<!-- <select class="select_option" name="cuntry" id="country"> 
+                                        <option th:each="coupon:${coupons}"value="2" th:value="${coupon.couponId}" th:text="${coupon.couponName}">bangladesh</option>      
+                                        
+                                        
+                                        
+                                      <option value="3">Algeria</option> 
+                                        <option value="4">Afghanistan</option>    
+                                        <option value="5">Ghana</option>    
+                                        <option value="6">Albania</option>    
+                                        <option value="7">Bahrain</option>    
+                                        <option value="8">Colombia</option>    
+                                        <option value="9">Dominican Republic</option>  
+
+
+                                    </select> -->
+
+
+										<!-- 모달 시작 -->
+
+									</div>
+
+									<div class="col-12 mb-20">
+										<label>보유 적립금<span> *0원부터 사용가능</span></label> <input
+											readonly="readonly" id="userPoints"
+											th:value="${user.userPoint}">
+									</div>
+									<div class="col-lg-6 mb-20">
+										<label>사용 적립금<span> *0원부터 사용가능</span></label> <input
+											type="text" id="loyaltyPoints">
+										<button type="button" class="btn btn-primary"
+											id="useLoyaltyPoints">사용하기</button>
+									</div>
+
+
+
+									<div class="col-12 mb-20">
+										<label>주소 <span>*</span></label>
+									</div>
+
+									<div class="col-lg-6 mb-20">
+										<label>우편주소<span></span></label>
+										<button type="button" class="btn btn-secondary btn-sm"
+											onclick="execution_daum_address()">주소찾기</button>
+										<input placeholder="우편번호" type="text" id="postcode">
+									</div>
+									<div class="col-12 mb-20">
+										<input placeholder="기본주소" input readonly="readonly"
+											id="ordersAddress1"> <input placeholder="기본주소" input
+											readonly="readonly" id="ordersAddress2"> <input
+											placeholder="상세주소" type="text" id="ordersAddress3">
+									</div>
+
+
+									<div class="col-12 mb-20">
+										<label>휴대폰 번호 <span>*</span></label> <input type="text"
+											th:value="${user.userPhoneNumber}">
+									</div>
+									<!-- <div class="col-12 mb-20">
+                                    <label>State / County <span>*</span></label>
+                                    <input type="text">    
+                                </div> -->
+									<div class="col-lg-6 mb-20">
+										<label>전화 번호<span></span></label> <input type="text">
+									</div>
+									<div class="col-lg-6 mb-20">
+										<label> 이메일 <span></span></label> <input type="text">
+
+									</div>
+									<!-- <div class="col-12 mb-20">
+                                    <input id="account" type="checkbox" data-target="createp_account" />
+                                    <label for="account" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">Create an account?</label>
+
+                                    <div id="collapseOne" class="collapse one" data-parent="#accordion">
+                                        <div class="card-body1">
+                                           <label> Account password   <span>*</span></label>
+                                            <input placeholder="password" type="password">  
+                                        </div>
+                                    </div>
+                                </div>-->
+									<!--  <div class="col-12 mb-20">
+                                    <input id="address" type="checkbox" data-target="createp_account" />
+                                    <label class="righ_0" for="address" data-toggle="collapse" data-target="#collapsetwo" aria-controls="collapseOne">Ship to a different address?</label>
+
+                                    <div id="collapsetwo" class="collapse one" data-parent="#accordion">
+                                       <div class="row">
+                                            <div class="col-lg-6 mb-20">
+                                                <label>First Name <span>*</span></label>
+                                                <input type="text">    
+                                            </div>
+                                            <div class="col-lg-6 mb-20">
+                                                <label>Last Name  <span>*</span></label>
+                                                <input type="text"> 
+                                            </div>
+                                            <div class="col-12 mb-20">
+                                                <label>Company Name</label>
+                                                <input type="text">     
+                                            </div>
+                                            <div class="col-12 mb-20">
+                                                <div class="select_form_select">
+                                                    <label for="countru_name">country <span>*</span></label>
+                                                    <select class="select_option" name="coupon" id="coupon"> 
+                                                        <option value="2">bangladesh</option>      
+                                                        <option value="3">Algeria</option> 
+                                                        <option value="4">Afghanistan</option>    
+                                                        <option value="5">Ghana</option>    
+                                                        <option value="6">Albania</option>    
+                                                        <option value="7">Bahrain</option>    
+                                                        <option value="8">Colombia</option>    
+                                                        <option value="9">Dominican Republic</option>   
+
+                                                    </select>
+                                                </div> 
+                                            </div>
+
+                                            <div class="col-12 mb-20">
+                                                <label>Street address  <span>*</span></label>
+                                                <input placeholder="House number and street name" type="text">     
+                                            </div>
+                                            <div class="col-12 mb-20">
+                                                <input placeholder="Apartment, suite, unit etc. (optional)" type="text">     
+                                            </div>
+                                            <div class="col-12 mb-20">
+                                                <label>Town / City <span>*</span></label>
+                                                <input  type="text">    
+                                            </div> 
+                                             <div class="col-12 mb-20">
+                                                <label>State / County <span>*</span></label>
+                                                <input type="text">    
+                                            </div> 
+                                            <div class="col-lg-6 mb-20">
+                                                <label>Phone<span>*</span></label>
+                                                <input type="text"> 
+
+                                            </div> 
+                                             <div class="col-lg-6">
+                                                <label> Email Address   <span>*</span></label>
+                                                  <input type="text"> 
+
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                -->
+
+									<div class="col-12">
+										<div class="order-notes">
+											<label for="order_note">배송메세지</label>
+											<textarea id="order_note"
+												placeholder="배송요청사항을 입력해주세요."></textarea>
+										</div>
+									</div>
+								</div>
+								<!-- </form> -->
+								<!--폼끝-->
+						</div>
+						<div class="col-lg-6 col-md-6">
+							<!--<form action="#">  -->
+							<!--form 시작-->
+							<h3>주문 정보</h3>
+							<div class="order_table table-responsive">
+								<table>
+									<thead>
+										<tr>
+											<th>상품명</th>
+											<th>상품</th>
+											<th>수량</th>
+											<th>가격</th>
+										</tr>
+									</thead>
+									<tbody th:each="cart:${cartList}">
+										<!--<tr>
+                                            <td> Handbag  fringilla <strong> × 2</strong></td>
+                                            <td> $165.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>  Handbag  justo	 <strong> × 2</strong></td>
+                                            <td> $50.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>  Handbag elit	<strong> × 2</strong></td>
+                                            <td> $50.00</td>
+                                        </tr>-->
+										<tr th:class="cartNo" th:id="${cart.cartNo}">
+											<td th:text="${cart.product.productName}">$50.00</td>
+											<td><img src="#" alt=""
+												th:src="@{/image/product/} + ${cart.product.getProductImage}">
+											</td>
+											<td th:text="${cart.cartQty}">$50.00</td>
+											<td class="subtotal"
+												th:text="(${cart.product.productPrice})*(${cart.cartQty})">
+												$50.00</td>
+										</tr>
+									</tbody>
+
+									<tfoot>
+										<tr>
+											<th>상품 합계 금액</th>
+											<td class="cart_price" th:text="${cartTotalPrice}">25000</td>
+										</tr>
+										<tr>
+											<th>적립금 사용</th>
+											<td id="discount"><strong>-0</strong></td>
+										</tr>
+
+										<tr>
+											<th>쿠폰 사용</th>
+											<td id="coupon"><strong>-0</strong></td>
+										</tr>
+										<tr class="order_total">
+											<th>총 주문금액</th>
+											<td id="total" th:text="${cartTotalPrice}"><strong>$220.00</strong></td>
+
+										</tr>
+									</tfoot>
+
+								</table>
+							</div>
+							<div class="payment_method">
+								<!-- <div class="panel-default">
+									<input id="payment" name="check_method" type="radio"
+										data-target="createp_account" /> <label for="payment"
+										data-toggle="collapse" data-target="#method"
+										aria-controls="method">Create an account?</label>
+
+									<div id="method" class="collapse one" data-parent="#accordion">
+										<div class="card-body1">
+											<p>Please send a check to Store Name, Store Street, Store
+												Town, Store State / County, Store Postcode.</p>
+										</div>
+									</div>
+								</div> -->
+								<!-- <div class="panel-default">
+									<input id="payment_defult" name="check_method" type="radio"
+										data-target="createp_account" /> <label for="payment_defult"
+										data-toggle="collapse" data-target="#collapsedefult"
+										aria-controls="collapsedefult">PayPal <img
+										src="assets/img/icon/papyel.png" alt=""></label>
+
+									<div id="collapsedefult" class="collapse one"
+										data-parent="#accordion">
+										<div class="card-body1">
+											<p>Pay via PayPal; you can pay with your credit card if
+												you don’t have a PayPal account.</p>
+										</div>
+									</div>
+								</div> -->
+								<div class="order_button">
+									<button type="button" id="insert">주문하기</button>
+								</div>
+							</div>
+							</form>
+							<!--orderform-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+    
+    
+   
+    <!--Checkout page section end-->
+
+		<!--footer area start-->
+		<!-- <footer class="footer_widgets footer_border">
+        <div class="container">
+            <div class="footer_top">
+                <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-7">
+                            <div class="widgets_container contact_us">
+                               <div class="footer_logo">
+                                   <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                               </div>
+                               <p class="footer_desc">We are a team of designers and developers that create high quality eCommerce, WordPress, Shopify .</p>
+                                <p><span>Address:</span> 4710-4890 Breckinridge USA</p>
+                                <p><span>Email:</span> <a href="#">demo@hasthemes.com</a></p>
+                                <p><span>Call us:</span> <a href="tel:(08)23456789">(08) 23 456 789</a> </p>
+                            </div>          
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-5">
+                            <div class="widgets_container widget_menu">
+                                <h3>Information</h3>
+                                <div class="footer_menu">
+
+                                    <ul>
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="#">Delivery Information</a></li>
+                                        <li><a href="#"> Privacy Policy</a></li>
+                                        <li><a href="#"> Terms & Conditions</a></li>
+                                        <li><a href="contact.html"> Contact Us</a></li>
+                                        <li><a href="#"> Site Map</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4">
+                            <div class="widgets_container widget_menu">
+                                <h3>Extras</h3>
+                                <div class="footer_menu">
+                                    <ul>
+                                        <li><a href="#">Brands</a></li>
+                                        <li><a href="#">  Gift Certificates</a></li>
+                                        <li><a href="#">Affiliate</a></li>
+                                        <li><a href="#">Specials</a></li>
+                                        <li><a href="#">Returns</a></li>
+                                        <li><a href="#"> Order History</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-8">
+                            <div class="widgets_container widget_newsletter">
+                                <h3>Sign up newsletter</h3>
+                                <p class="footer_desc">Get updates by subscribe our weekly newsletter</p>
+                                <div class="subscribe_form">
+                                    <form id="mc-form" class="mc-form footer-newsletter" >
+                                        <input id="mc-email" type="email" autocomplete="off" placeholder="Enter you email" />
+                                        <button id="mc-submit">Subscribe</button>
+                                    </form>
+                                    <!-- mailchimp-alerts Start -->
+		<div class="mailchimp-alerts text-centre">
+			<div class="mailchimp-submitting"></div>
+			<!-- mailchimp-submitting end -->
+			<div class="mailchimp-success"></div>
+			<!-- mailchimp-success end -->
+			<div class="mailchimp-error"></div>
+			<!-- mailchimp-error end -->
+		</div>
+		<!-- mailchimp-alerts end -->
+
+		<!-- <div class="footer_bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-7">
+                        <div class="copyright_area">
+                            <p>Copyright  © 2020  <a href="#">Safira</a>  . All Rights Reserved.Design by  <a href="#">Safira</a></p>
+                        </div>
+                    </div>    
+                    <div class="col-lg-6 col-md-5">    
+                        <div class="footer_payment">
+                            <ul>
+                                <li><a href="#"><img src="assets/img/icon/paypal1.jpg" alt=""></a></li>
+                                <li><a href="#"><img src="assets/img/icon/paypal2.jpg" alt=""></a></li>
+                                <li><a href="#"><img src="assets/img/icon/paypal3.jpg" alt=""></a></li>
+                                <li><a href="#"><img src="assets/img/icon/paypal4.jpg" alt=""></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+             </div>   
+        </div>  
+    </footer>-->
+		<!--footer area end-->
+
+	</th:block>
+
+</body>
+
+</html>

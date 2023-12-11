@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="layout/layout(title='')">
+
+<head>
+    <title>Register</title>
+    <style>
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}
+</style>
+</head>
+
+<body>
+     <!--header area start-->
+    
+    <!--offcanvas menu area start-->
+    
+    <!--header area end-->
+
+    <!--breadcrumbs area start-->
+    
+    
+    <!--breadcrumbs area end-->
+    
+    <!-- customer login start -->
+    <th:block layout:fragment="content">
+    <div class="customer_login" id="content">
+        <div class="container">
+            <div class="row">
+               <!--login area start-->
+               
+                <!--login area start-->
+
+                <!--register area start-->
+                <div class="col-lg-6 col-md-6" style="margin-left: 300px;">
+                    <div class="account_form register" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" >
+                        <h2>상품 등록</h2>
+                        
+                        <form name="f" id="product_insert_form" action="#" method="post" enctype="multipart/form-data"
+                        	th:action="@{'/adminInsertProduct'}" onsubmit="submitForm()">
+                            <p>   
+                                <label>상품 이름<span></span></label>
+                                <input type="text" id="productName" name="productName">
+                             </p>
+                             <p>   
+                                <label>가격<span></span></label>
+                                <input type="text" id="productPrice" name="productPrice">
+                             </p>
+                             
+                             
+                             <p>
+                                <label>펫 카테고리<span></span></label>
+                                <select id="productPetCategory" name="productPetCategory">
+                                    <option value="강아지">강아지</option>
+                                    <option value="고양이">고양이</option>
+                                </select>
+                             </p>
+                             
+                             
+                             
+                             <p>
+                                <label>카테고리<span></span></label>
+                                <select id="productCategory" name="productCategory">
+                                    <option value="사료">사료</option>
+                                    <option value="간식">간식</option>
+                                    <option value="캔">캔</option>
+                                    <option value="위생">위생</option>
+                                    <option value="모래">모래</option>
+                                    <option value="미용">미용</option>
+                                </select>
+                             </p>
+                             
+                             
+                             
+                             
+                            <label>상품 이미지</label>
+                		    <input type="file" id="imageFile1" name="imageFile1" style="border: none; margin-bottom: 10px;" >
+                           
+							   
+							   
+                            <label>상품 디테일 이미지</label>
+                		    <input type="file" id="imageFile2" name="imageFile2" style="border: none;" >
+                           <div class="login_submit" style="margin-top: 10px;">
+							   
+							   
+                                <button type="submit" th:text="글쓰기">등록</button>
+                                
+                           </div>
+						</form>
+                        </div>
+                    
+                    </div>    
+            </div>
+        </div>   
+            </div> 
+            
+<script>
+	
+	function submitForm() {
+		var selectedPetCategory = document.getElementById("productPetCategory").value;
+		var selectedCategory = document.getElementById("productCategory").value;
+		
+		//console.log(">>>>>>>>>>>>>>>>>" + selectedPetCategory, selectedCategory);
+	}
+	
+	$('#product_insert_form').on('submit',function(e) {
+		//alert('aaa');
+        // 폼이 유효하지 않으면 전송을 중지
+        if (!$(this).valid()) {
+            e.preventDefault();
+            
+        }
+        //alert('안먹나?');
+        window.location.href = "petListPage";
+    });
+	
+</script>
+            
+    </th:block>
+    <!-- customer login end -->
+
+    <!--footer area start-->
+    
+    <!--footer area end-->
+</body>
+
+</html>

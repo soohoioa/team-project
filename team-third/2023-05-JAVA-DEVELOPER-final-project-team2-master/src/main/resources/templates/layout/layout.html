@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Safira - shop fullwidth list</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+	<!-- CSS 
+    ========================= -->
+	<!-- all css here -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="assets/css/slick.css">
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<link rel="stylesheet" href="assets/css/font.awesome.css">
+	<link rel="stylesheet" href="assets/css/ionicons.min.css">
+	<link rel="stylesheet" href="assets/css/linearicons.css">
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+	<link rel="stylesheet" href="assets/css/slinky.menu.css">
+	<link rel="stylesheet" href="assets/css/plugins.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+
+	<!--modernizr min js here-->
+	<script src="assets/js/vendor/modernizr-3.7.1.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+	<script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="assets/js/vendor/jquery.validate.js"></script>
+
+	<style>
+	
+		@font-face {
+	    font-family: 'GmarketSansMedium';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+		
+		
+		
+	h2 {
+		font-family: 'GmarketSansMedium';
+		
+	}
+	
+	li {
+		font-family: 'GmarketSansMedium';
+	}
+	
+	a {
+		font-family: 'GmarketSansMedium';
+	}
+	
+	span {
+		font-family: 'GmarketSansMedium';
+	}
+	
+	
+		.valid {
+			border: 1px solid green;
+		}
+
+		label.error {
+			color: red;
+			margin-left: 10px;
+		}
+
+		input.error {
+			border: 1px solid red;
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- -------------------- common-top.html start -----------------------  -->
+	<div class="offcanvas-container" id="shop-categories" th:insert="~{/fragment/common-top::common-top}"
+		th:remove="tag"></div>
+	<!-- -------------------- common-top.html end      -----------------------  -->
+
+	<!-- Page Title(메인페이지는 타이틀을사용하지않음)-->
+	<!--  slider area start -->
+	<th:block th:if="${title!=''}">
+		<div class="page-title" th:insert="~{/fragment/page-title::page-title(${title})}" th:remove="tag"></div>
+	</th:block>
+	<!--  slider area end -->
+
+	<!-- Page Content-->
+	<!--Content 내용 영역 시작-->
+	<th:block layout:fragment="content" />
+
+	<!-- common-footer.html start -->
+	<footer class="site-footer" th:insert="~{fragment/common-footer::common-footer}"></footer>
+	<!-- common-footer.html end -->
+
+	<!-- JS
+	============================================ -->
+	
+	<script src="assets/js/popper.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/owl.carousel.min.js"></script>
+	<script src="assets/js/slick.min.js"></script>
+	<script src="assets/js/jquery.magnific-popup.min.js"></script>
+	<script src="assets/js/jquery.instagramFeed.min.js"></script>
+	<script src="assets/js/jquery.counterup.min.js"></script>
+	<script src="assets/js/jquery.countdown.js"></script>
+	<script src="assets/js/jquery.ui.js"></script>
+	<script src="assets/js/jquery.elevatezoom.js"></script>
+	<script src="assets/js/isotope.pkgd.min.js"></script>
+	<script src="assets/js/slinky.menu.js"></script>
+	<script src="assets/js/plugins.js"></script>
+	<script src="assets/js/main.js"></script>
+
+
+	
+	<script defer src="assets/js/custom/userApp.js" type="module"></script>
+	<script defer src="assets/js/custom/productApp.js" type="module"></script>
+	<script defer src="assets/js/custom/reviewBoardApp.js" type="module"></script>
+</body>
+
+</html>

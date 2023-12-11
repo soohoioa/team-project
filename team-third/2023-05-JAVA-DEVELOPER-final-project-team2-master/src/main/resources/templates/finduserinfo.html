@@ -1,0 +1,149 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='FindUserInfo')">
+
+<head>
+    
+    <title>Safira - login</title>
+<style>
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}	
+		
+	</style>
+</head>
+
+<body>
+
+
+     <!--header area start-->
+    
+    <!--offcanvas menu area start-->
+
+    <!--offcanvas menu area end-->
+    
+    
+    <!--header area end-->
+
+    <!--breadcrumbs area start-->
+    
+    <!--breadcrumbs area end-->
+    
+    <!-- customer login start -->
+    <th:block layout:fragment="content">
+	<div id="content">
+    <div class="customer_login">
+        <div class="container">
+            <div class="row">
+               <!--login area start-->
+                <div class="col-lg-6 col-md-6">
+                 <div class="account_form register">
+                        <h2>아이디 찾기</h2>
+                        <form name="f" id="f" action="#">
+                            <p>   
+                                <label>이름 <span>*</span></label>
+                                <input type="text" id="findName">
+                             </p>
+                             <p>   
+                                <label>전화번호 <span>*</span></label>
+                                <input type="text" id="findPhoneNumber">
+                             </p>
+                             <label id="findIdText" style="color: green"></label>
+                            <div class="login_submit">
+                                <button type="button" onclick="findId()">확인</button>
+                            </div>
+                        </form>
+                    </div>  
+                </div>
+                <!--login area start-->
+
+                <!--register area start-->
+                <div class="col-lg-6 col-md-6">
+					          <div class="account_form">
+                        <h2>비밀번호 찾기</h2>
+                        <form name="f2" id="f2" action="#">
+                            <p>   
+                                <label>아이디<span>*</span></label>
+                                <input type="text" id="findUserId">
+                             </p>
+                             <p>   
+                                <label>전화번호<span>*</span></label>
+                                <input type="text" id="findPhoneNumber2">
+                             </p>   
+                            <div class="login_submit">
+                                <button type="button" onclick="findPassword()">확인</button>
+                            </div>
+
+                        </form>
+                     </div>  
+                 
+                </div>
+                <!--register area end-->
+            </div>
+        </div>    
+    </div>
+    </div>
+    
+    <script>
+		function ajaxRequest(method, url, sendJsonObject) {
+			let returnResultJsonObject={};
+			$.ajax({
+				async:false,
+				method: method,
+				url: url,
+				contentType: 'application/json;UTF-8',
+				data: JSON.stringify(sendJsonObject),
+				type: 'json',
+				success: function(resultJsonObject) {
+					returnResultJsonObject = resultJsonObject;
+				}
+			});
+			return returnResultJsonObject;
+		}
+		
+		function findId(){
+			let sendObject={
+				userName : document.f.findName.value,
+				userPhoneNumber : document.f.findPhoneNumber.value
+			}
+			const responseJsonObject = ajaxRequest('POST','user/findIdUserInfo',sendObject);
+			
+			if(responseJsonObject.status == 1){
+				alert('일치하는 아이디가 없습니다.');
+			}else{
+				alert('찾으신 아이디:'+responseJsonObject.userId);
+				$('#findUserId').val(responseJsonObject.userId);
+				$('#findIdText').html('* 찾으신 아이디 : ' + responseJsonObject.userId);
+			}
+			
+		}
+		function findPassword(){
+			let sendObject={
+				userName : document.f2.findUserId.value,
+				userPhoneNumber : document.f2.findPhoneNumber2.value
+			}
+			const responseJsonObject = ajaxRequest('POST','user/findPasswordUserInfo',sendObject);
+			if(responseJsonObject.status == 1){
+				alert('일치하는 비밀번호가 없습니다.');
+			}else{
+				alert('찾으신 비밀번호:'+responseJsonObject.userPassword);
+			}
+		}
+		
+	</script>
+    </th:block>
+    <!-- customer login end -->
+
+    <!--footer area start-->
+    
+    <!--footer area end-->
+</body>
+
+</html>

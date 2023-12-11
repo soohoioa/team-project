@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<!--breadcrumbs area start-->
+	<div class="breadcrumbs_area" th:fragment="page-title(page_title)" style="background: none;">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="breadcrumb_content">
+						<h3 th:text="${page_title}">Login</h3>
+						<ul>
+							<li><a href="index">home</a></li>
+							<li th:text="${page_title}">Login</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--breadcrumbs area end-->
+</body>
+
+</html>

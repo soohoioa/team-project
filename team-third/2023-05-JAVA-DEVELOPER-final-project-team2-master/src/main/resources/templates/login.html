@@ -1,0 +1,178 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='Login')">
+
+<head>
+	<title>Safira - login</title>
+</head>
+
+<body>
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        width: 100%;
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+
+      .bd-mode-toggle {
+        z-index: 1500;
+      }
+
+      .bd-mode-toggle .dropdown-menu .active .bi {
+        display: block !important;
+      }
+    </style>
+	<!--header area start-->
+
+	<!--offcanvas menu area start-->
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+	<th:block layout:fragment="content">
+		<div id="content">
+			<!--breadcrumbs area end-->
+
+			<!-- customer login start -->
+
+			<div class="customer_login" id="content">
+				<div class="container">
+					<div class="row">
+						<!--login area start-->
+						<div class="col-lg-6 col-md-6">
+							<!--<div class="account_form">
+                    <h2>로그인</h2>
+                    <form name="f" action="my-account.html" onsubmit="return validateLoginForm()">
+                        
+                        <p>   
+                            <label>아이디 <span>*</span></label>
+                            <input type="text" id="loginUserId">
+                         </p>
+                         <p>   
+                            <label>비밀번호 <span>*</span></label>
+                            <input type="password" id="loginPassword">
+                         </p>   
+                        <div class="login_submit">
+                           <a href="#"></a>
+                            <label for="remember">
+                                <input id="remember" type="checkbox">
+                                Remember me
+                            </label>
+                            <button type="button">로그인</button>-->
+
+							<form name="f" id="loginForm" onsubmit="return validateLoginForm()">
+							<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+							<div class="form-floating">
+								<input type="email" class="form-control" id="floatingInput"
+									placeholder="name@example.com">
+								<label for="floatingInput">Email address</label>
+							</div>
+							<div class="form-floating">
+								<input type="password" class="form-control" id="floatingPassword"
+									placeholder="Password">
+								<label for="floatingPassword">Password</label>
+							</div>
+
+					
+							<button class="btn btn-primary w-100 py-2" type="button" data-navigate="#/login" >Sign in</button>
+							<!--<button type="button" data-navigate="#/login">로그인</button>-->
+						</form>
+						</div>
+					</div>
+				</div>
+				<!--login area start-->
+
+				<!--register area start-->
+
+				<!--register area end-->
+			</div>
+		</div>
+		<!-- </div>
+		</div> -->
+		
+	</th:block>
+	<!-- customer login end -->
+
+	<!--footer area start-->
+
+	<!--footer area end-->
+
+	<!--offcanvas menu area start-->
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+	
+	
+	<!-- customer login end -->
+
+</body>
+
+
+</html>

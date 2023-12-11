@@ -1,0 +1,156 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='visit')">
+
+<head>
+	<title>Safira - contact page</title>
+</head>
+
+<body>
+
+	<!--header area start-->
+
+	<!--offcanvas menu area start-->
+
+
+	<!--offcanvas menu area end-->
+
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+
+	<!--breadcrumbs area end-->
+	<th:block layout:fragment="content">
+		<!--contact map start-->
+		<!-- <div class="contact_map mt-70">
+       <div class="map-area">
+          <div id="googleMap"></div>
+       </div>
+    </div>-->
+		<!--contact map end-->
+
+		<!--contact area start-->
+		<div class="contact_area">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div>
+							<h2>센터 정보</h2>
+							<p><img th:src="@{image/center/} + ${center.centerImage}"></p>
+							<p>센터 번호: <span th:text="${center.centerNo}">10</span></p>
+							<p>센터 이름: <span th:text="${center.centerName}">123</span></p>
+							<p>전화번호: <span th:text="${center.centerPhoneNumber}">123</span></p>
+							<p>로컬: <span th:text="${center.centerLocal}">123</span></p>
+							<p>오픈/클로즈 시간: <span th:text="${center.centerOpenCloseTime}">123</span></p>
+						</div>
+					</div>
+
+
+					<div class="col-lg-6 col-md-6">
+						<div class="contact_message form">
+							<h3>신청 양식</h3>
+							<!-- 달력 -->
+							<form th:action="@{/create-visit}" method="post"
+								th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+
+								<input type="hidden" name="centerNo" th:value="${center.centerNo}" />
+
+								<!--<p>
+									<label> 이름 </label>
+									<input name="name" placeholder="Name *" type="text">
+								</p>
+								<p>
+									<label> 연락처 </label>
+									<input name="email" placeholder="Email *" type="email">
+								</p>
+								<p>
+									<label> 주소 </label>
+									<input name="address" placeholder="Address *" type="text">
+								</p>-->
+
+
+								<div>
+									<label>방문 날짜</label>
+									<input type="date" name="visitDate" id="visitDate" placeholder="날짜를 선택해주세요"
+										required="required" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+								</div>
+								<div>
+									<span>방문 시간</span>
+									<select name="visitTime" id="visitTime">
+										<option value="09">09 AM</option>
+
+										<option value="10">10 AM</option>
+
+										<option value="11">11 AM</option>
+
+										<option value="12">12 PM</option>
+
+										<option value="13">13 PM</option>
+
+										<option value="14">14 PM</option>
+
+										<option value="15">15 PM</option>
+
+										<option value="16">16 PM</option>
+
+										<option value="17">17 PM</option>
+
+										<option value="18">18 PM</option>
+
+										<option value="19">19 PM</option>
+
+
+
+									</select>
+								</div>
+
+								<button type="submit" class="submit"> submit</button>
+								<p th:text="${message}" class="success-message"></p>
+								<p th:text="${error}" class="error-message"></p>
+							</form>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<script>
+		function getCurrentDate() {
+				var currentDate = new Date();
+				var year = currentDate.getFullYear();
+				var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+				var day = currentDate.getDate().toString().padStart(2, '0');
+				return year + '-' + month + '-' + day;
+			}
+
+			// 페이지 로드 시 실행
+			window.onload = function () {
+				var adoptDate = document.getElementById('adoptDate');
+				// 현재 날짜로 설정
+				adoptDate.setAttribute('min', getCurrentDate());
+			};
+		
+	</script>
+	</th:block>
+	<!--contact area end-->
+
+	<!--footer area start-->
+
+	<!--footer area end-->
+
+
+
+	<!-- JS
+============================================ -->
+
+	<!--map js code here-->
+	<script
+		src="https://maps.google.com/maps/api/js?sensor=false&amp;libraries=geometry&amp;v=3.22&amp;key=AIzaSyChs2QWiAhnzz0a4OEhzqCXwx_qA9ST_lE"></script>
+	<script src="https://www.google.com/jsapi"></script>
+	<script src="assets/js/map.js"></script>
+
+</body>
+
+</html>

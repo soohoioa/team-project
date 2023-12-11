@@ -1,0 +1,330 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout(title='입양신청')">
+
+
+<head>
+<title>Safira - contact page</title>
+
+<style type="text/css">
+#adoptDate,#adoptTime {
+	border: 1px solid black;
+	position: relative;
+	width: 200px;
+	padding: 10px;
+	background-color: transparent;
+	text-align: center;
+	font-size: 100%;
+	margin-bottom: 20px;
+	margin-left: 20px;
+}
+#adoptTimeSelect{
+	margin-left: 20px;
+}
+#adoptDate::-webkit-calendar-picker-indicator,
+#adoptTime::-webkit-calendar-picker-indicator {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	color: transparent;
+	cursor: pointer;
+}
+
+#adoptDate::before {
+	content: attr(placeholder);
+	width: 100%;
+	height: 100%;
+}
+
+#adoptDate:valid::before {
+	display: none;
+}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h3{
+	font-family: 'GmarketSansMedium';
+}
+
+p{
+	font-family: 'GmarketSansMedium';
+}
+
+span{
+	font-family: 'GmarketSansMedium';
+}
+button{
+	font-family: 'GmarketSansMedium';
+}
+input{
+	font-family: 'GmarketSansMedium';
+}
+select{
+	font-family: 'GmarketSansMedium';
+}
+</style>
+
+
+<script>
+//당일예약 불가(날짜)
+//페이지 로드 시 실행
+window.onload = function() {
+    let adoptDate = document.getElementById('adoptDate');
+    let today = new Date();
+    // 한국 시간대 (UTC+9)로 변경
+    today.setHours(today.getHours() + 9);
+    let afterTomorrow = new Date(today);
+    afterTomorrow.setDate(afterTomorrow.getDate() + 1); // 내일 날짜 계산
+    let afterTomorrowString = afterTomorrow.toISOString().slice(0, 10);
+
+    adoptDate.value = afterTomorrowString;
+
+    let minDate = new Date(today);
+    minDate.setHours(9, 0, 0, 0);
+	if (today.getHours() >= 9) { 
+        minDate.setDate(minDate.getDate() + 1);
+    }
+	let minDateString = minDate.toISOString().slice(0, 10);
+    adoptDate.setAttribute('min', minDateString);
+
+    adoptDate.removeAttribute('max');
+};
+</script> 
+
+
+
+</head>
+
+<body>
+
+
+
+	<!--header area start-->
+
+	<!--offcanvas menu area start-->
+
+
+	<!--offcanvas menu area end-->
+
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+
+	<!--breadcrumbs area end-->
+	<th:block layout:fragment="content">
+		<!--contact map start-->
+		<!-- <div class="contact_map mt-70">
+       <div class="map-area">
+          <div id="googleMap"></div>
+       </div>
+    </div>-->
+		<!--contact map end-->
+
+		<!--contact area start-->
+		<div class="contact_area" style="margin-top: 100px;">
+			<div class="container" style="margin-bottom:50px;">
+				<div class="row">
+					<div class="col-lg-6 col-md-6" style="width: 420px; margin-left: 100px;">
+						<div class="contact_message content">
+							<h3 style="font-weight: bold">펫 정보</h3>
+							<img src="#" th:src="@{/image/pet/}+${pet.getPetImage}"
+								style="width: 250px; height:250px; margin-bottom: 20px;">
+							  <p>
+								센터: <span th:text="${center.centerName}"></span>
+							</p>   
+							<p>
+								펫 종류: <span th:text="${pet.petType}"></span>
+							</p>
+							<p>
+								펫 번호: <span th:text="${pet.petNo}"></span>
+							</p>
+							<p>
+								펫 성별: <span th:text="${pet.petGender}"></span>
+							</p>
+							<p>
+								펫 특징: <span th:text="${pet.petCharacter}"></span>
+							</p>
+							
+
+							<!--	<ul>
+								<li><i class="fa fa-fax"></i> 주소 : 서울시 강남구</li>
+								<li><i class="fa fa-phone"></i> <a href="#">Infor@roadthemes.com</a></li>
+								<li><i class="fa fa-envelope-o"></i><a href="tel:0(1234)567890">0(1234) 567 890</a>
+								</li>
+							</ul>-->
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<div class="contact_message form">
+							<h3 style="font-weight: bold">신청 양식</h3>
+							<form id="contact-form" method="POST"
+								th:action="@{/create-adopt}" th:object="${adopt}" style="margin: 20px 0;">
+
+								<input type="hidden" id="petid" name="petNo" th:value="${pet.petNo}"/>
+
+								<!-- <p>
+									<label> 이름 </label> <input name="name" placeholder="Name *"
+										type="text">
+								</p>
+								<p>
+									<label> 연락처 </label> <input name="email" placeholder="Email *"
+										type="email">
+								</p>
+								<p>
+									<label> 주소 </label> <input name="subject"
+										placeholder="Subject *" type="text">
+								</p> -->
+								<!-- <div class="contact_textarea">
+									<label> 하고싶은 말</label>
+									<textarea placeholder="Message *" name="message" class="form-control2"></textarea>
+								</div> -->
+								<div>
+									<span>방문 날짜</span> 
+									<input type="date" name="adoptDate"
+										id="adoptDate" placeholder="날짜를 선택해주세요" required="required" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+								</div>
+								<div>
+									<span>방문 시간</span> 
+									 <select name="adoptTime" id="adoptTimeSelect" style="width: 200px; padding: 10px; text-align:center;">
+										<option value="09">09시</option>
+
+										<option value="10">10시</option>
+
+										<option value="11">11시</option>
+
+										<option value="12">12시</option>
+
+										<option value="13">13시</option>
+
+										<option value="14">14시</option>
+
+										<option value="15">15시</option>
+
+										<option value="16">16시</option>
+
+										<option value="17">17시</option>
+
+										<option value="18">18시</option>
+
+										<option value="19">19시</option>
+									</select> 
+									<!-- <input type="time" name="adoptTime" id="adoptTime" required="required"> -->
+									
+								</p>
+
+								<button type="submit" class="submit">신청하기</button>
+								<!-- <p class="form-messege"></p> -->
+								
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+ 	<script>
+		 
+	 	function ajaxRequest(method, url, sendJsonObject) {
+	 		let returnResultJsonObject={};
+	 		$.ajax({
+	 			async:false,
+	 			method: method,
+	 			url: url,
+	 			contentType: 'application/json;UTF-8',
+	 			data: JSON.stringify(sendJsonObject),
+	 			type: 'json',
+	 			success: function(resultJsonObject) {
+	 				returnResultJsonObject = resultJsonObject;
+	 			}
+	 		});
+	 		return returnResultJsonObject;
+	 	}
+		
+	
+		$('.submit').on('click', function(event) {
+	        event.preventDefault();
+	        let petNo = $('#petid').val();
+	        let adoptDate = $('#adoptDate').val(); // 선택한 날짜 가져오기
+	        let adoptTime = $('#adoptTimeSelect').val(); // 선택한 시간 가져오기
+	        
+	        let sendJsonObject = {
+	            petNo: petNo,
+	            adoptDate: adoptDate,
+
+	            adoptTime: adoptTime,
+	            adoptStatus:"입양신청접수"
+
+	        };
+			
+	       let responseObject=ajaxRequest('POST','adopt/create-adopt',sendJsonObject);
+	  		if(responseObject.userNo == null){
+				alert('로그인이 필요합니다.');
+				window.location.href = 'index';	// 로그인 창으로 이동
+			}else{
+				alert("입양신청이 완료되었습니다.");
+				window.location.href='adoptByUserNo'; // 메인페이지로 이동
+			}
+	  		
+	    });
+		
+		
+		
+		
+		/* 
+			// 현재 날짜를 가져오는 함수
+			function getCurrentDate() {
+				var currentDate = new Date();
+				var year = currentDate.getFullYear();
+				var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+				var day = currentDate.getDate().toString().padStart(2, '0');
+				return year + '-' + month + '-' + day;
+			}
+
+			// 페이지 로드 시 실행
+			window.onload = function () {
+				var adoptDate = document.getElementById('adoptDate');
+				// 현재 날짜로 설정
+				adoptDate.setAttribute('min', getCurrentDate());
+			}; */
+	
+
+	
+	
+
+
+
+
+
+
+			
+</script>
+		
+		
+		
+	</th:block>
+		<!--map js code here-->
+	<script
+		src="https://maps.google.com/maps/api/js?sensor=false&amp;libraries=geometry&amp;v=3.22&amp;key=AIzaSyChs2QWiAhnzz0a4OEhzqCXwx_qA9ST_lE"></script>
+	<script src="https://www.google.com/jsapi"></script>
+	<script src="assets/js/map.js"></script>
+	<!--contact area end-->
+
+	<!--footer area start-->
+
+	<!--footer area end-->
+
+
+</body>
+
+</html>

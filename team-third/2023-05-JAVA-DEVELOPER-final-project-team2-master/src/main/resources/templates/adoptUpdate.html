@@ -1,0 +1,354 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout(title='입양수정')">
+
+
+<head>
+<title>Safira - contact page</title>
+
+<style type="text/css">
+#adoptDate,#adoptTime {
+	border: 1px solid black;
+	position: relative;
+	width: 200px;
+	padding: 10px;
+	background-color: transparent;
+	text-align: center;
+	font-size: 100%;
+	margin-bottom: 20px;
+	margin-left: 20px;
+}
+#adoptTimeSelect{
+	margin-left: 20px;
+}
+#adoptDate::-webkit-calendar-picker-indicator,
+#adoptTime::-webkit-calendar-picker-indicator {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	color: transparent;
+	cursor: pointer;
+}
+
+#adoptDate::before {
+	content: attr(placeholder);
+	width: 100%;
+	height: 100%;
+}
+
+#adoptDate:valid::before {
+	display: none;
+}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h3{
+	font-family: 'GmarketSansMedium';
+}
+
+p{
+	font-family: 'GmarketSansMedium';
+}
+
+span{
+	font-family: 'GmarketSansMedium';
+}
+button{
+	font-family: 'GmarketSansMedium';
+}
+input{
+	font-family: 'GmarketSansMedium';
+}
+select{
+	font-family: 'GmarketSansMedium';
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+	<!--header area start-->
+
+	<!--offcanvas menu area start-->
+
+
+	<!--offcanvas menu area end-->
+
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+
+	<!--breadcrumbs area end-->
+	<th:block layout:fragment="content">
+		<!--contact map start-->
+		<!-- <div class="contact_map mt-70">
+       <div class="map-area">
+          <div id="googleMap"></div>
+       </div>
+    </div>-->
+		<!--contact map end-->
+
+		<!--contact area start-->
+		<div class="contact_area" style="margin-top: 100px;">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6" style="width: 420px; margin-left: 100px;">
+						<div class="contact_message content">
+							<h3 style="font-weight: bold">펫 정보</h3>
+							<img src="#" th:src="@{/image/pet/}+${pet.getPetImage}"
+								style="width: 250px; height:250px; margin-bottom: 20px;">
+							<p>
+								센터: <span th:text="${center.centerName}"></span>
+							</p>
+							<p>
+								펫 종류: <span th:text="${pet.petType}"></span>
+							</p>
+							<p>
+								펫 번호: <span th:text="${pet.petNo}"></span>
+							</p>
+							<p>
+								펫 성별: <span th:text="${pet.petGender}"></span>
+							</p>
+							<p>
+								펫 특징: <span th:text="${pet.petCharacter}"></span>
+							</p>
+							
+							<!--	<ul>
+								<li><i class="fa fa-fax"></i> 주소 : 서울시 강남구</li>
+								<li><i class="fa fa-phone"></i> <a href="#">Infor@roadthemes.com</a></li>
+								<li><i class="fa fa-envelope-o"></i><a href="tel:0(1234)567890">0(1234) 567 890</a>
+								</li>
+							</ul>-->
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<div class="contact_message form">
+							<h3 style="font-weight: bold">수정 양식</h3>
+							<form id="update-form" 
+								th:action="@{/adopt/update-adopt}" th:object="${adopt}" style="margin: 20px 0;">
+								<input type="hidden" id="adoptId" name="adoptNo" th:value="${adoptNo}" />
+								<input type="hidden" id="petid" name="petNo" th:value="${pet.petNo}"/>
+
+								<!-- <p>
+									<label> 이름 </label> <input name="name" placeholder="Name *"
+										type="text">
+								</p>
+								<p>
+									<label> 연락처 </label> <input name="email" placeholder="Email *"
+										type="email">
+								</p>
+								<p>
+									<label> 주소 </label> <input name="subject"
+										placeholder="Subject *" type="text">
+								</p> -->
+								<!-- <div class="contact_textarea">
+									<label> 하고싶은 말</label>
+									<textarea placeholder="Message *" name="message" class="form-control2"></textarea>
+								</div> -->
+								<div>
+									<span>방문 날짜</span> <input type="date" name="adoptDate"
+										id="adoptDate" placeholder="날짜를 선택해주세요" required="required" th:value="${#dates.format(adopt.adoptDate, 'yyyy-MM-dd')}">
+								</div>
+								<div>
+									<span>방문 시간</span> 
+									 <select name="adoptTime" id="adoptTime" style="width: 200px; padding: 10px;">
+										<option value="09" th:selected="${adopt.adoptTime == 9}">09시</option>
+
+										<option value="10" th:selected="${adopt.adoptTime == 10}">10시</option>
+
+										<option value="11" th:selected="${adopt.adoptTime == 11}">11시</option>
+
+										<option value="12" th:selected="${adopt.adoptTime == 12}">12시</option>
+
+										<option value="13" th:selected="${adopt.adoptTime == 13}">13시</option>
+
+										<option value="14" th:selected="${adopt.adoptTime == 14}">14시</option>
+
+										<option value="15" th:selected="${adopt.adoptTime == 15}">15시</option>
+
+										<option value="16" th:selected="${adopt.adoptTime == 16}">16시</option>
+
+										<option value="17" th:selected="${adopt.adoptTime == 17}">17시</option>
+
+										<option value="18" th:selected="${adopt.adoptTime == 18}">18시</option>
+
+										<option value="19" th:selected="${adopt.adoptTime == 19}">19시</option>
+									</select> 
+									<!-- <input type="time" name="adoptTime" id="adoptTime" required="required"> -->
+									
+								</p>
+
+								<button type="button" class="submit">수정하기</button>
+								<!-- <p class="form-messege"></p> -->
+								<!-- <div th:if="${msg!=null}">
+									<p th:text="${msg}" class="success-message"></p>
+								</div> -->
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+<!--		<script>
+    // 현재 날짜를 가져오는 함수
+    function getCurrentDate() {
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        var day = currentDate.getDate().toString().padStart(2, '0');
+        return year + '-' + month + '-' + day;
+    }
+
+    $(document).ready(function () {
+        // 페이지 로드 시 실행
+       	let adoptDate = $('#adoptDate');
+       let adoptTime = $('#adoptTime');
+
+        // 현재 날짜로 설정
+        adoptDate.val(getCurrentDate());
+
+        $('.submit').on('click', function (event) {
+            event.preventDefault();
+            let petNo = $('#petid').val();
+            let adoptDateValue = adoptDate.val(); // 선택한 날짜 가져오기
+            let adoptTimeValue = adoptTime.val(); // 선택한 시간 가져오기
+
+            let sendJsonObject = {
+                petNo: petNo,
+                adoptDate: adoptDateValue,
+                adoptTime: adoptTimeValue,
+                adoptStatus: "입양신청접수"
+            };
+
+            $.ajax({
+                method: 'POST',
+                url: 'adopt/create-adopt',
+                contentType: 'application/json;UTF-8',
+                data: JSON.stringify(sendJsonObject),
+                dataType: 'json',
+                success: function (responseObject) {
+                    if (responseObject.userNo == null) {
+                        alert('로그인이 필요합니다.');
+                        window.location.href = 'index';
+                    } else {
+                        alert("입양신청이 완료되었습니다.");
+                        window.location.href = 'index';
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('오류가 발생했습니다');
+                }
+            });
+        });
+    });
+</script>
+		
+		-->
+		
+		
+		
+		
+	
+		
+ 	<script>
+		 
+	 	function ajaxRequest(method, url, sendJsonObject) {
+			let returnResultJsonObject={};
+			$.ajax({
+				async:false,
+				method: method,
+				url: url,
+				contentType: 'application/json;UTF-8',
+				data: JSON.stringify(sendJsonObject),
+				type: 'json',
+				success: function(resultJsonObject) {
+					returnResultJsonObject = resultJsonObject;
+				}
+			});
+			return returnResultJsonObject;
+		}
+	
+		$('.submit').on('click', function(event) {
+	        event.preventDefault();
+	       
+	        //let petNo = $('#petid').val();
+	        let adoptDate = $('#adoptDate').val(); // 선택한 날짜 가져오기
+	        let adoptTime = $('#adoptTime').val(); // 선택한 시간 가져오기
+	        let adoptNo = $('#adoptId').val();
+	       
+	        let sendJsonObject = {
+				adoptNo:adoptNo,
+	            adoptDate: adoptDate,
+	            adoptTime: adoptTime,
+	            //adoptStatus:"입양신청접수"
+	        };
+	        
+	       let responseObject=ajaxRequest('PUT','adopt/update-adopt',sendJsonObject);
+	      	
+	  		if(responseObject.userNo == null){
+				alert('로그인이 필요합니다.');
+				window.location.href = 'index';	// 로그인 창으로 이동
+			}else{
+				alert("수정이 완료되었습니다.");
+				window.location.href='adoptByUserNo';
+			}
+	  		
+	    });
+	
+		
+
+			// 현재 날짜를 가져오는 함수
+			function getCurrentDate() {
+				var currentDate = new Date();
+				var year = currentDate.getFullYear();
+				var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+				var day = currentDate.getDate().toString().padStart(2, '0');
+				return year + '-' + month + '-' + day;
+			}
+
+			// 페이지 로드 시 실행
+			window.onload = function () {
+				var adoptDate = document.getElementById('adoptDate');
+				// 현재 날짜로 설정
+				adoptDate.setAttribute('min', getCurrentDate());
+			};
+		
+
+	
+
+			
+</script>
+		
+		
+		
+	</th:block>
+		<!--map js code here-->
+	<script
+		src="https://maps.google.com/maps/api/js?sensor=false&amp;libraries=geometry&amp;v=3.22&amp;key=AIzaSyChs2QWiAhnzz0a4OEhzqCXwx_qA9ST_lE"></script>
+	<script src="https://www.google.com/jsapi"></script>
+	<script src="assets/js/map.js"></script>
+	<!--contact area end-->
+
+	<!--footer area start-->
+
+	<!--footer area end-->
+
+
+</body>
+
+</html>

@@ -1,0 +1,467 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="layout/layout(title='마이페이지')">
+<head>
+    <title>Safira - my account</title>
+    <style>
+        .modal-dialog {
+        margin: auto;
+        margin-top: 20vh; /* 회원탈퇴창 가운데 정도로 떨어트림 */
+    }
+
+	#adoptTable{
+		width: 1000px;
+	}
+	
+	@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}
+    </style>
+
+</head>
+
+<body>
+<script type="text/javascript">
+	function userDelete(){
+		window.location.href = 'userDelete';
+	}
+    $('#confirmDelete').on('click', function() {
+        const selectedReason = $('input[name="reason"]:checked').val();
+        if (selectedReason) {
+            console.log("회원탈퇴 이유:", selectedReason);
+            // 여기에 탈퇴 로직
+            userDelete(); 
+            // 탈퇴가 완료되면 index.html로 리다이렉트
+        	//window.location.href = 'index';
+        } else {
+            alert("탈퇴하시려면 이유를 선택해주세요.");
+        }
+    });
+</script>
+   <!--header area start-->
+    <th:block layout:fragment="content">
+    <!--offcanvas menu area start-->
+    <!-- <div class="off_canvars_overlay">
+                
+    </div>
+    <div class="offcanvas_menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="canvas_open">
+                        <a href="javascript:void(0)"><i class="icon-menu"></i></a>
+                    </div>
+                    <div class="offcanvas_menu_wrapper">
+                        <div class="canvas_close">
+                            <a href="javascript:void(0)"><i class="icon-x"></i></a>  
+                        </div>
+                        <div class="language_currency">
+                            <ul>
+                                <li class="language"><a href="#"> Language <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_language">
+                                        <li><a href="#">French</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">Russian</a></li>
+                                    </ul>
+                                </li>
+                                <li class="currency"><a href="#"> Currency <i class="icon-right ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_currency">
+                                        <li><a href="#">€ Euro</a></li>
+                                        <li><a href="#">£ Pound Sterling</a></li>
+                                        <li><a href="#">$ US Dollar</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="header_social text-right">
+                            <ul>
+                                <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                <li><a href="#"><i class="ion-social-googleplus-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
+                                <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                            </ul>
+                        </div>
+                     
+                        <div class="call-support">
+                            <p><a href="tel:(08)23456789">(08) 23 456 789</a> Customer Support</p>
+                        </div>
+                        <div id="menu" class="text-left ">
+                            <ul class="offcanvas_main_menu">
+                                <li class="menu-item-has-children active">
+                                    <a href="#">Home</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">Home 1</a></li>
+                                        <li><a href="index-2.html">Home 2</a></li>
+                                        <li><a href="index-3.html">Home 3</a></li>
+                                        <li><a href="index-4.html">Home 4</a></li>
+                                        <li><a href="index-5.html">Home 5</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">Shop</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Shop Layouts</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="shop.html">shop</a></li>
+                                                <li><a href="shop-fullwidth.html">Full Width</a></li>
+                                                <li><a href="shop-fullwidth-list.html">Full Width list</a></li>
+                                                <li><a href="shop-right-sidebar.html">Right Sidebar </a></li>
+                                                <li><a href="shop-right-sidebar-list.html"> Right Sidebar list</a></li>
+                                                <li><a href="shop-list.html">List View</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">other Pages</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="cart.html">cart</a></li>
+                                                <li><a href="wishlist.html">Wishlist</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="my-account.html">my account</a></li>
+                                                <li><a href="404.html">Error 404</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="#">Product Types</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="product-details.html">product details</a></li>
+                                                <li><a href="product-sidebar.html">product sidebar</a></li>
+                                                <li><a href="product-grouped.html">product grouped</a></li>
+                                                <li><a href="variable-product.html">product variable</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">blog</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="blog.html">blog</a></li>
+                                        <li><a href="blog-details.html">blog details</a></li>
+                                        <li><a href="blog-fullwidth.html">blog fullwidth</a></li>
+                                        <li><a href="blog-sidebar.html">blog sidebar</a></li>
+                                    </ul>
+
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="#">pages </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="services.html">services</a></li>
+                                        <li><a href="faq.html">Frequently Questions</a></li>
+                                        <li><a href="contact.html">contact</a></li>
+                                        <li><a href="login.html">login</a></li>
+                                        <li><a href="404.html">Error 404</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="my-account.html">my account</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="about.html">about Us</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="contact.html"> Contact Us</a> 
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="offcanvas_footer">
+                            <span><a href="#"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!--offcanvas menu area end-->
+    
+
+    <!--header area end-->
+    
+    <!--breadcrumbs area start-->
+    <!-- <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                       <h3>My Account</h3>
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>My account</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div> -->
+    <!--breadcrumbs area end-->
+    
+    <!-- my account start  -->
+    <section class="main_content_area">
+        <div class="container" style="margin-right: 600px;">   
+            <div class="account_dashboard">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <!-- Nav tabs -->
+                        <div class="dashboard_tab_button">
+                            <ul role="tablist" class="nav flex-column dashboard-list">
+                                <li><a href="userinfo" class="nav-link">내정보</a></li>
+                                <li><a href="mypet"  class="nav-link">마이펫</a></li>
+                                <li><a href="couponList"  class="nav-link">쿠폰</a></li>
+                                <li><a th:if="${session.userName != '관리자'}" href="adoptByUserNo" class="nav-link">입양</a></li> 
+								<li><a th:if="${session.userName != '관리자'}" href="volunteerByUserNo" class="nav-link">봉사</a></li>  
+								<li><a th:if="${session.userName != '관리자'}" href="visitByUserNo" class="nav-link">견학</a></li>
+								<li><a th:if="${session.userName != '관리자'}" href="orders" class="nav-link">주문목록</a></li>
+                                <li><a href="logout" class="nav-link">로그아웃</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#deleteModal" class="nav-link">회원탈퇴</a></li>
+
+                            </ul>
+                        </div>    
+                    </div>
+                    <div class="col-sm-12 col-md-9 col-lg-9">
+                        <!-- Tab panes -->
+                        <div class="tab-content dashboard_content" style="margin-left: 10px;">
+                            
+                            
+
+                            <!--<div class="tab-pane fade" id="adopt">-->
+                                <h3>입양</h3>
+                                <div class="table-responsive" id="adoptTable">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>번호</th>
+                                                <th>날짜</th>
+                                                <th>시간</th>
+                                                <th>펫번호</th>
+                                                <th>처리상태</th>
+                                                <th>변경</th>                 
+                                            </tr>
+                                        </thead>
+										<tbody>
+											<tr th:each="adopt, rowStat : ${adoptList}">
+												<td th:text="${adoptList.size() - rowStat.index}"></td>
+												<td th:text="${#strings.substring(adopt.adoptDate.toString(),0,10)}"></span></td>
+												<td th:text="${adopt.adoptTime + '시'}"></td>
+												<td th:text="${adopt.Pet.petNo}"></td>
+												<td th:text="${adopt.adoptStatus}"><!--<span class="success">입양신청</span>--></td>
+												<td><!--<button type="submit" class="updateBtn" th:id="'updateBtn-' + ${adopt.adoptNo}">수정</button>-->
+													<a th:href="@{'/adoptUpdate?adoptNo=' + ${adopt.adoptNo} + '&petNo=' + ${adopt.Pet.petNo}}">수정</a>
+													<!--<a th:href="@{'/adoptUpdate?adoptNo=' + ${adopt.adoptNo} + '&userNo=' + ${adopt.Userinfo.userNo} + '&petNo=' + ${adopt.Pet.petNo}}">수정</a>-->
+													<button type="submit" class="deleteBtn" th:id="'deleteBtn-' + ${adopt.adoptNo}">취소</button>
+												</td>
+											</tr>
+											
+										</tbody>
+                                    </table>
+                                    
+                                </div>
+                            <!--</div>-->
+                            
+                            <!--<div class="tab-pane fade" id="account-details">-->
+                          
+                           <!--   </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>        	
+    </section>	
+    <div class="modal fade" id="deleteModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <!-- 모달 헤더 -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">회원탈퇴 이유 선택</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+							              <!-- 회원탈퇴 모달 본문 -->
+                                        <div class="modal-body">
+                                            <form id="deleteReasonForm">
+                                                <!-- 탈퇴 이유 선택 -->
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="reason" id="reason1" value="Not satisfied">
+                                                    <label class="form-check-label" for="reason1">서비스에 만족하지 않음</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="reason" id="reason2" value="Found alternative">
+                                                    <label class="form-check-label" for="reason2">다른 서비스를 사용</label>
+                                                </div>
+                                                <!-- ... 다른 이유들도 추가 가능 ... -->
+                                            </form>
+                                        </div>
+						
+                            
+                          
+                            
+                                        <!-- 모달 푸터 -->
+                                        <div class="modal-footer">
+                                            <button  type="button" class="btn btn-danger" id="confirmDelete" name="confirmDelete">탈퇴하기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>	
+    <!-- my account end   --> 
+
+      <!--footer area start-->
+  
+ 
+    <!--footer area end-->
+
+<script>
+	/*
+	function ajaxRequest(method, url, sendJsonObject) {
+			let returnResultJsonObject = {};
+			$.ajax({
+				async: true,
+				method: method,
+				url: url,
+				contentType: 'application/json;UTF-8',
+				data: JSON.stringify(sendJsonObject),
+				type: 'json',
+				success: function (resultJsonObject) {
+					returnResultJsonObject = resultJsonObject;
+				}
+			});
+			return returnResultJsonObject;
+		}
+	 */	
+	 
+	 $('.deleteBtn').on('click', function (e) {
+			e.preventDefault();
+			let id = $(this).attr('id'); // 버튼의 id를 가져옴
+			let no = id.split('-')[1]; // "deleteBtn-" 다음의 값을 추출함
+
+			if (isNaN(no)) {
+				alert('올바른 adoptNo 값을 가져오지 못했습니다.');
+				return; // adoptNo가 숫자가 아니면 요청을 중지
+			}
+
+			let sendJsonObject = {adoptNo: no}; // 삭제 요청에 사용할 객체 생성
+			let $row = $(this).closest('tr');
+			// 삭제 요청을 서버로 보내는 코드
+			$.ajax({
+				type: 'DELETE',
+				url: 'adopt/' + no,
+				data: JSON.stringify(sendJsonObject),
+				contentType: 'application/json;UTF-8',
+				success: function (response) {
+					if (response && response.adoptNo == null) {
+						alert('신청내역이 존재하지 않습니다.');
+					} else {
+						alert('취소가 완료되었습니다.');
+						// 성공한 경우, 해당 <tr> 요소를 삭제
+						$row.remove();
+						//window.location.href = "index";
+					}
+				},
+				error: function () {
+					alert('입양 취소 요청 중 오류가 발생했습니다.');
+				}
+			});
+		});
+	 	
+	 
+	 	
+	 	$('.updateBtn').on('click', function (e) {
+				e.preventDefault();
+				let id = $(this).attr('id'); // 버튼의 id를 가져옴
+				let no = id.split('-')[1]; // id 값을 정수로 변환
+
+				if (isNaN(no)) {
+					alert('올바른 adoptNo 값을 가져오지 못했습니다.');
+					return; // adoptNo가 숫자가 아니면 요청을 중지
+				}
+				
+				let sendJsonObject = {adoptNo: no};
+
+				// 수정할 데이터를 이곳에서 준비, 예: input 요소에서 데이터를 가져올 수 있음
+
+				let updateData = {
+					adoptNo: no, // 수정할 입양의 adoptNo
+					adoptDate:adoptDate,
+					adoptTime:adoptTime
+					// 필요한 다른 수정 사항들을 추가
+					// 예: adoptDate, adoptStatus, adoptTime
+				};
+
+				
+				$.ajax({
+					type: 'GET',
+					url:  '/adoptUpdate?adoptNo=' + adoptNo + '&petNo=' + petNo,
+					data: JSON.stringify(updateData), // 수정 데이터를 JSON으로 변환
+					contentType: 'application/json;UTF-8',
+					success: function (response) {
+						if (response && response.adoptNo == null) {
+							alert('입양 정보가 없습니다.');
+						} else {
+							 $('#adoptNo').val(response.adoptNo);
+							$('#adoptDate').val(response.adoptDate);
+							$('#adoptTime').val(response.adoptTime);
+							
+							
+						}
+					},
+					error: function () {
+						alert('입양 수정 중 오류가 발생했습니다.');
+					}
+				});
+			});
+
+
+
+		
+	 	
+	 	
+	
+	
+</script>
+
+ <script>
+  // HTML이 모두 로드된 후에 함수를 실행하도록 window.onload 이벤트를 사용합니다.
+window.onload = function() {
+    // 버튼 요소를 가져옵니다.
+	function confirmDeleteFunction() {
+      // 이 함수에 버튼이 클릭될 때 실행할 코드를 작성합니다.
+      // 예를 들어, 사용자에게 확인 메시지를 표시하거나 다른 동작을 수행할 수 있습니다.
+      console.log("탈퇴하기 버튼이 클릭되었습니다.");
+
+      window.location.href="userDelete";
+    }
+	
+	$('#confirmDelete').on('click',function(e){
+		confirmDeleteFunction();
+	});
+    // 클릭 이벤트에 대한 함수를 정의합니다.
+   
+    
+  };
+</script>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+</th:block>		
+
+
+
+</body>
+
+</html>

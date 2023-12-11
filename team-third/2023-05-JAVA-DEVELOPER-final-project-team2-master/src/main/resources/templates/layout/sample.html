@@ -1,0 +1,233 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="layout/layout(title='')">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Safira - shop fullwidth list</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    
+    <!-- CSS 
+    ========================= -->
+    <!--bootstrap min css-->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!--owl carousel min css-->
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <!--slick min css-->
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <!--magnific popup min css-->
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <!--font awesome css-->
+    <link rel="stylesheet" href="assets/css/font.awesome.css">
+    <!--ionicons css-->
+    <link rel="stylesheet" href="assets/css/ionicons.min.css">
+    <!--linearicons css-->
+    <link rel="stylesheet" href="assets/css/linearicons.css">
+    <!--animate css-->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!--jquery ui min css-->
+    <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+    <!--slinky menu css-->
+    <link rel="stylesheet" href="assets/css/slinky.menu.css">
+    <!--plugins css-->
+    <link rel="stylesheet" href="assets/css/plugins.css">
+    
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!--modernizr min js here-->
+    <script src="assets/js/vendor/modernizr-3.7.1.min.js"></script>
+
+</head>
+
+<body>
+
+   <!--header area start-->
+    
+    <!--offcanvas menu area start-->
+    
+    <!--header area end-->
+
+    <th:block layout:fragment="content">
+    <!--breadcrumbs area start-->
+    <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <h3>PetList</h3>
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>PetList</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div>
+    <!--breadcrumbs area end-->
+    
+    <!--shop  area start-->
+    
+    <div class="shop_area shop_fullwidth mt-70 mb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!--shop wrapper start-->
+                    <!--shop toolbar start-->
+                    <div class="shop_toolbar_wrapper">
+                        <div class="shop_toolbar_btn">
+								
+                            <button data-role="grid_3" type="button" class=" btn-grid-3" data-toggle="tooltip" title="3"></button>
+
+                            <button data-role="grid_4" type="button"  class=" btn-grid-4" data-toggle="tooltip" title="4"></button>
+
+                            <button data-role="grid_list" type="button"  class="active btn-list" data-toggle="tooltip" title="List"></button>
+                        </div>
+                        <div class=" niceselect_option">
+                            <form class="select_option" action="#">
+                                <select name="orderby" id="short">
+
+                                    <option selected value="1">Sort by average rating</option>
+                                    <option  value="2">Sort by popularity</option>
+                                    <option value="3">Sort by newness</option>
+                                    <option value="4">Sort by price: low to high</option>
+                                    <option value="5">Sort by price: high to low</option>
+                                    <option value="6">Product Name: Z</option>
+                                </select>
+                            </form>
+                        </div>
+                        <div class="page_amount">
+                            <p>Showing 1–9 of 21 results</p>
+                        </div>
+                    </div>
+                     <!--shop toolbar end-->
+                     <div class="row shop_wrapper grid_list">
+                        <div class="col-12 ">
+                            <div class="single_product">
+                                <div class="product_thumb">
+                                        <a class="primary_img" href="product-details.html"><img src="assets/img/product/productbig1.jpg" alt=""></a>
+                                        <a class="secondary_img" href="product-details.html"><img src="assets/img/product/productbig2.jpg" alt=""></a>
+                                        <div class="label_product">
+                                            <span class="label_sale">Sale</span>
+                                            <span class="label_new">New</span>
+                                        </div>
+                                        <div class="action_links">
+                                            <ul>
+                                                <li class="add_to_cart"><a href="cart.html" title="Add to cart"><span class="lnr lnr-cart"></span></a></li>
+                                                <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box"  title="quick view"> <span class="lnr lnr-magnifier"></span></a></li>
+                                                 <li class="wishlist"><a href="wishlist.html" title="Add to Wishlist"><span class="lnr lnr-heart"></span></a></li>  
+                                                <li class="compare"><a href="#" title="Add to Compare"><span class="lnr lnr-sync"></span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                <div class="product_content grid_content">
+                                        <h4 class="product_name"><a href="product-details.html">Aliquam Consequat</a></h4>
+                                        <p><a href="#">Fruits</a></p>
+                                        <div class="price_box"> 
+                                            <span class="current_price">$26.00</span>
+                                            <span class="old_price">$362.00</span>
+                                        </div>
+                                    </div>
+                                <div class="product_content list_content">
+                                    <h4 class="product_name"><a href="product-details.html">Aliquam Consequat</a></h4>
+                                    <p><a href="#">Fruits</a></p>
+                                    <div class="price_box"> 
+                                        <span class="current_price">$26.00</span>
+                                        <span class="old_price">$362.00</span>
+                                    </div>
+                                    <div class="product_desc">
+                                        <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
+                                    </div>
+                                    <div class="action_links list_action_right">
+                                        <ul>
+                                            <li class="add_to_cart"><a href="cart.html" title="입양하기">입양</a></li>
+                                            <li class="add_to_cart"><a href="cart.html" title="견학하기">견학</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   
+                        
+                       
+                       
+                      
+                       
+                        
+                       
+                    </div>
+
+                    <div class="shop_toolbar t_bottom">
+                        <div class="pagination">
+                            <ul>
+                                <li class="current">1</li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li class="next"><a href="#">next</a></li>
+                                <li><a href="#">>></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--shop toolbar end-->
+                    <!--shop wrapper end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--shop  area end-->
+    
+  <!--footer area start-->
+    
+    <!--footer area end-->
+    
+    <!-- modal area start-->
+   
+    <!-- modal area end-->
+</th:block>
+
+<!-- JS
+============================================ -->
+<!--jquery min js-->
+<script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
+<!--popper min js-->
+<script src="assets/js/popper.js"></script>
+<!--bootstrap min js-->
+<script src="assets/js/bootstrap.min.js"></script>
+<!--owl carousel min js-->
+<script src="assets/js/owl.carousel.min.js"></script>
+<!--slick min js-->
+<script src="assets/js/slick.min.js"></script>
+<!--magnific popup min js-->
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<!--counterup min js-->
+<script src="assets/js/jquery.counterup.min.js"></script>
+<!--jquery countdown min js-->
+<script src="assets/js/jquery.countdown.js"></script>
+<!--jquery ui min js-->
+<script src="assets/js/jquery.ui.js"></script>
+<!--jquery elevatezoom min js-->
+<script src="assets/js/jquery.elevatezoom.js"></script>
+<!--isotope packaged min js-->
+<script src="assets/js/isotope.pkgd.min.js"></script>
+<!--slinky menu js-->
+<script src="assets/js/slinky.menu.js"></script>
+<!--instagramfeed menu js-->
+<script src="assets/js/jquery.instagramFeed.min.js"></script>
+<!-- Plugins JS -->
+<script src="assets/js/plugins.js"></script>
+
+<!-- Main JS -->
+<script src="assets/js/main.js"></script>
+
+
+
+</body>
+
+</html>

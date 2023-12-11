@@ -1,0 +1,2 @@
+insert into coupon (coupon_id,coupon_name,coupon_discount,coupon_payday,coupon_expiration_date,user_no) 
+VALUES (coupon_id_seq.nextval,'생일쿠폰',30,TO_DATE('2023/10/30','YYYY/MM/DD'),TO_DATE('2023/06/04','YYYY/MM/DD'),1);

@@ -1,0 +1,448 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout(title='')">
+
+<head>
+	<title>Safira - blog details</title>
+	<style>
+		@font-face {
+			font-family: 'GmarketSansMedium';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+	
+		.container {
+			font-family: 'GmarketSansMedium';
+		}
+	</style>
+</head>
+
+<body>
+
+	<!--header area start-->
+
+	<!--offcanvas menu area start-->
+
+	<!--header area end-->
+
+	<!--breadcrumbs area start-->
+	<th:block layout:fragment="content">
+		<div id="content">
+			<div class="blog_details">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-9 col-md-12">
+							<!--blog grid area start-->
+							<div class="blog_wrapper blog_wrapper_details">
+								<article class="single_blog" th:id="${reportBoard.boardNo}">
+									<figure>
+										<div class="post_header">
+											<h3 class="post_title" th:text="${reportBoard.boardTitle}">Aypi
+												non habent claritatem insitam</h3>
+											<div class="blog_meta">
+												<!--<p>
+													작성자 : <a href="#" th:text="${reportBoard.boardFindName}">admin</a>
+													/ 작성 날짜 : <a href="#"
+														th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">April
+														10, 2019</a> / 발견 장소 : <a href="#">Company, Image, Travel</a>-->
+
+												<p>
+													<label th:text="${'작성자 : '+reportBoard.userinfo.userName}">admin</label>
+													<label th:text="${'/ 작성 날짜 : '+#dates.format(reportBoard.boardRegisterDate, 'yyyy-MM-dd')}">April 10, 2019</label> / 
+													<label th:if="${#strings.contains(reportBoard.boardTitle,'제보')}" th:text="${'발견장소 : ' + reportBoard.boardFindPlace}">Company, Image, Travel</label>
+													<label th:if="${#strings.contains(reportBoard.boardTitle,'실종')}" th:text="${'실종장소 : ' + reportBoard.boardFindPlace}">Company, Image, Travel</label>
+												</p>
+													<div style="margin-left: 650px;">
+														<button style="border: none; background: transparent;" onclick="updateReportBoardForm(event)"
+														th:if="${session.userNo==reportBoard.userinfo.userNo}">수정</button>
+														<button style="border: none; background: transparent;" onclick="deleteReportBoard(event)"
+														th:if="${session.userNo==reportBoard.userinfo.userNo}">삭제</button>
+													</div>
+											</div>
+											
+											<!--	<div style="margin-left: 650px;">
+																<button
+																	style="border: none; background: transparent;"
+																	 onclick="" class="92">수정</button>
+																<button
+																	style="border: none; background: transparent;"
+																	onclick="" class="92">삭제</button>
+															</div>-->
+										</div>
+										<div class="blog_thumb">
+											<!-- 첨부된 이미지 파일 -->
+											<a href="#"><img src="assets/img/blog/blog-big1.jpg" alt=""
+													th:src="@{/image/reportboard/} + ${reportBoard.getBoardImage}"></a>
+										</div>
+										<figcaption class="blog_content">
+											<div class="post_content">
+												<blockquote th:text="${reportBoard.boardContent}">
+													<p>글 내용</p>
+												</blockquote>
+
+											</div>
+
+										</figcaption>
+									</figure>
+								</article>
+								<!-- 
+                        <div class="related_posts">
+                           <h3>Related posts</h3>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <article class="single_related">
+                                        <figure>
+                                            <div class="related_thumb">
+                                                <a href="blog-details.html"><img src="assets/img/blog/blog1.jpg" alt=""></a>
+                                            </div>
+                                            <figcaption class="related_content">
+                                               <h4><a href="#">Post with Gallery</a></h4>
+                                               <div class="blog_meta">                                        
+                                                    <span class="author">By : <a href="#">admin</a> / </span>
+                                                    <span class="meta_date"> April 11, 2019	</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <article class="single_related">
+                                        <figure>
+                                            <div class="related_thumb">
+                                                <a href="blog-details.html"><img src="assets/img/blog/blog2.jpg" alt=""></a>
+                                            </div>
+                                            <figcaption class="related_content">
+                                               <h4><a href="#">Post with Audio</a></h4>
+                                               <div class="blog_meta">                                        
+                                                    <span class="author">By : <a href="#">admin</a> / </span>
+                                                    <span class="meta_date"> April 11, 2019	</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <article class="single_related">
+                                        <figure>
+                                            <div class="related_thumb">
+                                                <a href="blog-details.html"><img src="assets/img/blog/blog3.jpg" alt=""></a>
+                                            </div>
+                                            <figcaption class="related_content">
+                                               <h4><a href="#">Maecenas ultricies</a></h4>
+                                               <div class="blog_meta">                                        
+                                                    <span class="author">By : <a href="#">admin</a> / </span>
+                                                    <span class="meta_date"> April 11, 2019	</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                </div>
+                            </div>
+                       </div> 
+                       -->
+								<!--댓글리스트 시작-->
+								<div class="comments_box">
+									<h3>댓글</h3>
+									<!-- <div class="comment_list">
+                                <div class="comment_thumb">
+                                    <img src="assets/img/blog/comment3.png.jpg" alt="">
+                                </div>
+                                <div class="comment_content">
+                                    <div class="comment_meta">
+                                        <h5><a href="#">Admin</a></h5>
+                                        <span>October 16, 2018 at 1:38 am</span> 
+                                    </div>
+                                    <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
+                                    <div class="comment_reply">
+                                        <a href="#">Reply</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment_list list_two">
+                                <div class="comment_thumb">
+                                    <img src="assets/img/blog/comment3.png.jpg" alt="">
+                                </div>
+                                <div class="comment_content">
+                                    <div class="comment_meta">
+                                        <h5><a href="#">Demo</a></h5>
+                                        <span>October 16, 2018 at 1:38 am</span> 
+                                    </div>
+                                    <p>Quisque semper nunc vitae erat pellentesque, ac placerat arcu consectetur</p>
+                                    <div class="comment_reply">
+                                        <a href="#">Reply</a>
+                                    </div>
+                                </div>
+                            </div>-->
+									<!--------------------------------------댓글 쓰기 창------------------------------------->
+									<!-- 
+									<div id="comment-write">
+
+										<table class="table">
+											<thead>
+												<tr>
+													<label class="checkbox-inline"> </label>
+													<th>댓글번호</th>
+
+													<th>내용</th>
+													<th>작성시간</th>
+												</tr>
+											</thead>
+
+											<tr th:each="replyBoard: ${replyBoardList}">
+												<td th:text="${replyBoard.ReplyBoardNo}"></td>
+
+												<td th:text="${replyBoard.ReplyBoardContent}"></td>
+												<td th:text="${replyBoard.ReplyBoardRegisterDate}"></td>
+											</tr>
+										</table>
+
+									</div>
+									 -->
+
+
+
+
+									<div class="tab-pane fade active show" id="reviews" role="tabpanel"
+										th:each="replyBoard : ${replyBoardList}">
+										<input type="hidden" id="productNo" />
+										<div id="reviewContent">
+											<div class="reviews_wrapper">
+												<h7
+													th:text="${#dates.format(replyBoard.replyBoardRegisterDate, 'yyyy-MM-dd HH:mm')}">
+													roadthemes</h7>
+
+												<div class="reviews_comment_box">
+													<div class="comment_thmb" style="width: 65px;">
+														<p>
+															<strong th:text="${replyBoard.userinfo.userName}">허승범
+															</strong>
+														</p>
+														<!-- <img src="assets/img/blog/comment2.jpg" alt="">-->
+													</div>
+													<div class="comment_text" th:id="${replyBoard.replyBoardNo}">
+														<div class="reviews_meta" th:id="${replyBoard.userinfo.userNo}">
+															<!-- <p><strong th:text="${review.userinfo.userName}">adm </strong>- September 12, 2018</p>-->
+		
+															<p th:text="${replyBoard.replyBoardContent}">roadthemes</p>
+															<div style="margin-left: 650px;">
+																<button
+																	style="border: none; background: transparent;"
+																	onclick="replyUpdateForm(event)" th:class="${replyBoard.replyBoardNo}"
+																	th:if="${session.userNo==replyBoard.userinfo.userNo}">수정</button>
+																<button
+																	style="border: none; background: transparent;"
+																	onclick="replyDelete(event)" th:class="${replyBoard.replyBoardNo}"
+																	th:if="${session.userNo==replyBoard.userinfo.userNo}">삭제</button>
+															</div>
+														</div>
+													</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="comments_form">
+									<!--<h3>댓글</h3>
+									<p>Your phone number will not be published. Required fields
+										are marked *</p>-->
+									<div class="layout">
+										<form name="f" action="#">
+											<div class="row">
+												<div class="col-12">
+													<label for="review_comment" class="review_comment" th:id="${loginUserNo}">Comment </label>
+													<textarea name="comment" id="replyComment"></textarea>
+												</div>
+											</div>
+											<button class="button" th:if="${session.userNo!=null}"
+												id="postCommentButton" type="button"
+												onclick="replyInsert()">Post</button>
+											<button class="button" th:if="${session.userNo==null}"
+												id="postCommentButton" type="button" onclick="loginPopUp()">댓글 작성</button>
+										</form>
+									</div>
+								</div>
+
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+
+			function ajaxRequest(method, url, sendJsonObject) {
+				let returnResultJsonObject = {};
+				$.ajax({
+					async: false,
+					method: method,
+					url: url,
+					contentType: 'application/json;UTF-8',
+					data: JSON.stringify(sendJsonObject),
+					type: 'json',
+					success: function (resultJsonObject) {
+						returnResultJsonObject = resultJsonObject;
+						//console.log(resultJsonObject);
+					}
+				});
+				return returnResultJsonObject;
+			}
+
+			function replyInsert() {
+				let boardNo = $('.single_blog').attr('id');
+				let replyBoardContent = document.getElementById('replyComment').value;
+
+				let send = {
+					replyBoardContent: replyBoardContent,
+					reportNo: boardNo
+				}
+				ajaxRequest('POST', 'reply/inserted', send);
+				location.href = "/teamproject_animalcare/reportBoardView?boardNo=" + boardNo;
+			}
+			function loginPopUp() {
+				// URL 및 창 속성 설정
+				var url = "loginPopUp";
+				var windowName = "로그인"; // 새 창의 이름
+				var windowFeatures = "width=800,height=600,scrollbars=yes"; // 창 속성
+
+				// 새 창 열기
+				window.open(url, windowName, windowFeatures);
+
+				// 새 창 제어 (예: 창을 닫기)
+				// newWindow.close(); // 새 창 닫기
+
+				// 창 속성 설정을 통해 창의 크기, 스크롤바 여부 등을 조절할 수 있습니다.
+
+			}
+			
+			
+		function updateReportBoardForm(e){
+			let boardNo = document.querySelector('.single_blog').id;
+			window.location.href='reportUpdateForm?boardNo='+boardNo;
+			/*
+			let data={
+					boardNo:boardNo
+			}
+			$.ajax({
+				async:false,
+				url: 'report/'+boardNo,
+				method: "put",
+				data: JSON.stringify(data),
+				dataType: 'json',
+				contentType: 'application/json;chrset=UTF-8',
+				success: function (response) {
+					alert("수정완료");
+				},
+				error:function(response){
+					alert("수정실패");
+				}
+					
+				
+			});
+			*/
+		}	
+		function deleteReportBoard(e){
+			let boardNo = document.querySelector('.single_blog').id;
+			if(confirm('정말 삭제하시겠습니까?')){
+				ajaxRequest('DELETE','report/delete/'+ boardNo);
+				window.location.href='reportlist';	
+			}
+		}	
+		
+
+			function replyDelete(e){
+				let replyBoardNo = $(e.target).attr('class');
+				if(confirm('정말 삭제하시겠습니까?')){
+					let send ={
+						replyBoardNo : replyBoardNo
+					}
+					ajaxRequest('DELETE','reply',send);
+					window.location.reload();
+				}
+			}
+			
+			function replyUpdateHtml(responseJsonObject = {}) {
+				let htmlTemplate =
+				`<div class="reviews_meta">
+					<textarea style="border: none; width: 800px; height: 50px; resize: none;" class="{{replyBoardNo}}">{{replyBoardContent}}</textarea>
+					<div style="margin-left: 700px;">
+						<button
+							style="border: none; background: transparent;"
+							onclick="replyUpdate(event)" class="{{replyBoardNo}}">수정</button>
+						<button
+							style="border: none; background: transparent;"
+							onclick="replyDelete(event)" class="{{replyBoardNo}}">삭제</button>
+					</div>
+				</div>`;
+				
+				let bindTemplate = Handlebars.compile(htmlTemplate);
+				let resultTemplate = bindTemplate(responseJsonObject);
+				return resultTemplate;
+			}
+			
+			function replyUpdateForm(e){
+				let replyBoardNo = $(e.target).attr('class');
+				let send ={
+					replyBoardNo : replyBoardNo
+				}
+				let response = ajaxRequest('PUT','reply/updateForm',send);
+				let html = replyUpdateHtml(response);
+				$('#'+replyBoardNo).html(html);
+				//window.location.reload();
+			}
+			
+			function replyUpdateHtml2(responseJsonObject = {}) {
+				let htmlTemplate =
+				`<div class="reviews_meta">
+					<p text="">{{replyBoardContent}}</p>
+					<div style="margin-left: 650px;">
+						<button
+							style="border: none; background: transparent;"
+							onclick="replyUpdateForm(event)" class="{{replyBoardNo}}">수정</button>
+						<button
+							style="border: none; background: transparent;"
+							onclick="replyDelete(event)" class="{{replyBoardNo}}">삭제</button>
+					</div>
+				</div>`;
+				
+				let bindTemplate = Handlebars.compile(htmlTemplate);
+				let resultTemplate = bindTemplate(responseJsonObject);
+				return resultTemplate;
+			}
+			
+			
+			
+			function replyUpdate(e){
+				let replyBoardNo = $(e.target).attr('class');
+				let replyBoardContent = $("textarea."+replyBoardNo).val();
+				let send ={
+					replyBoardNo : replyBoardNo,
+					replyBoardContent : replyBoardContent
+				}
+				let response = ajaxRequest('PUT','reply/update',send);
+				let html = replyUpdateHtml2(response);
+				$('#'+replyBoardNo).html(html);
+			}	
+		</script>
+
+	</th:block>
+
+
+
+
+
+	<!--blog section area end-->
+
+	<!--footer area start-->
+
+	<!--footer area end-->
+
+</body>
+
+</html>
